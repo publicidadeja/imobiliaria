@@ -8,8 +8,12 @@ use Srapid\Base\Enums\BaseStatusEnum;
 use Srapid\RealEstate\Repositories\Interfaces\CrmInterface;
 use Srapid\Table\Abstracts\TableAbstract;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Throwable;
 use Yajra\DataTables\DataTables;
 use Html;
+use Exception;
 
 class CrmTable extends TableAbstract
 {
@@ -41,11 +45,15 @@ class CrmTable extends TableAbstract
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function ajax()
-    {
+/**
+ * Display ajax response.
+ *
+ * @return JsonResponse
+ * @since 2.1
+ */
+public function ajax()
+{
+    try {
         $data = $this->table
             ->eloquent($this->query())
             ->editColumn('name', function ($item) {
@@ -56,6 +64,9 @@ class CrmTable extends TableAbstract
             })
             ->editColumn('checkbox', function ($item) {
                 return $this->getCheckbox($item->id);
+            })
+            ->editColumn('content', function ($item) {
+                return \Str::limit($item->content, 70);
             })
             ->editColumn('created_at', function ($item) {
                 return BaseHelper::formatDate($item->created_at);
@@ -68,27 +79,43 @@ class CrmTable extends TableAbstract
             });
 
         return $this->toJson($data);
+    } catch (Exception $exception) {
+        \Log::error('CrmTable ajax error: ' . $exception->getMessage() . ' - ' . $exception->getTraceAsString());
+        return response()->json([
+            'error' => true,
+            'message' => $exception->getMessage()
+        ], 500);
     }
+}
 
     /**
-     * {@inheritDoc}
-     */
-    public function query()
-    {
+ * Get the query object to be processed by table.
+ *
+ * @return \Illuminate\Database\Query\Builder|Builder
+ * @since 2.1
+ */
+public function query()
+{
+    try {
         $query = $this->repository->getModel()->select([
             're_crm.id',
             're_crm.name',
             're_crm.phone',
             're_crm.email',
-            're_crm.created_at',
+            're_crm.content',
             're_crm.status',
+            're_crm.created_at',
         ]);
 
         return $this->applyScopes($query);
+    } catch (Exception $exception) {
+        \Log::error('CrmTable query error: ' . $exception->getMessage() . ' - ' . $exception->getTraceAsString());
+        throw $exception;
     }
-
+}
     /**
-     * {@inheritDoc}
+     * @return array
+     * @since 2.1
      */
     public function columns()
     {
@@ -129,7 +156,8 @@ class CrmTable extends TableAbstract
     }
 
     /**
-     * {@inheritDoc}
+     * @return array
+     * @throws Throwable
      */
     public function bulkActions(): array
     {
@@ -137,7 +165,7 @@ class CrmTable extends TableAbstract
     }
 
     /**
-     * {@inheritDoc}
+     * @return array
      */
     public function getBulkChanges(): array
     {

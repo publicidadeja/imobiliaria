@@ -2,11 +2,14 @@
 
 namespace Srapid\RealEstate\Models;
 
+use Srapid\Base\Traits\EnumCastable; // Adicione esta linha
 use Srapid\Base\Enums\BaseStatusEnum;
 use Srapid\Base\Models\BaseModel;
 
 class Crm extends BaseModel
 {
+    use EnumCastable; // Adicione esta linha
+
     /**
      * The database table used by the model.
      *
