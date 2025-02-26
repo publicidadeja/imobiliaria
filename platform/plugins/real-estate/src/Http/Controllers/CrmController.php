@@ -2,6 +2,7 @@
 
 namespace Srapid\RealEstate\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Srapid\Base\Events\BeforeEditContentEvent;
 use Srapid\Base\Events\CreatedContentEvent;
 use Srapid\Base\Events\DeletedContentEvent;
@@ -11,17 +12,33 @@ use Srapid\Base\Http\Controllers\BaseController;
 use Srapid\Base\Http\Responses\BaseHttpResponse;
 use Srapid\RealEstate\Forms\CrmForm;
 use Srapid\RealEstate\Http\Requests\CrmRequest;
-use Srapid\RealEstate\Models\Crm;
+use Srapid\RealEstate\Repositories\Interfaces\CrmInterface;
 use Srapid\RealEstate\Tables\CrmTable;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
+use Throwable;
 
 class CrmController extends BaseController
 {
     /**
+     * @var CrmInterface
+     */
+    protected $crmRepository;
+
+    /**
+     * CrmController constructor.
+     * @param CrmInterface $crmRepository
+     */
+    public function __construct(CrmInterface $crmRepository)
+    {
+        $this->crmRepository = $crmRepository;
+    }
+
+    /**
      * @param CrmTable $table
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Throwable
+     * @return JsonResponse|View
+     * @throws Throwable
      */
     public function index(CrmTable $table)
     {
@@ -48,27 +65,25 @@ class CrmController extends BaseController
      */
     public function store(CrmRequest $request, BaseHttpResponse $response)
     {
-        $crm = new Crm();
-        $crm->fill($request->input());
-        $crm->save();
+        $crm = $this->crmRepository->createOrUpdate($request->input());
 
         event(new CreatedContentEvent(CRM_MODULE_SCREEN_NAME, $request, $crm));
 
         return $response
-    ->setPreviousUrl(route('crm.index'))
-    ->setNextUrl(route('crm.edit', $crm->id))
-    ->setMessage(trans('core/base::notices.create_success_message'));
+            ->setPreviousUrl(route('crm.index'))
+            ->setNextUrl(route('crm.edit', $crm->id))
+            ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
     /**
      * @param int $id
-     * @param FormBuilder $formBuilder
      * @param Request $request
+     * @param FormBuilder $formBuilder
      * @return string
      */
     public function edit($id, FormBuilder $formBuilder, Request $request)
     {
-        $crm = Crm::findOrFail($id);
+        $crm = $this->crmRepository->findOrFail($id);
 
         event(new BeforeEditContentEvent($request, $crm));
 
@@ -85,42 +100,17 @@ class CrmController extends BaseController
      */
     public function update($id, CrmRequest $request, BaseHttpResponse $response)
     {
-        $crm = Crm::findOrFail($id);
+        $crm = $this->crmRepository->findOrFail($id);
 
         $crm->fill($request->input());
-        $crm->save();
+
+        $this->crmRepository->createOrUpdate($crm);
 
         event(new UpdatedContentEvent(CRM_MODULE_SCREEN_NAME, $request, $crm));
 
         return $response
-            ->setPreviousUrl(route('real-estate.crm.index'))
+            ->setPreviousUrl(route('crm.index'))
             ->setMessage(trans('core/base::notices.update_success_message'));
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function deletes(Request $request)
-    {
-        $ids = $request->input('ids');
-        if (empty($ids)) {
-            return response()->json([
-                'error' => true,
-                'message' => trans('core/base::notices.no_select'),
-            ]);
-        }
-
-        foreach ($ids as $id) {
-            $crm = Crm::findOrFail($id);
-            $crm->delete();
-            event(new DeletedContentEvent(CRM_MODULE_SCREEN_NAME, $request, $crm));
-        }
-
-        return response()->json([
-            'error' => false,
-            'message' => trans('core/base::notices.delete_success_message'),
-        ]);
     }
 
     /**
@@ -132,9 +122,9 @@ class CrmController extends BaseController
     public function destroy(Request $request, $id, BaseHttpResponse $response)
     {
         try {
-            $crm = Crm::findOrFail($id);
+            $crm = $this->crmRepository->findOrFail($id);
 
-            $crm->delete();
+            $this->crmRepository->delete($crm);
 
             event(new DeletedContentEvent(CRM_MODULE_SCREEN_NAME, $request, $crm));
 
@@ -144,5 +134,29 @@ class CrmController extends BaseController
                 ->setError()
                 ->setMessage($exception->getMessage());
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param BaseHttpResponse $response
+     * @return BaseHttpResponse
+     * @throws Exception
+     */
+    public function deletes(Request $request, BaseHttpResponse $response)
+    {
+        $ids = $request->input('ids');
+        if (empty($ids)) {
+            return $response
+                ->setError()
+                ->setMessage(trans('core/base::notices.no_select'));
+        }
+
+        foreach ($ids as $id) {
+            $crm = $this->crmRepository->findOrFail($id);
+            $this->crmRepository->delete($crm);
+            event(new DeletedContentEvent(CRM_MODULE_SCREEN_NAME, $request, $crm));
+        }
+
+        return $response->setMessage(trans('core/base::notices.delete_success_message'));
     }
 }

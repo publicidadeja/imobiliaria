@@ -13,7 +13,7 @@ if (!function_exists('get_property_categories')) {
      */
     function get_property_categories(array $args = [])
     {
-        $indent = Arr::get($args, 'indent', '——');
+        $indent = Arr::get($args, 'indent', '—');
 
         $repo = app(CategoryInterface::class);
 
@@ -36,6 +36,10 @@ if (!function_exists('get_property_categories')) {
 
         return $categories;
     }
+}
+
+if (!defined('CRM_MODULE_SCREEN_NAME')) {
+    define('CRM_MODULE_SCREEN_NAME', 'crm');
 }
 
 

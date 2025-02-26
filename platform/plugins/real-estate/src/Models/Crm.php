@@ -2,6 +2,7 @@
 
 namespace Srapid\RealEstate\Models;
 
+use Srapid\Base\Enums\BaseStatusEnum;
 use Srapid\Base\Models\BaseModel;
 
 class Crm extends BaseModel
@@ -18,8 +19,16 @@ class Crm extends BaseModel
      */
     protected $fillable = [
         'name',
-        'email',
         'phone',
+        'email',
         'content',
+        'status',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'status' => BaseStatusEnum::class,
     ];
 }

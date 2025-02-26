@@ -2,17 +2,14 @@
 
 namespace Srapid\RealEstate\Tables;
 
-use Srapid\Base\Facades\BaseHelper;
-use Srapid\RealEstate\Models\Consult;
-use Srapid\RealEstate\Repositories\Interfaces\ConsultInterface;
+use Auth;
+use BaseHelper;
+use Srapid\Base\Enums\BaseStatusEnum;
+use Srapid\RealEstate\Repositories\Interfaces\CrmInterface;
 use Srapid\Table\Abstracts\TableAbstract;
-use Html;
 use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
+use Html;
 
 class CrmTable extends TableAbstract
 {
@@ -30,38 +27,43 @@ class CrmTable extends TableAbstract
      * CrmTable constructor.
      * @param DataTables $table
      * @param UrlGenerator $urlGenerator
-     * @param ConsultInterface $consultRepository
+     * @param CrmInterface $crmRepository
      */
-    public function __construct(DataTables $table, UrlGenerator $urlGenerator, ConsultInterface $consultRepository)
+    public function __construct(DataTables $table, UrlGenerator $urlGenerator, CrmInterface $crmRepository)
     {
         parent::__construct($table, $urlGenerator);
 
-        $this->repository = $consultRepository;
+        $this->repository = $crmRepository;
+        
+        if (!Auth::user()->hasAnyPermission(['crm.edit', 'crm.destroy'])) {
+            $this->hasOperations = false;
+            $this->hasActions = false;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    public function ajax(): JsonResponse
+    public function ajax()
     {
         $data = $this->table
             ->eloquent($this->query())
-            ->editColumn('name', function (Consult $item) {
-                if (!$this->hasPermission('crm.edit')) {
+            ->editColumn('name', function ($item) {
+                if (!Auth::user()->hasPermission('crm.edit')) {
                     return $item->name;
                 }
                 return Html::link(route('crm.edit', $item->id), $item->name);
             })
-            ->editColumn('checkbox', function (Consult $item) {
+            ->editColumn('checkbox', function ($item) {
                 return $this->getCheckbox($item->id);
             })
-            ->editColumn('created_at', function (Consult $item) {
+            ->editColumn('created_at', function ($item) {
                 return BaseHelper::formatDate($item->created_at);
             })
-            ->editColumn('status', function (Consult $item) {
+            ->editColumn('status', function ($item) {
                 return $item->status->toHtml();
             })
-            ->addColumn('operations', function (Consult $item) {
+            ->addColumn('operations', function ($item) {
                 return $this->getOperations('crm.edit', 'crm.destroy', $item);
             });
 
@@ -71,17 +73,16 @@ class CrmTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function query(): Relation|Builder|QueryBuilder
+    public function query()
     {
-        $query = $this->repository->getModel()
-            ->select([
-                'id',
-                'name',
-                'phone',
-                'email',
-                'created_at',
-                'status',
-            ]);
+        $query = $this->repository->getModel()->select([
+            're_crm.id',
+            're_crm.name',
+            're_crm.phone',
+            're_crm.email',
+            're_crm.created_at',
+            're_crm.status',
+        ]);
 
         return $this->applyScopes($query);
     }
@@ -89,29 +90,30 @@ class CrmTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function columns(): array
+    public function columns()
     {
         return [
-            'id'         => [
+            'id' => [
                 'title' => trans('core/base::tables.id'),
                 'width' => '20px',
             ],
-            'name'       => [
+            'name' => [
                 'title' => trans('core/base::tables.name'),
                 'class' => 'text-start',
             ],
-            'email'      => [
-                'title' => trans('plugins/real-estate::consult.email.header'),
+            'phone' => [
+                'title' => trans('plugins/real-estate::crm.phone'),
                 'class' => 'text-start',
             ],
-            'phone'      => [
-                'title' => trans('plugins/real-estate::consult.phone'),
+            'email' => [
+                'title' => trans('plugins/real-estate::crm.email'),
+                'class' => 'text-start',
             ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),
                 'width' => '100px',
             ],
-            'status'     => [
+            'status' => [
                 'title' => trans('core/base::tables.status'),
                 'width' => '100px',
             ],
@@ -121,7 +123,7 @@ class CrmTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function buttons(): array
+    public function buttons()
     {
         return $this->addCreateButton(route('crm.create'), 'crm.create');
     }
@@ -140,16 +142,16 @@ class CrmTable extends TableAbstract
     public function getBulkChanges(): array
     {
         return [
-            'name'       => [
+            'name' => [
                 'title'    => trans('core/base::tables.name'),
                 'type'     => 'text',
                 'validate' => 'required|max:120',
             ],
-            'status'     => [
+            'status' => [
                 'title'    => trans('core/base::tables.status'),
                 'type'     => 'select',
-                'choices'  => Consult::getStatuses(),
-                'validate' => 'required|in:' . implode(',', Consult::getStatuses()),
+                'choices'  => BaseStatusEnum::labels(),
+                'validate' => 'required|in:' . implode(',', BaseStatusEnum::values()),
             ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),

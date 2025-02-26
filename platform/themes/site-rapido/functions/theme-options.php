@@ -392,49 +392,87 @@ app()->booted(function () {
             ],
         ])
         ->setSection([
-            'title'      => __('Home search box'),
-            'desc'       => __('Theme options for search box on homepage'),
-            'id'         => 'opt-text-subsection-homepage-search-box',
-            'subsection' => true,
-            'icon'       => 'fa fa-search',
-            'fields'     => [
-                [
-                    'id'         => 'home_banner_description',
-                    'type'       => 'text',
-                    'label'      => __('The description for banner search block'),
-                    'attributes' => [
-                        'name'    => 'home_banner_description',
-                        'value'   => null,
-                        'options' => [
-                            'class' => 'form-control',
-                        ],
-                    ],
-                ],
-                [
-                    'id'         => 'home_banner',
-                    'type'       => 'mediaImage',
-                    'label'      => __('Top banner homepage (1920x600px)'),
-                    'attributes' => [
-                        'name'  => 'home_banner',
-                        'value' => null,
-                    ],
-                ],
-                [
-                    'id'         => 'enable_search_projects_on_homepage_search',
-                    'type'       => 'select',
-                    'label'      => __('Enable search projects on homepage search box?'),
-                    'attributes' => [
-                        'name'    => 'enable_search_projects_on_homepage_search',
-                        'list'    => [
-                            'yes' => trans('core/base::base.yes'),
-                            'no'  => trans('core/base::base.no'),
-                        ],
-                        'value'   => 'yes',
-                        'options' => [
-                            'class' => 'form-control',
-                        ],
-                    ],
+    'title'      => __('Home search box'),
+    'desc'       => __('Theme options for search box on homepage'),
+    'id'         => 'opt-text-subsection-homepage-search-box',
+    'subsection' => true,
+    'icon'       => 'fa fa-search',
+    'fields'     => [
+        [
+            'id'         => 'home_banner_description',
+            'type'       => 'text',
+            'label'      => __('The description for banner search block'),
+            'attributes' => [
+                'name'    => 'home_banner_description',
+                'value'   => null,
+                'options' => [
+                    'class' => 'form-control',
                 ],
             ],
-        ]);
+        ],
+        [
+            'id'         => 'home_banner_type',
+            'type'       => 'select',
+            'label'      => __('Tipo de mídia para o banner'),
+            'attributes' => [
+                'name'    => 'home_banner_type',
+                'list'    => [
+                    'image' => __('Imagem'),
+                    'video' => __('Vídeo'),
+                    'gif'   => __('GIF'),
+                ],
+                'value'   => 'image',
+                'options' => [
+                    'class' => 'form-control',
+                ],
+            ],
+        ],
+        [
+            'id'         => 'home_banner',
+            'type'       => 'mediaImage',
+            'label'      => __('Top banner homepage - Imagem (1920x600px)'),
+            'attributes' => [
+                'name'  => 'home_banner',
+                'value' => null,
+            ],
+            'helper'     => __('Usado quando o tipo de mídia selecionado é Imagem'),
+        ],
+        [
+            'id'         => 'home_banner_video',
+            'type'       => 'mediaFile',
+            'label'      => __('Top banner homepage - Vídeo'),
+            'attributes' => [
+                'name'  => 'home_banner_video',
+                'value' => null,
+            ],
+            'helper'     => __('Usado quando o tipo de mídia selecionado é Vídeo. Formatos recomendados: MP4, WebM'),
+        ],
+        [
+            'id'         => 'home_banner_gif',
+            'type'       => 'mediaFile',
+            'label'      => __('Top banner homepage - GIF'),
+            'attributes' => [
+                'name'  => 'home_banner_gif',
+                'value' => null,
+            ],
+            'helper'     => __('Usado quando o tipo de mídia selecionado é GIF'),
+        ],
+        [
+            'id'         => 'enable_search_projects_on_homepage_search',
+            'type'       => 'select',
+            'label'      => __('Enable search projects on homepage search box?'),
+            'attributes' => [
+                'name'    => 'enable_search_projects_on_homepage_search',
+                'list'    => [
+                    'yes' => trans('core/base::base.yes'),
+                    'no'  => trans('core/base::base.no'),
+                ],
+                'value'   => 'yes',
+                'options' => [
+                    'class' => 'form-control',
+                ],
+            ],
+        ],
+    ],
+]);
 });

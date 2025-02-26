@@ -69,6 +69,9 @@ use Route;
 use SeoHelper;
 use SlugHelper;
 use SocialService;
+use Srapid\RealEstate\Models\Crm;
+use Srapid\RealEstate\Repositories\Eloquent\CrmRepository;
+use Srapid\RealEstate\Repositories\Interfaces\CrmInterface;
 
 class RealEstateServiceProvider extends ServiceProvider
 {
@@ -80,6 +83,10 @@ class RealEstateServiceProvider extends ServiceProvider
             return new PropertyCacheDecorator(
                 new PropertyRepository(new Property)
             );
+        });
+
+        $this->app->bind(CrmInterface::class, function () {
+            return new CrmRepository(new Crm);
         });
 
         $this->app->singleton(ProjectInterface::class, function () {
@@ -280,6 +287,7 @@ class RealEstateServiceProvider extends ServiceProvider
                     'url'         => route('property_category.index'),
                     'permissions' => ['property_category.index'],
                 ])
+              
                 ->registerItem([
                     'id'          => 'cms-plugins-real-estate-account',
                     'priority'    => 22,
@@ -329,6 +337,7 @@ class RealEstateServiceProvider extends ServiceProvider
           if (!defined('CRM_MODULE_SCREEN_NAME')) {
     define('CRM_MODULE_SCREEN_NAME', 'crm');
 }
+          
 
             LanguageAdvancedManager::registerModule(Project::class, [
                 'name',
