@@ -263,14 +263,14 @@ class RealEstateServiceProvider extends ServiceProvider
                 ])
                 // Adicione o item de menu CRM aqui
                 ->registerItem([
-                    'id'          => 'cms-plugins-crm',
-                    'priority'    => 7,
-                    'parent_id'   => null,
-                    'name'        => 'plugins/real-estate::consult.crm',
-                    'icon'        => 'fas fa-tasks',
-                    'url'         => route('real-estate.crm.index'),
-                    'permissions' => ['real-estate.crm.index'],
-                ])
+    'id'          => 'cms-plugins-crm',
+    'priority'    => 7,
+    'parent_id'   => null,
+    'name'        => 'plugins/real-estate::consult.crm',
+    'icon'        => 'fas fa-tasks',
+    'url'         => route('crm.index'),
+    'permissions' => ['crm.index'],
+])
                 ->registerItem([
                     'id'          => 'cms-plugins-real-estate-category',
                     'priority'    => 4,
@@ -326,6 +326,9 @@ class RealEstateServiceProvider extends ServiceProvider
                 'content',
                 'location',
             ]);
+          if (!defined('CRM_MODULE_SCREEN_NAME')) {
+    define('CRM_MODULE_SCREEN_NAME', 'crm');
+}
 
             LanguageAdvancedManager::registerModule(Project::class, [
                 'name',

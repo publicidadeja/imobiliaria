@@ -49,6 +49,14 @@ class Consult extends BaseModel
     {
         return $this->belongsTo(Project::class);
     }
+  
+  /**
+ * @return array
+ */
+public static function getStatuses()
+{
+    return ConsultStatusEnum::labels();
+}
 
     /**
      * @return BelongsTo
