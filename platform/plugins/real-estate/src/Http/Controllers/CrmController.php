@@ -55,9 +55,9 @@ class CrmController extends BaseController
         event(new CreatedContentEvent(CRM_MODULE_SCREEN_NAME, $request, $crm));
 
         return $response
-            ->setPreviousUrl(route('real-estate.crm.index'))
-            ->setNextUrl(route('real-estate.crm.edit', $crm->id))
-            ->setMessage(trans('core/base::notices.create_success_message'));
+    ->setPreviousUrl(route('crm.index'))
+    ->setNextUrl(route('crm.edit', $crm->id))
+    ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
     /**
