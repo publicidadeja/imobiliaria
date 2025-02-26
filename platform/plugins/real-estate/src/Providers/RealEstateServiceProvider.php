@@ -180,6 +180,11 @@ class RealEstateServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // Definição da constante CRM_MODULE_SCREEN_NAME no início do método boot
+        if (!defined('CRM_MODULE_SCREEN_NAME')) {
+            define('CRM_MODULE_SCREEN_NAME', 'crm');
+        }
+        
         SlugHelper::registerModule(Property::class, 'Real Estate Properties');
         SlugHelper::registerModule(Category::class, 'Real Estate Property Categories');
         SlugHelper::registerModule(Project::class, 'Real Estate Projects');
@@ -268,16 +273,16 @@ class RealEstateServiceProvider extends ServiceProvider
                     'url'         => route('consult.index'),
                     'permissions' => ['consult.index'],
                 ])
-                // Adicione o item de menu CRM aqui
+                // Item de menu CRM
                 ->registerItem([
-    'id'          => 'cms-plugins-crm',
-    'priority'    => 7,
-    'parent_id'   => null,
-    'name'        => 'plugins/real-estate::consult.crm',
-    'icon'        => 'fas fa-tasks',
-    'url'         => route('crm.index'),
-    'permissions' => ['crm.index'],
-])
+                    'id'          => 'cms-plugins-crm',
+                    'priority'    => 7,
+                    'parent_id'   => null,
+                    'name'        => 'plugins/real-estate::consult.crm',
+                    'icon'        => 'fas fa-tasks',
+                    'url'         => route('crm.index'),
+                    'permissions' => ['crm.index'],
+                ])
                 ->registerItem([
                     'id'          => 'cms-plugins-real-estate-category',
                     'priority'    => 4,
@@ -287,7 +292,6 @@ class RealEstateServiceProvider extends ServiceProvider
                     'url'         => route('property_category.index'),
                     'permissions' => ['property_category.index'],
                 ])
-              
                 ->registerItem([
                     'id'          => 'cms-plugins-real-estate-account',
                     'priority'    => 22,
@@ -319,7 +323,6 @@ class RealEstateServiceProvider extends ServiceProvider
                     'redirect_url' => route('public.account.dashboard'),
                 ]);
             }
-
         });
 
         $this->app->register(CommandServiceProvider::class);
@@ -334,10 +337,6 @@ class RealEstateServiceProvider extends ServiceProvider
                 'content',
                 'location',
             ]);
-          if (!defined('CRM_MODULE_SCREEN_NAME')) {
-    define('CRM_MODULE_SCREEN_NAME', 'crm');
-}
-          
 
             LanguageAdvancedManager::registerModule(Project::class, [
                 'name',
@@ -374,7 +373,6 @@ class RealEstateServiceProvider extends ServiceProvider
         });
 
         $this->app->booted(function () {
-
             SeoHelper::registerModule([
                 Property::class,
                 Project::class,
