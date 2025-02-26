@@ -21,6 +21,55 @@ Route::group(['namespace' => 'Srapid\RealEstate\Http\Controllers', 'middleware' 
             'uses'       => 'RealEstateController@postSettings',
             'permission' => 'real-estate.settings',
         ]);
+      
+      Route::group(['prefix' => 'crm', 'as' => 'crm.'], function () {
+    Route::get('', [
+        'as' => 'index',
+        'uses' => 'CrmController@index',
+        'permission' => 'consults.index',
+    ]);
+        
+        Route::group(['prefix' => 'crm', 'as' => 'crm.'], function () {
+    Route::resource('', 'CrmController')
+        ->parameters(['' => 'crm']);
+    
+    Route::delete('items/destroy', [
+        'as'         => 'deletes',
+        'uses'       => 'CrmController@deletes',
+        'permission' => 'crm.destroy',
+    ]);
+});
+    
+    Route::get('create', [
+        'as' => 'create',
+        'uses' => 'CrmController@create',
+        'permission' => 'consults.create',
+    ]);
+    
+    Route::post('store', [
+        'as' => 'store',
+        'uses' => 'CrmController@store',
+        'permission' => 'consults.create',
+    ]);
+    
+    Route::get('edit/{id}', [
+        'as' => 'edit',
+        'uses' => 'CrmController@edit',
+        'permission' => 'consults.edit',
+    ]);
+    
+    Route::post('update/{id}', [
+        'as' => 'update',
+        'uses' => 'CrmController@update',
+        'permission' => 'consults.edit',
+    ]);
+    
+    Route::get('destroy/{id}', [
+        'as' => 'destroy',
+        'uses' => 'CrmController@destroy',
+        'permission' => 'consults.destroy',
+    ]);
+});
 
         Route::group(['prefix' => 'properties', 'as' => 'property.'], function () {
             Route::resource('', 'PropertyController')
