@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Tempo de geração: 15-Maio-2023 às 00:42
--- Versão do servidor: 10.4.24-MariaDB
--- versão do PHP: 8.1.6
+-- Host: localhost
+-- Tempo de geração: 27-Fev-2025 às 10:41
+-- Versão do servidor: 10.11.10-MariaDB
+-- versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `imobmaster`
+-- Banco de dados: `rodr_imovel`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `activations` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `code` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(120) NOT NULL,
   `completed` tinyint(1) NOT NULL DEFAULT 0,
   `completed_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -65,18 +65,133 @@ INSERT INTO `activations` (`id`, `user_id`, `code`, `completed`, `completed_at`,
 CREATE TABLE `audit_histories` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `module` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `request` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `action` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ip_address` varchar(39) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `module` varchar(60) NOT NULL,
+  `request` text DEFAULT NULL,
+  `action` varchar(120) NOT NULL,
+  `user_agent` text DEFAULT NULL,
+  `ip_address` varchar(39) DEFAULT NULL,
   `reference_user` int(10) UNSIGNED NOT NULL,
   `reference_id` int(10) UNSIGNED NOT NULL,
-  `reference_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reference_name` varchar(255) NOT NULL,
+  `type` varchar(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `audit_histories`
+--
+
+INSERT INTO `audit_histories` (`id`, `user_id`, `module`, `request`, `action`, `user_agent`, `ip_address`, `reference_user`, `reference_id`, `reference_name`, `type`, `created_at`, `updated_at`) VALUES
+(1, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 0, 1, 'Site Rapido', 'info', '2025-02-24 20:57:02', '2025-02-24 20:57:02'),
+(2, 1, 'consult', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 2, 'Leonardo Nascimento', 'danger', '2025-02-24 21:18:14', '2025-02-24 21:18:14'),
+(3, 1, 'account', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 13, 'Joao Jones', 'danger', '2025-02-24 21:18:28', '2025-02-24 21:18:28'),
+(4, 1, 'account', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 12, 'Usuario SiteRapido', 'danger', '2025-02-24 21:18:30', '2025-02-24 21:18:30'),
+(5, 1, 'account', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 1, 'Benjamin Natan', 'danger', '2025-02-24 21:18:34', '2025-02-24 21:18:34'),
+(6, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 31, 'National Pension Service', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(7, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 30, 'Generali', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(8, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 29, 'Temasek', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(9, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 27, 'China Investment Corporation', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(10, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 26, 'Government Pension Fund Global', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(11, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 25, 'PSP Investments', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(12, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 24, 'MEAG Munich ERGO', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(13, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 23, 'HOOPP', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(14, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 22, 'BT Group', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(15, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"31\",\"30\",\"29\",\"27\",\"26\",\"25\",\"24\",\"23\",\"22\",\"21\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 21, 'Ping An', 'danger', '2025-02-24 21:25:42', '2025-02-24 21:25:42'),
+(16, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 20, 'New Jersey Division of Investment', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(17, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 19, 'New York City ERS', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(18, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 18, 'State Super', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(19, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 17, 'Shinkong', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(20, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 16, 'Rest Super', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(21, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 15, 'Rest Super', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(22, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 14, 'Shinkong', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(23, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 13, 'State Super', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(24, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 12, 'New York City ERS', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(25, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"20\",\"19\",\"18\",\"17\",\"16\",\"15\",\"14\",\"13\",\"12\",\"11\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 11, 'New Jersey Division of Investment', 'danger', '2025-02-24 21:25:51', '2025-02-24 21:25:51'),
+(26, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 10, 'Ping An', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(27, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 9, 'BT Group', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(28, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 8, 'HOOPP', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(29, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 7, 'MEAG Munich ERGO', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(30, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 6, 'PSP Investments', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(31, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 5, 'Government Pension Fund Global', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(32, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 4, 'China Investment Corporation', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(33, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 3, 'Temasek', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(34, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 2, 'Generali', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(35, 1, 'investor', '{\"_method\":\"DELETE\",\"ids\":[\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\",\"2\",\"1\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\InvestorTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 1, 'National Pension Service', 'danger', '2025-02-24 21:25:56', '2025-02-24 21:25:56'),
+(36, 1, 'state', '{\"name\":\"Minas Gerais\",\"abbreviation\":\"MG\",\"country_id\":\"1\",\"order\":\"1\",\"is_default\":\"1\",\"submit\":\"save\",\"status\":\"published\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 2, 'Minas Gerais', 'info', '2025-02-24 21:27:21', '2025-02-24 21:27:21'),
+(37, 1, 'city', '{\"name\":\"S\\u00e3o Louren\\u00e7o\",\"slug\":\"sao-lourenco\",\"country_id\":\"1\",\"is_featured\":\"1\",\"state_id\":\"2\",\"order\":\"1\",\"is_default\":\"1\",\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"published\",\"image\":\"imoveis-demo\\/1666016706nyizuqxjcu.jpg\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 6, 'São Lourenço', 'info', '2025-02-24 21:28:46', '2025-02-24 21:28:46'),
+(38, 1, 'page', '{\"name\":\"Contato\",\"slug\":\"contato\",\"slug_id\":\"357\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\Page\\\\Models\\\\Page\",\"description\":null,\"is_featured\":\"0\",\"content\":\"<shortcode class=\\\"bb-shortcode\\\">[contact-form][\\/contact-form]<\\/shortcode><p><br>&nbsp;<\\/p><h3>Dire\\u00e7\\u00f5es<\\/h3><shortcode class=\\\"bb-shortcode\\\">[google-map]Rua XV de Novembro, 289, Centro, S\\u00e3o Louren\\u00e7o MG, 37470-000, Brasil[\\/google-map]<\\/shortcode><p>&nbsp;<\\/p>\",\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"published\",\"template\":\"default\",\"image\":\"users\\/rodrigo-lima-corretor.jpg\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 4, 'Contato', 'primary', '2025-02-24 21:32:16', '2025-02-24 21:32:16'),
+(39, 1, 'user', '{\"first_name\":\"Rodrigo\",\"last_name\":\"Lima\",\"email\":\"contato@rodrigolimacorretor.com.br\",\"submit\":\"submit\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 1, 'Rodrigo Lima', 'primary', '2025-02-24 21:41:51', '2025-02-24 21:41:51'),
+(40, 1, 'user', '{\"submit\":\"submit\"}', 'updated profile', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 1, 'Rodrigo Lima', 'info', '2025-02-24 21:42:21', '2025-02-24 21:42:21'),
+(41, 1, 'user', '{\"submit\":\"submit\"}', 'changed password', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 1, 'Rodrigo Lima', 'danger', '2025-02-24 21:42:21', '2025-02-24 21:42:21'),
+(42, 1, 'page', '{\"name\":\"Home\",\"model\":\"Srapid\\\\Page\\\\Models\\\\Page\",\"description\":null,\"is_featured\":\"0\",\"content\":\"<shortcode class=\\\"bb-shortcode\\\">[featured-projects][\\/featured-projects]<\\/shortcode><shortcode class=\\\"bb-shortcode\\\">[youtube-video]https:\\/\\/www.youtube.com\\/watch?v=xMZG20TLci0[\\/youtube-video]<\\/shortcode><shortcode class=\\\"bb-shortcode\\\">[properties-for-sale][\\/properties-for-sale]<\\/shortcode><shortcode class=\\\"bb-shortcode\\\">[properties-for-rent][\\/properties-for-rent]<\\/shortcode><shortcode class=\\\"bb-shortcode\\\">[recently-viewed-properties title=\\\"Im\\u00f3veis Visto Recentemente\\\"][\\/recently-viewed-properties]<\\/shortcode><shortcode class=\\\"bb-shortcode\\\">[latest-news][\\/latest-news]<\\/shortcode><p>&nbsp;<\\/p>\",\"submit\":\"save\",\"status\":\"published\",\"template\":\"homepage\",\"image\":null}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 1, 'Home', 'primary', '2025-02-24 21:46:39', '2025-02-24 21:46:39'),
+(43, 1, 'account', '{\"first_name\":\"Rodrigo\",\"last_name\":\"Lima\",\"company\":\"Rodrigo Lima Corretor\",\"phone\":\"(35) 98815-1468\",\"dob\":\"2025-02-24\",\"email\":\"contato@rodrigolimacorretor.com.br\",\"is_featured\":\"1\",\"submit\":\"save\",\"avatar_image\":\"users\\/rodrigo-lima-corretor-1.jpg\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 14, 'Rodrigo Lima', 'info', '2025-02-24 21:55:50', '2025-02-24 21:55:50'),
+(44, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"0\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"0\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0033-1200x680.jpg\",\"imoveis\\/img-20240301-wa0028-1200x680.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'info', '2025-02-24 22:15:11', '2025-02-24 22:15:11'),
+(45, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0033-1200x680.jpg\",\"imoveis\\/img-20240301-wa0028-1200x680.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 22:16:05', '2025-02-24 22:16:05'),
+(46, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240301-wa0028-1200x680.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 22:17:45', '2025-02-24 22:17:45'),
+(47, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0027-720x680-1.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 22:18:44', '2025-02-24 22:18:44'),
+(48, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0032-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0034-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0027-720x680-2.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 22:20:38', '2025-02-24 22:20:38'),
+(49, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":\"<p><img src=\\\"https:\\/\\/rodrigolimanegimob.com.br\\/public\\/storage\\/imoveis\\/img-20240301-wa0033-1200x680-1.jpg\\\" alt=\\\"IMG-20240301-WA0033-1200x680-1\\\"><br>&nbsp;<\\/p>\",\"images\":[null,\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0032-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0034-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0027-720x680-2.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 22:21:34', '2025-02-24 22:21:34'),
+(50, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680-2.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0032-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0034-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680-1.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 22:22:14', '2025-02-24 22:22:14'),
+(51, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":\"<p><img src=\\\"https:\\/\\/rodrigolimanegimob.com.br\\/public\\/storage\\/imoveis\\/img-20240301-wa0033-1200x680-1.jpg\\\" alt=\\\"IMG-20240301-WA0033-1200x680-1\\\"><br>&nbsp;<\\/p>\",\"images\":[null,\"imoveis\\/img-20240301-wa0027-720x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0029-1200x680.jpg\",\"imoveis\\/img-20240301-wa0031-901x680.jpg\",\"imoveis\\/img-20240301-wa0032-901x680.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680.jpg\",\"imoveis\\/img-20240301-wa0034-901x680.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\",\"imoveis\\/img-20240301-wa0026-720x680.jpg\",\"imoveis\\/img-20240301-wa0027-720x680-2.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0032-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0034-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680-1.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 22:23:33', '2025-02-24 22:23:33'),
+(52, 1, 'property', '{\"name\":\"Casa nova e moderna, estilo americana\",\"slug\":\"casa-moderna\",\"slug_id\":\"402\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Casa nova e moderna, estilo americana\",\"content\":\"<p>Casa nova e moderna, estilo americana<\\/p>\",\"images\":[null,\"imoveis\\/images.jpg\"],\"city_id\":\"1\",\"location\":\"Rua Estados Unidos, 777, S\\u00e3o Paulo, SP\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"5\",\"number_bathroom\":\"7\",\"number_floor\":\"2\",\"square\":\"400\",\"price\":\"5780000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":{\"1\":{\"id\":\"1\",\"distance\":\"0,100\"},\"2\":{\"id\":\"2\",\"distance\":\"0,100\"},\"3\":{\"id\":\"3\",\"distance\":\"0,100\"},\"4\":{\"id\":\"4\",\"distance\":\"0,100\"},\"5\":{\"id\":\"5\",\"distance\":\"0,100\"},\"6\":{\"id\":\"6\",\"distance\":\"10\"},\"7\":{\"id\":\"7\",\"distance\":\"0,100\"},\"8\":{\"id\":\"8\",\"distance\":\"0,100\"},\"9\":{\"id\":\"9\",\"distance\":\"80\"},\"10\":{\"id\":\"10\",\"distance\":\"0,100\"},\"11\":{\"id\":\"11\",\"distance\":\"0,100\"}},\"features\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"],\"video\":{\"thumbnail\":null,\"url\":\"https:\\/\\/www.youtube.com\\/watch?v=iaJZMMBtIyk\"},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"4\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 53, 'Casa nova e moderna, estilo americana', 'primary', '2025-02-24 22:25:32', '2025-02-24 22:25:32'),
+(53, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 23:08:42', '2025-02-24 23:08:42'),
+(54, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 23:09:03', '2025-02-24 23:09:03'),
+(55, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 23:09:26', '2025-02-24 23:09:26');
+INSERT INTO `audit_histories` (`id`, `user_id`, `module`, `request`, `action`, `user_agent`, `ip_address`, `reference_user`, `reference_id`, `reference_name`, `type`, `created_at`, `updated_at`) VALUES
+(56, 1, 'property', '{\"name\":\"Linda ch\\u00e1cara para venda\",\"slug\":\"linda-chacara-para-venda\",\"slug_id\":\"403\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"1\",\"description\":\"Linda ch\\u00e1cara \\u00e0 venda no bairro dos Campos, h\\u00e1 15 minutos de S\\u00e3o Louren\\u00e7o.\\r\\n140 m\\u00b2 de \\u00e1rea constru\\u00edda\\r\\nSala\\r\\nCozinha\\r\\n2 Quartos\\r\\nVaranda\\r\\nVaga de estacionamento\\r\\nTerreno com 3000m\\u00b2,\\r\\nValor R$ 400.000,00.\\r\\nAceitamos propostas.\",\"content\":null,\"images\":[null,\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0032-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0034-901x680-1.jpg\",\"imoveis\\/img-20240301-wa0035-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0026-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0027-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0028-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0029-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0030-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680-1.jpg\",\"imoveis\\/img-20240905-wa0032-1200x680-1.jpg\",\"imoveis\\/img-20240301-wa0027-720x680-2.jpg\",\"imoveis\\/img-20240301-wa0026-720x680-1.jpg\",\"imoveis\\/img-20240905-wa0031-1200x680.jpg\"],\"city_id\":\"6\",\"location\":\"37472-000, Carmo de Minas, Regi\\u00e3o Geogr\\u00e1fica Imediata de S\\u00e3o Louren\\u00e7o, Regi\\u00e3o Geogr\\u00e1fica Intermedi\\u00e1ria de Pouso Alegre, Minas Gerais, Regi\\u00e3o Sudeste, Brasil\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"1\",\"number_floor\":null,\"square\":\"3000\",\"price\":\"400000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"1\",\"auto_renew\":\"0\",\"facilities\":[{\"id\":null},{\"distance\":null}],\"features\":[\"1\",\"2\",\"3\",\"5\",\"10\",\"11\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"8\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 54, 'Linda chácara para venda', 'primary', '2025-02-24 23:09:46', '2025-02-24 23:09:46'),
+(57, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.17', 0, 1, 'Rodrigo Lima', 'info', '2025-02-25 15:57:59', '2025-02-25 15:57:59'),
+(58, 1, 'of the system', '[]', 'logged out', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.17', 1, 1, 'Rodrigo Lima', 'info', '2025-02-25 15:58:03', '2025-02-25 15:58:03'),
+(59, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.17', 0, 1, 'Rodrigo Lima', 'info', '2025-02-25 15:59:01', '2025-02-25 15:59:01'),
+(60, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 0, 1, 'Rodrigo Lima', 'info', '2025-02-25 19:24:24', '2025-02-25 19:24:24'),
+(61, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 0, 1, 'Rodrigo Lima', 'info', '2025-02-25 19:37:27', '2025-02-25 19:37:27'),
+(62, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 0, 1, 'Rodrigo Lima', 'info', '2025-02-25 21:44:56', '2025-02-25 21:44:56'),
+(63, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 0, 1, 'Rodrigo Lima', 'info', '2025-02-25 21:51:09', '2025-02-25 21:51:09'),
+(64, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 0, 1, 'Rodrigo Lima', 'info', '2025-02-25 22:15:46', '2025-02-25 22:15:46'),
+(65, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 0, 1, 'Rodrigo Lima', 'info', '2025-02-26 09:34:02', '2025-02-26 09:34:02'),
+(66, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 0, 1, 'Rodrigo Lima', 'info', '2025-02-26 09:34:45', '2025-02-26 09:34:45'),
+(67, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 0, 1, 'Rodrigo Lima', 'info', '2025-02-26 10:28:07', '2025-02-26 10:28:07'),
+(68, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"Teste\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 1, 'Leonardo Carvalho Do Nascimento', 'info', '2025-02-26 11:10:53', '2025-02-26 11:10:53'),
+(69, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"teste\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 2, 'Leonardo Carvalho Do Nascimento', 'info', '2025-02-26 11:18:38', '2025-02-26 11:18:38'),
+(70, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"testte\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 3, 'Leonardo Carvalho Do Nascimento', 'info', '2025-02-26 11:21:04', '2025-02-26 11:21:04'),
+(71, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"Teste\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 4, 'Leonardo Carvalho Do Nascimento', 'info', '2025-02-26 11:42:51', '2025-02-26 11:42:51'),
+(72, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"Teste\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 5, 'Leonardo Carvalho Do Nascimento', 'info', '2025-02-26 11:54:44', '2025-02-26 11:54:44'),
+(73, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"teste\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 6, 'Leonardo Carvalho Do Nascimento', 'info', '2025-02-26 11:56:47', '2025-02-26 11:56:47'),
+(74, 1, 'crm', '{\"name\":\"Juliana Rodrigues\",\"submit\":\"save\",\"email\":\"juliana@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"Aqui ficara a descri\\u00e7\\u00e3o.\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 7, 'Juliana Rodrigues', 'info', '2025-02-26 12:41:18', '2025-02-26 12:41:18'),
+(75, 1, 'crm', '{\"name\":\"Publicidade J\\u00e1\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"aaaaaaaaaaaaaa\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 8, 'Publicidade Já', 'info', '2025-02-26 12:56:22', '2025-02-26 12:56:22'),
+(76, 1, 'crm', '{\"name\":\"Publicidade J\\u00e1\",\"submit\":\"apply\",\"email\":\"contato@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"11111111111\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 9, 'Publicidade Já', 'info', '2025-02-26 13:02:56', '2025-02-26 13:02:56'),
+(77, 1, 'crm', '{\"name\":\"GOOGLE ADS - PJ\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"tttttttt\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 10, 'GOOGLE ADS - PJ', 'info', '2025-02-26 13:05:02', '2025-02-26 13:05:02'),
+(78, 1, 'crm', '{\"name\":\"Leonardo Carvalho DO Nascimento\",\"submit\":\"save\",\"email\":\"agenciaandare@gmail.com\",\"phone\":\"35991944831\",\"content\":\"tttttttttt\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 11, 'Leonardo Carvalho DO Nascimento', 'info', '2025-02-26 13:05:59', '2025-02-26 13:05:59'),
+(79, 1, 'crm', '{\"name\":\"Publicidade J\\u00e1\",\"submit\":\"save\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\".....\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 12, 'Publicidade Já', 'info', '2025-02-26 13:27:50', '2025-02-26 13:27:50'),
+(80, 1, 'crm', '{\"name\":\"1\",\"submit\":\"save\",\"email\":\"juliana@publicidadeja.com.br\",\"phone\":\"1\",\"content\":\"1\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 13, '1', 'info', '2025-02-26 14:29:01', '2025-02-26 14:29:01'),
+(81, 1, 'crm', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 13, '1', 'danger', '2025-02-26 15:40:20', '2025-02-26 15:40:20'),
+(82, 1, 'crm', '{\"name\":\"Julio Mariano\",\"submit\":\"save\",\"email\":\"julio@gmail.com\",\"phone\":\"35988430341\",\"content\":\"Casa 2 andares, bairro solar dos lagos\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 14, 'Julio Mariano', 'info', '2025-02-26 15:59:58', '2025-02-26 15:59:58'),
+(83, 1, 'crm', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 12, 'Publicidade Já', 'danger', '2025-02-26 16:06:21', '2025-02-26 16:06:21'),
+(84, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 14, 'Julio Mariano', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(85, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 11, 'Leonardo Carvalho DO Nascimento', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(86, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 10, 'GOOGLE ADS - PJ', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(87, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 9, 'Publicidade Já', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(88, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 8, 'Publicidade Já', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(89, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 7, 'Juliana Rodrigues', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(90, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 6, 'Leonardo Carvalho Do Nascimento', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(91, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 5, 'Leonardo Carvalho Do Nascimento', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(92, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 4, 'Leonardo Carvalho Do Nascimento', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(93, 1, 'crm', '{\"_method\":\"DELETE\",\"ids\":[\"14\",\"11\",\"10\",\"9\",\"8\",\"7\",\"6\",\"5\",\"4\",\"3\"],\"class\":\"Srapid\\\\RealEstate\\\\Tables\\\\CrmTable\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 3, 'Leonardo Carvalho Do Nascimento', 'danger', '2025-02-26 16:06:27', '2025-02-26 16:06:27'),
+(94, 1, 'crm', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 2, 'Leonardo Carvalho Do Nascimento', 'danger', '2025-02-26 16:06:32', '2025-02-26 16:06:32'),
+(95, 1, 'crm', '{\"_method\":\"DELETE\"}', 'deleted', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 1, 'Leonardo Carvalho Do Nascimento', 'danger', '2025-02-26 16:06:34', '2025-02-26 16:06:34'),
+(96, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"submit\":\"save\",\"email\":\"leonardo@publicidadeja.com.br\",\"phone\":\"35991944831\",\"content\":\"Procura casa de 2 andares com garagem no bairro Vale dos pinheiros.\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 15, 'Leonardo Carvalho Do Nascimento', 'info', '2025-02-26 16:07:05', '2025-02-26 16:07:05'),
+(97, 1, 'crm', '{\"name\":\"Juliana Rodrigues\",\"email\":\"juliana@publicidadeja.com.br\",\"phone\":\"35988430341\",\"submit\":\"save\",\"content\":\"Casa 1 quarto sem garagem no centro.\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 16, 'Juliana Rodrigues', 'info', '2025-02-26 16:14:27', '2025-02-26 16:14:27'),
+(98, 1, 'property', '{\"name\":\"Casa teste\",\"slug\":\"casa-teste\",\"slug_id\":\"0\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"description\":\"Aqui ficar\\u00e1 a descri\\u00e7\\u00e3o do Im\\u00f3vel\",\"content\":\"<p>Conte\\u00fado do im\\u00f3vel<\\/p>\",\"images\":\"[\\\"accounts\\/img-20250103-wa0021-1200x680.jpg\\\",\\\"accounts\\/img-20250103-wa0027-1200x680.jpg\\\",\\\"accounts\\/img-20250104-wa0020-1200x680.jpg\\\"]\",\"city_id\":\"6\",\"location\":\"Rua av dom pedro II, 292\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"2\",\"number_floor\":\"2\",\"square\":\"2000\",\"price\":\"200000000\",\"currency_id\":\"1\",\"period\":\"day\",\"auto_renew\":\"0\",\"facilities\":{\"11\":{\"id\":\"11\",\"distance\":\"0\"},\"6\":{\"id\":\"6\",\"distance\":\"1\"}},\"features\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"categories\":[\"4\"],\"project_id\":\"0\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 55, 'Casa teste', 'info', '2025-02-26 17:10:24', '2025-02-26 17:10:24'),
+(99, 1, 'property', '{\"name\":\"Casa teste\",\"slug\":\"casa-teste\",\"slug_id\":\"404\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"0\",\"description\":\"Aqui ficar\\u00e1 a descri\\u00e7\\u00e3o do Im\\u00f3vel\",\"content\":\"<p>Conte\\u00fado do im\\u00f3vel<\\/p>\",\"images\":[null,\"accounts\\/img-20250103-wa0021-1200x680.jpg\",\"accounts\\/img-20250103-wa0027-1200x680.jpg\",\"accounts\\/img-20250104-wa0020-1200x680.jpg\"],\"city_id\":\"6\",\"location\":\"Rua av dom pedro II, 292\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"2\",\"number_floor\":\"2\",\"square\":\"2000\",\"price\":\"200000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"0\",\"auto_renew\":\"0\",\"facilities\":{\"11\":{\"id\":\"11\",\"distance\":\"0\"},\"6\":{\"id\":\"6\",\"distance\":\"1\"}},\"features\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"apply\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"4\"],\"project_id\":\"0\",\"author_id\":\"15\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 55, 'Casa teste', 'primary', '2025-02-26 17:11:08', '2025-02-26 17:11:08'),
+(100, 1, 'crm', '{\"name\":\"Publicidade J\\u00e1 Marketing Digital\",\"email\":\"admin@publicidadeja.com.br\",\"phone\":\"35991944831\",\"category\":\"apartamento\",\"lead_color\":\"blue\",\"content\":\"Casa de dois quartos no Jardim Santa Maria.\",\"submit\":\"save\"}', 'created', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 17, 'Publicidade Já Marketing Digital', 'info', '2025-02-26 17:36:35', '2025-02-26 17:36:35'),
+(101, 1, 'crm', '{\"name\":\"Juliana Rodrigues\",\"email\":\"juliana@publicidadeja.com.br\",\"phone\":\"35988430341\",\"category\":\"terreno\",\"lead_color\":\"red\",\"content\":\"Casa 1 quarto sem garagem no centro.\",\"submit\":\"save\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 16, 'Juliana Rodrigues', 'primary', '2025-02-26 17:36:47', '2025-02-26 17:36:47'),
+(102, 1, 'crm', '{\"name\":\"Leonardo Carvalho Do Nascimento\",\"email\":\"leonardo@publicidadeja.com.br\",\"phone\":\"35991944831\",\"category\":\"temporada\",\"lead_color\":\"gray\",\"content\":\"Procura casa de 2 andares com garagem no bairro Vale dos pinheiros.\",\"submit\":\"save\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 1, 15, 'Leonardo Carvalho Do Nascimento', 'primary', '2025-02-26 17:36:58', '2025-02-26 17:36:58'),
+(103, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '177.75.207.79', 0, 1, 'Rodrigo Lima', 'info', '2025-02-26 17:57:02', '2025-02-26 17:57:02'),
+(104, 1, 'to the system', NULL, 'logged in', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 0, 1, 'Rodrigo Lima', 'info', '2025-02-27 06:55:30', '2025-02-27 06:55:30'),
+(105, 1, 'property', '{\"name\":\"Casa teste\",\"slug\":\"casa-teste\",\"slug_id\":\"404\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"0\",\"description\":\"Aqui ficar\\u00e1 a descri\\u00e7\\u00e3o do Im\\u00f3vel\",\"content\":\"<p>Conte\\u00fado do im\\u00f3vel<\\/p>\",\"images\":[null,\"accounts\\/img-20250103-wa0021-1200x680.jpg\",\"accounts\\/img-20250103-wa0027-1200x680.jpg\",\"accounts\\/img-20250104-wa0020-1200x680.jpg\"],\"city_id\":\"6\",\"location\":\"Rua av dom pedro II, 292\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"2\",\"number_floor\":\"2\",\"square\":\"2000\",\"price\":\"200000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"0\",\"auto_renew\":\"0\",\"facilities\":{\"11\":{\"id\":\"11\",\"distance\":\"0\"},\"6\":{\"id\":\"6\",\"distance\":\"1\"}},\"features\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"pending\",\"categories\":[\"4\"],\"project_id\":\"0\",\"author_id\":\"15\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 55, 'Casa teste', 'primary', '2025-02-27 07:04:02', '2025-02-27 07:04:02'),
+(106, 1, 'property', '{\"name\":\"Casa teste\",\"slug\":\"casa-teste\",\"slug_id\":\"404\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"0\",\"description\":\"Aqui ficar\\u00e1 a descri\\u00e7\\u00e3o do Im\\u00f3vel\",\"content\":\"<p>Conte\\u00fado do im\\u00f3vel<\\/p>\",\"images\":[null,\"accounts\\/img-20250103-wa0021-1200x680.jpg\",\"accounts\\/img-20250103-wa0027-1200x680.jpg\",\"accounts\\/img-20250104-wa0020-1200x680.jpg\"],\"city_id\":\"6\",\"location\":\"Rua av dom pedro II, 292\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"2\",\"number_floor\":\"2\",\"square\":\"2000\",\"price\":\"200000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"0\",\"auto_renew\":\"0\",\"facilities\":{\"11\":{\"id\":\"11\",\"distance\":\"0\"},\"6\":{\"id\":\"6\",\"distance\":\"1\"}},\"features\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"4\"],\"project_id\":\"0\",\"author_id\":\"15\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 55, 'Casa teste', 'primary', '2025-02-27 07:05:18', '2025-02-27 07:05:18'),
+(107, 1, 'property', '{\"name\":\"Casa teste\",\"slug\":\"casa-teste\",\"slug_id\":\"404\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"0\",\"description\":\"Aqui ficar\\u00e1 a descri\\u00e7\\u00e3o do Im\\u00f3vel\",\"content\":\"<p>Conte\\u00fado do im\\u00f3vel<\\/p>\",\"images\":[null,\"accounts\\/img-20250103-wa0021-1200x680.jpg\",\"accounts\\/img-20250103-wa0027-1200x680.jpg\",\"accounts\\/img-20250104-wa0020-1200x680.jpg\"],\"city_id\":\"6\",\"location\":\"Rua av dom pedro II, 292\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"2\",\"number_floor\":\"2\",\"square\":\"2000\",\"price\":\"200000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"0\",\"auto_renew\":\"0\",\"facilities\":{\"11\":{\"id\":\"11\",\"distance\":\"0\"},\"6\":{\"id\":\"6\",\"distance\":\"1\"}},\"features\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"4\"],\"project_id\":\"0\",\"author_id\":\"14\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 55, 'Casa teste', 'primary', '2025-02-27 07:05:51', '2025-02-27 07:05:51'),
+(108, 1, 'property', '{\"name\":\"Casa teste\",\"slug\":\"casa-teste\",\"slug_id\":\"404\",\"is_slug_editable\":\"1\",\"model\":\"Srapid\\\\RealEstate\\\\Models\\\\Property\",\"type\":\"sale\",\"is_featured\":\"0\",\"description\":\"Aqui ficar\\u00e1 a descri\\u00e7\\u00e3o do Im\\u00f3vel\",\"content\":\"<p>Conte\\u00fado do im\\u00f3vel<\\/p>\",\"images\":[null,\"accounts\\/img-20250103-wa0021-1200x680.jpg\",\"accounts\\/img-20250103-wa0027-1200x680.jpg\",\"accounts\\/img-20250104-wa0020-1200x680.jpg\"],\"city_id\":\"6\",\"location\":\"Rua av dom pedro II, 292\",\"latitude\":null,\"longitude\":null,\"number_bedroom\":\"2\",\"number_bathroom\":\"2\",\"number_floor\":\"2\",\"square\":\"2000\",\"price\":\"200000000.00\",\"currency_id\":\"1\",\"period\":\"day\",\"never_expired\":\"0\",\"auto_renew\":\"0\",\"facilities\":{\"11\":{\"id\":\"11\",\"distance\":\"0\"},\"6\":{\"id\":\"6\",\"distance\":\"1\"}},\"features\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"],\"video\":{\"thumbnail\":null,\"url\":null},\"seo_meta\":{\"seo_title\":null,\"seo_description\":null},\"submit\":\"save\",\"status\":\"selling\",\"moderation_status\":\"approved\",\"categories\":[\"4\"],\"project_id\":\"0\",\"author_id\":\"15\"}', 'updated', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '189.48.152.7', 1, 55, 'Casa teste', 'primary', '2025-02-27 07:06:34', '2025-02-27 07:06:34');
 
 -- --------------------------------------------------------
 
@@ -86,14 +201,14 @@ CREATE TABLE `audit_histories` (
 
 CREATE TABLE `careers` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `salary` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `name` varchar(120) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `salary` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `description` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -111,12 +226,12 @@ INSERT INTO `careers` (`id`, `name`, `location`, `salary`, `content`, `status`, 
 --
 
 CREATE TABLE `careers_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `careers_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `salary` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `salary` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -127,13 +242,13 @@ CREATE TABLE `careers_translations` (
 
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
   `parent_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `description` varchar(400) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `author_id` int(11) NOT NULL,
-  `author_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
-  `icon` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `author_type` varchar(255) NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
+  `icon` varchar(60) DEFAULT NULL,
   `order` tinyint(4) NOT NULL DEFAULT 0,
   `is_featured` tinyint(4) NOT NULL DEFAULT 0,
   `is_default` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
@@ -158,10 +273,10 @@ INSERT INTO `categories` (`id`, `name`, `parent_id`, `description`, `status`, `a
 --
 
 CREATE TABLE `categories_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `categories_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -172,18 +287,18 @@ CREATE TABLE `categories_translations` (
 
 CREATE TABLE `cities` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
   `state_id` int(10) UNSIGNED NOT NULL,
   `country_id` int(10) UNSIGNED NOT NULL,
   `order` tinyint(4) NOT NULL DEFAULT 0,
   `is_default` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `is_featured` tinyint(4) NOT NULL DEFAULT 0,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `image` varchar(255) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `slug` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `record_id` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `slug` varchar(120) DEFAULT NULL,
+  `record_id` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -195,7 +310,8 @@ INSERT INTO `cities` (`id`, `name`, `state_id`, `country_id`, `order`, `is_defau
 (2, 'Osasco', 1, 1, 0, 0, 1, 'advogados-em-osasco.jpg', 'published', '2019-11-18 08:23:14', '2022-07-05 19:11:38', 'osasco', NULL),
 (3, 'Guarulhos', 1, 1, 0, 0, 1, 'enwhoeorfaxrbhuvmlaxsnfrxoohbjtbxuajrewfshxzldhyaecclewukxtamwov.jpg', 'published', '2019-11-18 08:26:54', '2022-07-05 19:10:56', 'guarulhos', NULL),
 (4, 'São José dos Campos', 1, 1, 0, 0, 1, 'design-sem-nome-1-698x393.png', 'published', '2019-11-18 08:27:57', '2022-07-05 19:08:42', 'sao-jose-dos-campos', NULL),
-(5, 'Mogi das Cruzes', 1, 1, 0, 0, 1, '7caf838d6ac7593e792d7251c7577cba.jpg', 'published', '2019-11-18 08:29:18', '2022-07-05 19:07:58', 'mogi-das-cruzes', NULL);
+(5, 'Mogi das Cruzes', 1, 1, 0, 0, 1, '7caf838d6ac7593e792d7251c7577cba.jpg', 'published', '2019-11-18 08:29:18', '2022-07-05 19:07:58', 'mogi-das-cruzes', NULL),
+(6, 'São Lourenço', 2, 1, 1, 1, 1, 'imoveis-demo/1666016706nyizuqxjcu.jpg', 'published', '2025-02-24 21:28:46', '2025-02-24 21:28:46', 'sao-lourenco', NULL);
 
 -- --------------------------------------------------------
 
@@ -204,9 +320,9 @@ INSERT INTO `cities` (`id`, `name`, `state_id`, `country_id`, `order`, `is_defau
 --
 
 CREATE TABLE `cities_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `cities_id` int(11) NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(120) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -217,13 +333,13 @@ CREATE TABLE `cities_translations` (
 
 CREATE TABLE `contacts` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `subject` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unread',
+  `name` varchar(60) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `phone` varchar(60) DEFAULT NULL,
+  `address` varchar(120) DEFAULT NULL,
+  `subject` varchar(120) DEFAULT NULL,
+  `content` text NOT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'unread',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -236,7 +352,7 @@ CREATE TABLE `contacts` (
 
 CREATE TABLE `contact_replies` (
   `id` int(10) UNSIGNED NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text NOT NULL,
   `contact_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -250,14 +366,14 @@ CREATE TABLE `contact_replies` (
 
 CREATE TABLE `countries` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nationality` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(120) NOT NULL,
+  `nationality` varchar(120) DEFAULT NULL,
   `order` tinyint(4) NOT NULL DEFAULT 0,
   `is_default` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `code` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `code` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -274,10 +390,10 @@ INSERT INTO `countries` (`id`, `name`, `nationality`, `order`, `is_default`, `st
 --
 
 CREATE TABLE `countries_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `countries_id` int(11) NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nationality` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(120) DEFAULT NULL,
+  `nationality` varchar(120) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -288,7 +404,7 @@ CREATE TABLE `countries_translations` (
 
 CREATE TABLE `dashboard_widgets` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -321,7 +437,7 @@ INSERT INTO `dashboard_widgets` (`id`, `name`, `created_at`, `updated_at`) VALUE
 
 CREATE TABLE `dashboard_widget_settings` (
   `id` int(10) UNSIGNED NOT NULL,
-  `settings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `settings` text DEFAULT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `widget_id` int(10) UNSIGNED NOT NULL,
   `order` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
@@ -337,7 +453,7 @@ CREATE TABLE `dashboard_widget_settings` (
 INSERT INTO `dashboard_widget_settings` (`id`, `settings`, `user_id`, `widget_id`, `order`, `status`, `created_at`, `updated_at`) VALUES
 (1, NULL, 1, 7, 100, 0, '2019-11-26 02:40:58', '2023-03-06 10:43:18'),
 (2, '{\"state\":\"expand\"}', 1, 5, 1, 1, '2019-11-26 02:40:58', '2022-12-05 14:01:45'),
-(3, NULL, 1, 6, 0, 1, '2019-11-26 02:40:58', '2022-12-05 14:11:23'),
+(3, '{\"state\":\"expand\"}', 1, 6, 0, 1, '2019-11-26 02:40:58', '2025-02-25 16:31:20'),
 (4, NULL, 1, 8, 103, 0, '2019-11-26 02:40:58', '2023-03-06 10:43:10'),
 (5, NULL, 1, 9, 104, 0, '2019-11-26 02:40:58', '2023-03-06 10:43:10'),
 (6, NULL, 1, 10, 105, 0, '2019-11-26 02:40:58', '2023-03-06 10:43:10'),
@@ -358,10 +474,10 @@ INSERT INTO `dashboard_widget_settings` (`id`, `settings`, `user_id`, `widget_id
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -373,8 +489,8 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(191) NOT NULL,
+  `payload` longtext NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
@@ -389,10 +505,10 @@ CREATE TABLE `jobs` (
 
 CREATE TABLE `languages` (
   `lang_id` int(10) UNSIGNED NOT NULL,
-  `lang_name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lang_locale` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lang_code` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lang_flag` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lang_name` varchar(120) NOT NULL,
+  `lang_locale` varchar(20) NOT NULL,
+  `lang_code` varchar(20) NOT NULL,
+  `lang_flag` varchar(20) DEFAULT NULL,
   `lang_is_default` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `lang_order` int(11) NOT NULL DEFAULT 0,
   `lang_is_rtl` tinyint(3) UNSIGNED NOT NULL DEFAULT 0
@@ -413,10 +529,10 @@ INSERT INTO `languages` (`lang_id`, `lang_name`, `lang_locale`, `lang_code`, `la
 
 CREATE TABLE `language_meta` (
   `lang_meta_id` int(10) UNSIGNED NOT NULL,
-  `lang_meta_code` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lang_meta_origin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_meta_code` text DEFAULT NULL,
+  `lang_meta_origin` varchar(255) NOT NULL,
   `reference_id` int(10) UNSIGNED NOT NULL,
-  `reference_type` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL
+  `reference_type` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -440,12 +556,12 @@ INSERT INTO `language_meta` (`lang_meta_id`, `lang_meta_code`, `lang_meta_origin
 CREATE TABLE `media_files` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `folder_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `mime_type` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mime_type` varchar(120) NOT NULL,
   `size` int(11) NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `url` varchar(255) NOT NULL,
+  `options` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -496,9 +612,6 @@ INSERT INTO `media_files` (`id`, `user_id`, `name`, `folder_id`, `mime_type`, `s
 (1521, 0, 'goldengatebridge-001', 84, 'image/jpeg', 371864, 'cities/goldengatebridge-001.jpg', '[]', '2021-12-09 21:25:41', '2021-12-09 21:25:41', NULL),
 (1522, 0, 'los-angeles-winter-2016', 84, 'image/jpeg', 254681, 'cities/los-angeles-winter-2016.jpg', '[]', '2021-12-09 21:25:41', '2021-12-09 21:25:41', NULL),
 (1523, 0, 'oaklandnightskylineandlakemerritt', 84, 'image/jpeg', 433073, 'cities/oaklandnightskylineandlakemerritt.jpg', '[]', '2021-12-09 21:25:41', '2021-12-09 21:25:41', NULL),
-(1524, 0, 'favicon', 85, 'image/png', 3110, 'logo/favicon.png', '[]', '2021-12-09 21:25:42', '2022-11-14 19:28:23', '2022-11-14 19:28:23'),
-(1525, 0, 'logo-white', 85, 'image/png', 18120, 'logo/logo-white.png', '[]', '2021-12-09 21:25:42', '2022-11-14 19:28:19', '2022-11-14 19:28:19'),
-(1526, 0, 'logo', 85, 'image/png', 23910, 'logo/logo.png', '[]', '2021-12-09 21:25:42', '2022-11-14 19:28:16', '2022-11-14 19:28:16'),
 (1527, 0, '1', 86, 'image/jpeg', 750839, 'projects/1.jpg', '[]', '2021-12-09 21:25:42', '2021-12-09 21:25:42', NULL),
 (1528, 0, '11', 86, 'image/jpeg', 1729433, 'projects/11.jpg', '[]', '2021-12-09 21:25:43', '2021-12-09 21:25:43', NULL),
 (1529, 0, '12', 86, 'image/jpeg', 942082, 'projects/12.jpg', '[]', '2021-12-09 21:25:43', '2021-12-09 21:25:43', NULL),
@@ -626,25 +739,18 @@ INSERT INTO `media_files` (`id`, `user_id`, `name`, `folder_id`, `mime_type`, `s
 (1651, 0, 't4', 87, 'image/jpeg', 77280, 'properties/t4.jpg', '[]', '2021-12-09 21:26:05', '2021-12-09 21:26:05', NULL),
 (1652, 0, 't5', 87, 'image/jpeg', 94036, 'properties/t5.jpg', '[]', '2021-12-09 21:26:05', '2021-12-09 21:26:05', NULL),
 (1653, 0, 'wp1a', 87, 'image/jpeg', 168494, 'properties/wp1a.jpg', '[]', '2021-12-09 21:26:05', '2021-12-09 21:26:05', NULL),
-(1654, 0, 'avatar', 88, 'image/jpeg', 151486, 'users/avatar.jpg', '[]', '2021-12-09 21:26:05', '2021-12-09 21:26:05', NULL),
 (1655, 1, 'aire2', 89, 'image/jpeg', 251018, 'aire2.jpg', '[]', '2022-07-04 19:11:14', '2022-07-04 19:11:14', NULL),
 (1656, 1, 'logo-siterapido5.fw', 85, 'image/png', 63709, 'logo/logo-siterapido5fw.png', '[]', '2022-07-05 19:00:30', '2022-07-05 19:00:30', NULL),
 (1657, 1, 'home3', 85, 'image/png', 13835, 'logo/home3.png', '[]', '2022-07-05 19:01:21', '2022-07-05 19:01:21', NULL),
 (1658, 1, '7caf838d6ac7593e792d7251c7577cba', 89, 'image/jpeg', 87642, '7caf838d6ac7593e792d7251c7577cba.jpg', '[]', '2022-07-05 19:07:49', '2022-07-05 19:07:49', NULL),
 (1659, 1, 'Design-sem-nome-1-698x393', 89, 'image/png', 595390, 'design-sem-nome-1-698x393.png', '[]', '2022-07-05 19:08:32', '2022-07-05 19:08:32', NULL),
-(1660, 1, 'Saopaulo_aerea_aeroportocumbica', 89, 'image/jpeg', 2894771, 'saopaulo-aerea-aeroportocumbica.jpg', '[]', '2022-07-05 19:09:54', '2022-07-05 19:10:15', '2022-07-05 19:10:15'),
 (1661, 1, 'EnWHOeORFaxrbHUvMlAxsnfrXOohbJtBXuaJrEWFSHxZlDHyAecClewUkXtaMwoV', 89, 'image/jpeg', 189018, 'enwhoeorfaxrbhuvmlaxsnfrxoohbjtbxuajrewfshxzldhyaecclewukxtamwov.jpg', '[]', '2022-07-05 19:10:51', '2022-07-05 19:10:51', NULL),
 (1662, 1, 'advogados_em_Osasco', 89, 'image/jpeg', 161720, 'advogados-em-osasco.jpg', '[]', '2022-07-05 19:11:33', '2022-07-05 19:11:33', NULL),
 (1663, 1, 'foto-micbr-apresentacao', 89, 'image/webp', 95116, 'foto-micbr-apresentacao.webp', '[]', '2022-07-05 19:12:20', '2022-07-05 19:12:20', NULL),
 (1664, 1, 'farialima', 1, 'image/jpeg', 94667, 'banner/farialima.jpg', '[]', '2022-07-20 09:47:48', '2022-07-20 09:47:48', NULL),
-(1665, 1, 'paulista-box-search', 1, 'image/jpeg', 196202, 'banner/paulista-box-search.jpg', '[]', '2022-07-20 18:56:30', '2022-07-20 18:57:21', '2022-07-20 18:57:21'),
-(1666, 1, 'paulista-box-search-1', 1, 'image/jpeg', 143960, 'banner/paulista-box-search-1.jpg', '[]', '2022-07-20 18:57:14', '2022-07-20 18:57:24', '2022-07-20 18:57:24'),
 (1667, 1, 'paulista-box-search-2', 1, 'image/jpeg', 143960, 'banner/paulista-box-search-2.jpg', '[]', '2022-07-20 18:57:29', '2022-07-20 18:57:29', NULL),
-(1668, 1, 'paulista-box-search2', 1, 'image/jpeg', 133001, 'banner/paulista-box-search2.jpg', '[]', '2022-07-20 19:07:10', '2022-07-20 19:12:14', '2022-07-20 19:12:14'),
 (1669, 1, 'cidade-noite-box-search2', 1, 'image/jpeg', 131392, 'banner/cidade-noite-box-search2.jpg', '[]', '2022-07-20 19:12:05', '2022-07-20 19:12:05', NULL),
 (1670, 1, 'logo-siterapido.fw', 85, 'image/png', 55738, 'logo/logo-siterapidofw.png', '[]', '2022-08-08 16:44:26', '2022-08-08 16:44:26', NULL),
-(1671, 1, 'logo-siterapido2.fw', 85, 'image/png', 75526, 'logo/logo-siterapido2fw.png', '[]', '2022-08-08 16:45:02', '2022-08-08 16:48:10', '2022-08-08 16:48:10'),
-(1672, 1, 'logo-siterapido.com.br-amarelo.fw', 85, 'image/png', 60053, 'logo/logo-siterapidocombr-amarelofw.png', '[]', '2022-08-08 16:48:04', '2022-08-08 16:48:41', '2022-08-08 16:48:41'),
 (1673, 1, 'logo-siterapido.com.br-amarelo.fw-1', 85, 'image/png', 57109, 'logo/logo-siterapidocombr-amarelofw-1.png', '[]', '2022-08-08 16:48:47', '2022-08-08 16:48:47', NULL),
 (1674, 1, 'logo-siterapido2.fw-1', 85, 'image/png', 75526, 'logo/logo-siterapido2fw-1.png', '[]', '2022-08-08 16:49:44', '2022-08-08 16:49:44', NULL),
 (1675, 1, 'logo-siterapido.com.br-vermelho.fw', 85, 'image/png', 53554, 'logo/logo-siterapidocombr-vermelhofw.png', '[]', '2022-08-08 16:52:49', '2022-08-08 16:52:49', NULL),
@@ -706,15 +812,42 @@ INSERT INTO `media_files` (`id`, `user_id`, `name`, `folder_id`, `mime_type`, `s
 (1731, 1, '3201-001_LIVING', 93, 'image/jpeg', 171674, 'empreendimentos/outros/3201-001-living.jpg', '[]', '2022-08-13 14:59:52', '2022-08-13 14:59:52', NULL),
 (1733, 1, 'logo-siterapido.com.br-vermelho.fw-1', 85, 'image/png', 53161, 'logo/logo-siterapidocombr-vermelhofw-1.png', '[]', '2022-11-08 19:52:48', '2022-11-08 19:52:48', NULL),
 (1734, 1, 'rocketship-2', 85, 'image/gif', 1563153, 'logo/rocketship-2.gif', '[]', '2022-11-08 19:53:27', '2022-11-08 19:53:27', NULL),
-(1735, 1, '1635773349', 80, 'image/jpeg', 22600, 'accounts/1635773349.jpg', '[]', '2022-11-14 13:51:31', '2022-11-14 13:51:45', '2022-11-14 13:51:45'),
-(1736, 1, 'works5', 80, 'image/jpeg', 1434, 'accounts/works5.jpg', '[]', '2022-11-14 13:51:57', '2022-11-14 13:52:03', '2022-11-14 13:52:03'),
 (1737, 1, 'business-person', 80, 'image/png', 96979, 'accounts/business-person.png', '[]', '2022-11-14 13:52:50', '2022-11-14 13:52:50', NULL),
-(1738, 1, 'people-matter-most', 80, 'image/png', 548779, 'accounts/people-matter-most.png', '[]', '2022-11-14 13:53:37', '2022-11-14 13:53:44', '2022-11-14 13:53:44'),
 (1739, 1, 'aaaasf', 80, 'image/jpeg', 17871, 'accounts/aaaasf.jpg', '[]', '2022-11-14 13:53:53', '2022-11-14 13:53:53', NULL),
 (1740, 1, 'code', 85, 'image/png', 10454, 'logo/code.png', '[]', '2022-11-14 19:30:17', '2022-11-14 19:30:17', NULL),
 (1741, 1, 'ico-mangistrade-2', 85, 'image/png', 41624, 'logo/ico-mangistrade-2.png', '[]', '2022-11-14 19:32:13', '2022-11-14 19:32:13', NULL),
-(1742, 1, 'logo-site-rapido.fw', 88, 'image/png', 450254, 'users/logo-site-rapidofw.png', '[]', '2022-11-30 12:20:11', '2022-11-30 12:20:11', NULL),
-(1743, 1, 'images', 90, 'image/jpeg', 7756, 'imoveis/images.jpg', '[]', '2023-03-30 18:10:47', '2023-03-30 18:10:47', NULL);
+(1743, 1, 'images', 90, 'image/jpeg', 7756, 'imoveis/images.jpg', '[]', '2023-03-30 18:10:47', '2023-03-30 18:10:47', NULL),
+(1744, 1, 'logo-branco-1', 85, 'image/png', 46752, 'logo/logo-branco-1.png', '[]', '2025-02-24 21:04:05', '2025-02-24 21:04:05', NULL),
+(1745, 1, 'LOGO PARA SITE RODRIGO LIMA', 85, 'image/png', 8680, 'logo/logo-para-site-rodrigo-lima.png', '[]', '2025-02-24 21:06:38', '2025-02-24 21:06:38', NULL),
+(1746, 1, 'ico site rodrigo lima', 85, 'image/png', 16195, 'logo/ico-site-rodrigo-lima.png', '[]', '2025-02-24 21:13:18', '2025-02-24 21:13:18', NULL),
+(1747, 1, '1666016706NyIzuQxjcU', 89, 'image/jpeg', 360471, 'imoveis-demo/1666016706nyizuqxjcu.jpg', '[]', '2025-02-24 21:28:40', '2025-02-24 21:28:40', NULL),
+(1748, 1, 'RODRIGO LIMA CORRETOR', 88, 'image/jpeg', 143805, 'users/rodrigo-lima-corretor.jpg', '[]', '2025-02-24 21:32:09', '2025-02-24 21:32:09', NULL),
+(1749, 1, 'RODRIGO LIMA CORRETOR-1', 88, 'image/jpeg', 143805, 'users/rodrigo-lima-corretor-1.jpg', '[]', '2025-02-24 21:42:02', '2025-02-24 21:42:02', NULL),
+(1750, 1, 'IMG-20240301-WA0026-720x680', 90, 'image/jpeg', 103068, 'imoveis/img-20240301-wa0026-720x680.jpg', '[]', '2025-02-24 22:11:54', '2025-02-24 22:11:54', NULL),
+(1753, 1, 'IMG-20240905-WA0031-1200x680', 90, 'image/jpeg', 138534, 'imoveis/img-20240905-wa0031-1200x680.jpg', '[]', '2025-02-24 22:11:55', '2025-02-24 22:11:55', NULL),
+(1769, 1, 'IMG-20240301-WA0026-720x680-1', 90, 'image/jpeg', 103068, 'imoveis/img-20240301-wa0026-720x680-1.jpg', '[]', '2025-02-24 22:20:01', '2025-02-24 22:20:01', NULL),
+(1770, 1, 'IMG-20240301-WA0027-720x680-2', 90, 'image/jpeg', 119391, 'imoveis/img-20240301-wa0027-720x680-2.jpg', '[]', '2025-02-24 22:20:02', '2025-02-24 22:20:02', NULL),
+(1771, 1, 'IMG-20240905-WA0032-1200x680-1', 90, 'image/jpeg', 103631, 'imoveis/img-20240905-wa0032-1200x680-1.jpg', '[]', '2025-02-24 22:20:03', '2025-02-24 22:20:03', NULL),
+(1772, 1, 'IMG-20240905-WA0031-1200x680-1', 90, 'image/jpeg', 138534, 'imoveis/img-20240905-wa0031-1200x680-1.jpg', '[]', '2025-02-24 22:20:04', '2025-02-24 22:20:04', NULL),
+(1773, 1, 'IMG-20240905-WA0030-1200x680-1', 90, 'image/jpeg', 118435, 'imoveis/img-20240905-wa0030-1200x680-1.jpg', '[]', '2025-02-24 22:20:05', '2025-02-24 22:20:05', NULL),
+(1774, 1, 'IMG-20240905-WA0029-1200x680-1', 90, 'image/jpeg', 69960, 'imoveis/img-20240905-wa0029-1200x680-1.jpg', '[]', '2025-02-24 22:20:06', '2025-02-24 22:20:06', NULL),
+(1775, 1, 'IMG-20240905-WA0028-1200x680-1', 90, 'image/jpeg', 60178, 'imoveis/img-20240905-wa0028-1200x680-1.jpg', '[]', '2025-02-24 22:20:07', '2025-02-24 22:20:07', NULL),
+(1776, 1, 'IMG-20240905-WA0027-1200x680-1', 90, 'image/jpeg', 63585, 'imoveis/img-20240905-wa0027-1200x680-1.jpg', '[]', '2025-02-24 22:20:08', '2025-02-24 22:20:08', NULL),
+(1777, 1, 'IMG-20240905-WA0026-1200x680-1', 90, 'image/jpeg', 75977, 'imoveis/img-20240905-wa0026-1200x680-1.jpg', '[]', '2025-02-24 22:20:09', '2025-02-24 22:20:09', NULL),
+(1778, 1, 'IMG-20240301-WA0036-1200x680-1', 90, 'image/jpeg', 193740, 'imoveis/img-20240301-wa0036-1200x680-1.jpg', '[]', '2025-02-24 22:20:10', '2025-02-24 22:20:10', NULL),
+(1779, 1, 'IMG-20240301-WA0035-1200x680-1', 90, 'image/jpeg', 208367, 'imoveis/img-20240301-wa0035-1200x680-1.jpg', '[]', '2025-02-24 22:20:11', '2025-02-24 22:20:11', NULL),
+(1780, 1, 'IMG-20240301-WA0034-901x680-1', 90, 'image/jpeg', 184518, 'imoveis/img-20240301-wa0034-901x680-1.jpg', '[]', '2025-02-24 22:20:12', '2025-02-24 22:20:12', NULL),
+(1781, 1, 'IMG-20240301-WA0033-1200x680-1', 90, 'image/jpeg', 123199, 'imoveis/img-20240301-wa0033-1200x680-1.jpg', '[]', '2025-02-24 22:20:13', '2025-02-24 22:20:13', NULL),
+(1782, 1, 'IMG-20240301-WA0032-901x680-1', 90, 'image/jpeg', 70281, 'imoveis/img-20240301-wa0032-901x680-1.jpg', '[]', '2025-02-24 22:20:14', '2025-02-24 22:20:14', NULL),
+(1783, 1, 'IMG-20240301-WA0031-901x680-1', 90, 'image/jpeg', 86543, 'imoveis/img-20240301-wa0031-901x680-1.jpg', '[]', '2025-02-24 22:20:15', '2025-02-24 22:20:15', NULL),
+(1784, 1, 'IMG-20240301-WA0030-1200x680-1', 90, 'image/jpeg', 75255, 'imoveis/img-20240301-wa0030-1200x680-1.jpg', '[]', '2025-02-24 22:20:15', '2025-02-24 22:20:15', NULL),
+(1786, 1, 'Design sem nome-1', 1, 'video/mp4', 2539356, 'banner/design-sem-nome-1.mp4', '[]', '2025-02-24 22:59:49', '2025-02-24 22:59:49', NULL),
+(1790, 1, 'Design sem nome (2)', 1, 'image/png', 1458229, 'banner/design-sem-nome-2.png', '[]', '2025-02-24 23:06:54', '2025-02-24 23:06:54', NULL),
+(1795, 1, 'siterodrigo', 1, 'image/gif', 100290727, 'banner/siterodrigo.gif', '[]', '2025-02-26 16:24:22', '2025-02-26 16:24:22', NULL),
+(1796, 1, 'Eubiose-logo', 80, 'image/png', 403340, 'accounts/eubiose-logo.png', '[]', '2025-02-26 17:04:47', '2025-02-26 17:04:47', NULL),
+(1797, 1, 'IMG-20250103-WA0021-1200x680', 80, 'image/jpeg', 104278, 'accounts/img-20250103-wa0021-1200x680.jpg', '[]', '2025-02-26 17:09:31', '2025-02-26 17:09:31', NULL),
+(1798, 1, 'IMG-20250103-WA0027-1200x680', 80, 'image/jpeg', 109324, 'accounts/img-20250103-wa0027-1200x680.jpg', '[]', '2025-02-26 17:09:32', '2025-02-26 17:09:32', NULL),
+(1799, 1, 'IMG-20250104-WA0020-1200x680', 80, 'image/jpeg', 101849, 'accounts/img-20250104-wa0020-1200x680.jpg', '[]', '2025-02-26 17:09:33', '2025-02-26 17:09:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -725,8 +858,8 @@ INSERT INTO `media_files` (`id`, `user_id`, `name`, `folder_id`, `mime_type`, `s
 CREATE TABLE `media_folders` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
   `parent_id` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -761,8 +894,8 @@ INSERT INTO `media_folders` (`id`, `user_id`, `name`, `slug`, `parent_id`, `crea
 
 CREATE TABLE `media_settings` (
   `id` int(10) UNSIGNED NOT NULL,
-  `key` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `key` varchar(120) NOT NULL,
+  `value` text DEFAULT NULL,
   `media_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -777,9 +910,9 @@ CREATE TABLE `media_settings` (
 
 CREATE TABLE `menus` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `name` varchar(120) NOT NULL,
+  `slug` varchar(120) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -803,7 +936,7 @@ INSERT INTO `menus` (`id`, `name`, `slug`, `status`, `created_at`, `updated_at`)
 CREATE TABLE `menu_locations` (
   `id` int(10) UNSIGNED NOT NULL,
   `menu_id` int(10) UNSIGNED NOT NULL,
-  `location` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(120) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -827,13 +960,13 @@ CREATE TABLE `menu_nodes` (
   `menu_id` int(10) UNSIGNED NOT NULL,
   `parent_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `reference_id` int(10) UNSIGNED DEFAULT 0,
-  `reference_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `url` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `icon_font` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reference_type` varchar(255) DEFAULT NULL,
+  `url` varchar(120) DEFAULT NULL,
+  `icon_font` varchar(50) DEFAULT NULL,
   `position` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `title` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `css_class` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `target` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '_self',
+  `title` varchar(120) DEFAULT NULL,
+  `css_class` varchar(120) DEFAULT NULL,
+  `target` varchar(20) NOT NULL DEFAULT '_self',
   `has_child` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -872,9 +1005,9 @@ INSERT INTO `menu_nodes` (`id`, `menu_id`, `parent_id`, `reference_id`, `referen
 CREATE TABLE `meta_boxes` (
   `id` int(10) UNSIGNED NOT NULL,
   `reference_id` int(10) UNSIGNED NOT NULL,
-  `meta_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `meta_value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_type` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_key` varchar(255) NOT NULL,
+  `meta_value` text DEFAULT NULL,
+  `reference_type` varchar(120) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -974,7 +1107,9 @@ INSERT INTO `meta_boxes` (`id`, `reference_id`, `meta_key`, `meta_value`, `refer
 (148, 50, 'video', '[{\"url\":\"https:\\/\\/www.youtube.com\\/watch?v=2ABFuMGkp9k\"}]', 'Srapid\\RealEstate\\Models\\Property', '2022-08-18 18:05:16', '2022-08-18 18:05:16'),
 (149, 51, 'video', '[{\"url\":null}]', 'Srapid\\RealEstate\\Models\\Property', '2022-08-18 18:07:06', '2022-08-18 18:07:06'),
 (150, 52, 'video', '[{\"url\":null}]', 'Srapid\\RealEstate\\Models\\Property', '2022-08-18 18:10:16', '2022-08-18 18:10:16'),
-(151, 53, 'video', '[{\"url\":\"https:\\/\\/www.youtube.com\\/watch?v=iaJZMMBtIyk\"}]', 'Srapid\\RealEstate\\Models\\Property', '2023-03-30 18:14:03', '2023-03-30 18:14:03');
+(151, 53, 'video', '[{\"url\":\"https:\\/\\/www.youtube.com\\/watch?v=iaJZMMBtIyk\"}]', 'Srapid\\RealEstate\\Models\\Property', '2023-03-30 18:14:03', '2023-03-30 18:14:03'),
+(152, 54, 'video', '[{\"url\":null}]', 'Srapid\\RealEstate\\Models\\Property', '2025-02-24 22:15:11', '2025-02-24 22:15:11'),
+(153, 55, 'video', '[{\"url\":null}]', 'Srapid\\RealEstate\\Models\\Property', '2025-02-26 17:10:24', '2025-02-26 17:10:24');
 
 -- --------------------------------------------------------
 
@@ -984,7 +1119,7 @@ INSERT INTO `meta_boxes` (`id`, `reference_id`, `meta_key`, `meta_value`, `refer
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1119,9 +1254,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `newsletters` (
   `id` int(10) UNSIGNED NOT NULL,
-  `email` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'subscribed',
+  `email` varchar(120) NOT NULL,
+  `name` varchar(120) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'subscribed',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1136,9 +1271,9 @@ CREATE TABLE `notes` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `reference_id` int(10) UNSIGNED NOT NULL,
-  `reference_type` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reference_type` varchar(120) NOT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
-  `note` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1150,11 +1285,11 @@ CREATE TABLE `notes` (
 --
 
 CREATE TABLE `oauth_access_tokens` (
-  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(100) NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `client_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `scopes` text DEFAULT NULL,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1168,10 +1303,10 @@ CREATE TABLE `oauth_access_tokens` (
 --
 
 CREATE TABLE `oauth_auth_codes` (
-  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(100) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `client_id` int(10) UNSIGNED NOT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text DEFAULT NULL,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1185,15 +1320,15 @@ CREATE TABLE `oauth_auth_codes` (
 CREATE TABLE `oauth_clients` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `secret` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `secret` varchar(100) DEFAULT NULL,
+  `redirect` text NOT NULL,
   `personal_access_client` tinyint(1) NOT NULL,
   `password_client` tinyint(1) NOT NULL,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `provider` varchar(191) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1216,8 +1351,8 @@ CREATE TABLE `oauth_personal_access_clients` (
 --
 
 CREATE TABLE `oauth_refresh_tokens` (
-  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(100) NOT NULL,
+  `access_token_id` varchar(100) NOT NULL,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1230,14 +1365,14 @@ CREATE TABLE `oauth_refresh_tokens` (
 
 CREATE TABLE `pages` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `content` longtext NOT NULL,
   `user_id` int(11) NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `template` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `template` varchar(60) DEFAULT NULL,
   `is_featured` tinyint(4) NOT NULL DEFAULT 0,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `description` varchar(400) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1247,10 +1382,10 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`id`, `name`, `content`, `user_id`, `image`, `template`, `is_featured`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Home', '<shortcode class=\"bb-shortcode\">[featured-projects][/featured-projects]</shortcode><shortcode class=\"bb-shortcode\">[youtube-video]https://www.youtube.com/watch?v=Ch_4C36HGR8[/youtube-video]</shortcode><shortcode class=\"bb-shortcode\">[properties-for-sale][/properties-for-sale]</shortcode><shortcode class=\"bb-shortcode\">[properties-for-rent][/properties-for-rent]</shortcode><shortcode class=\"bb-shortcode\">[recently-viewed-properties title=\"Imóveis Visto Recentemente\"][/recently-viewed-properties]</shortcode><shortcode class=\"bb-shortcode\">[latest-news][/latest-news]</shortcode><p>&nbsp;</p>', 1, NULL, 'homepage', 0, NULL, 'published', '2021-12-09 21:25:35', '2022-12-05 10:27:38'),
+(1, 'Home', '<shortcode class=\"bb-shortcode\">[featured-projects][/featured-projects]</shortcode><shortcode class=\"bb-shortcode\">[youtube-video]https://www.youtube.com/watch?v=xMZG20TLci0[/youtube-video]</shortcode><shortcode class=\"bb-shortcode\">[properties-for-sale][/properties-for-sale]</shortcode><shortcode class=\"bb-shortcode\">[properties-for-rent][/properties-for-rent]</shortcode><shortcode class=\"bb-shortcode\">[recently-viewed-properties title=\"Imóveis Visto Recentemente\"][/recently-viewed-properties]</shortcode><shortcode class=\"bb-shortcode\">[latest-news][/latest-news]</shortcode><p>&nbsp;</p>', 1, NULL, 'homepage', 0, NULL, 'published', '2021-12-09 21:25:35', '2025-02-24 21:46:39'),
 (2, 'Blog', '<p>---</p>', 1, NULL, 'default', 0, NULL, 'published', '2021-12-09 21:25:35', '2022-12-05 10:28:05'),
 (3, 'Sobre Nós', '<p>Nosso principal objetivo é a satisfação do cliente, atendendo com perfeição às suas necessidades.Possuímos uma equipe treinada e atualizada, proporcionando o mais alto nível de eficiência técnica.</p><p>O principal diferencial da imobiliária está em sua visão empresarial, adquirida no mundo corporativo que foi transferida e implementada à empresa, para que além do “know how” técnico possa ser garantida uma gestão profissional, dinâmica, moderna e com foco no desejo do cliente.</p><p>Utilizamos as mais modernas ferramentas disponíveis no mercado para controle de banco de dados de imóveis, proprietários, vendedores, compradores, fiadores, bem como geração de relatórios financeiros, gerenciais, análises de risco, dentre outros.</p><p>Com uma postura inovadora acredita numa parceria sólida, com uma visão de médio e longo prazo, formando a base para um relacionamento cujos benefícios sejam mútuos. Para isso vem por meio desta oferecer um serviço de assessoria imobiliária embasada numa inovadora assessoria periódica que visa um atendimento pleno e completo de suas necessidades.</p>', 1, NULL, 'default', 0, 'Nosso principal objetivo é a satisfação do cliente, atendendo com perfeição às suas necessidades.Possuímos uma equipe treinada e atualizada, proporcionando o mais alto nível de eficiência técnica.', 'published', '2021-12-09 21:25:35', '2022-07-04 20:03:37'),
-(4, 'Contato', '<shortcode class=\"bb-shortcode\">[contact-form][/contact-form]</shortcode><p><br>&nbsp;</p><h3>Direções</h3><shortcode class=\"bb-shortcode\">[google-map]Av. Paulista, 300, Bela Vista, São Paulo, SP[/google-map]</shortcode><p>&nbsp;</p>', 1, NULL, 'default', 0, NULL, 'published', '2021-12-09 21:25:35', '2022-08-22 19:21:11'),
+(4, 'Contato', '<shortcode class=\"bb-shortcode\">[contact-form][/contact-form]</shortcode><p><br>&nbsp;</p><h3>Direções</h3><shortcode class=\"bb-shortcode\">[google-map]Rua XV de Novembro, 289, Centro, São Lourenço MG, 37470-000, Brasil[/google-map]</shortcode><p>&nbsp;</p>', 1, 'users/rodrigo-lima-corretor.jpg', 'default', 0, NULL, 'published', '2021-12-09 21:25:35', '2025-02-24 21:32:16'),
 (5, 'Termos e Condições', '<p>O acesso e uso do site da Imobiliária está sujeito aos seguintes termos, condições e leis relevantes do Brasil.</p><p><strong>1. Direitos autorais</strong></p><p>Os direitos autorais e outros direitos de propriedade intelectual de todos os textos, imagens, áudios, softwares e outros conteúdos deste site são de propriedade da Imobiliaria e suas afiliadas. Os usuários estão autorizados a visualizar o conteúdo do site, citar o conteúdo por impressão, baixar o disco rígido e distribuí-lo a terceiros para fins não comerciais, fornecendo informações ou para fins pessoais. Qualquer conteúdo deste site não pode ser usado para venda ou distribuição com fins lucrativos, nem pode ser editado ou incluído em qualquer outra publicação ou site.</p><p><strong>2. Conteúdo</strong></p><p>As informações neste site são compiladas com grande confiança, mas apenas para fins de pesquisa de informações gerais. Embora nos esforcemos para manter informações atualizadas e precisas, não fazemos representações ou garantias de qualquer maneira em relação à integridade, precisão, confiabilidade, adequação ou disponibilidade em relação ao site ou informações relacionadas, produtos, serviços ou imagens dentro do site para qualquer propósito.</p><p>A Imobiliária e seus funcionários, gerentes e agentes não são responsáveis ​​por quaisquer perdas, danos ou despesas incorridas como resultado do acesso e uso deste site e dos sites. A web está conectada a ela, incluindo, mas não se limitando a, lucros cessantes, perdas diretas ou indiretas. Também não somos responsáveis, ou solidariamente, se o site estiver temporariamente inacessível devido a problemas técnicos fora de nosso controle. Quaisquer comentários, sugestões, imagens, ideias e outras informações ou materiais que os usuários nos enviarem por meio deste site se tornarão nossa propriedade exclusiva, incluindo o direito de surgir no futuro associado a nós.</p><p><strong>3. Observação sobre sites conectados</strong></p><p>Em muitos pontos do site, os usuários podem obter links para outros sites relacionados a um aspecto específico. Isso não significa que estamos relacionados aos sites ou empresas proprietárias desses sites. Embora pretendamos conectar usuários a sites de interesse, não somos responsáveis ​​ou co-responsáveis ​​por nossos funcionários, gerentes ou representantes. com outros sites e informações neles contidas.</p>', 1, NULL, 'default', 0, 'Os direitos autorais e outros direitos de propriedade intelectual de todos os textos, imagens, áudios, softwares e outros conteúdos deste site são de propriedade da Flex Home e suas afiliadas. Os usuários estão autorizados a visualizar o conteúdo do site, citar o conteúdo imprimindo, baixando o disco rígido e distribuindo-o a outros para fins não comerciais.', 'published', '2021-12-09 21:25:35', '2022-07-04 20:01:32'),
 (6, 'Política de Cookies', '<p><strong>Consentimento de cookies</strong></p><p>Para usar este site, estamos usando cookies e coletando alguns dados. Para estar em conformidade com o GDPR da UE, damos a você a opção de nos permitir usar determinados cookies e coletar alguns dados.</p><p><strong>Dados essenciais</strong></p><p>Os Dados Essenciais são necessários para executar tecnicamente o Site que você está visitando. Você não pode desativá-los.</p><p>- Cookie de Sessão: PHP usa um Cookie para identificar as sessões do usuário. Sem este Cookie o Site não funciona.</p><p>- XSRF-Token Cookie: O Laravel gera automaticamente um \"token\" CSRF para cada sessão de usuário ativa gerenciada pela aplicação. Esse token é usado para verificar se o usuário autenticado é quem realmente está fazendo as solicitações ao aplicativo.</p>', 1, NULL, 'default', 0, NULL, 'published', '2021-12-09 21:25:35', '2022-07-04 19:46:16');
 
@@ -1261,11 +1396,11 @@ INSERT INTO `pages` (`id`, `name`, `content`, `user_id`, `image`, `template`, `i
 --
 
 CREATE TABLE `pages_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `pages_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `content` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1275,8 +1410,8 @@ CREATE TABLE `pages_translations` (
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1289,21 +1424,21 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `payments` (
   `id` int(10) UNSIGNED NOT NULL,
   `amount` decimal(15,2) UNSIGNED NOT NULL,
-  `currency` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `currency` varchar(120) DEFAULT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `charge_id` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_channel` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `charge_id` varchar(60) DEFAULT NULL,
+  `payment_channel` varchar(60) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `order_id` int(10) UNSIGNED DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
-  `payment_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'confirm',
+  `status` varchar(60) DEFAULT 'pending',
+  `payment_type` varchar(191) DEFAULT 'confirm',
   `customer_id` int(10) UNSIGNED DEFAULT NULL,
   `refunded_amount` decimal(15,2) UNSIGNED DEFAULT NULL,
-  `refund_note` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customer_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `metadata` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `refund_note` varchar(255) DEFAULT NULL,
+  `customer_type` varchar(255) DEFAULT NULL,
+  `metadata` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1314,16 +1449,16 @@ CREATE TABLE `payments` (
 
 CREATE TABLE `posts` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `name` varchar(255) NOT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `author_id` int(11) NOT NULL,
-  `author_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
+  `author_type` varchar(255) NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
   `is_featured` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `views` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `format_type` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `format_type` varchar(30) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1333,18 +1468,18 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `name`, `description`, `content`, `status`, `author_id`, `author_type`, `is_featured`, `image`, `views`, `format_type`, `created_at`, `updated_at`) VALUES
-(105, 'Renovação de Banheiros Antiquados', 'Renovação de Banheiros Antiquados', '<p>Renovação de Banheiros Antiquados</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/1.jpg', 2481, NULL, '2022-12-05 21:25:40', '2023-03-02 19:55:29'),
-(106, 'Principais estratégias de otimização de mecanismos de busca!', 'Quo veniam distinctio qui provident dolorem. Nulla veniam a nostrum optio odio sit nihil distinctio. Quae est tempora qui aperiam. Animi vitae ea qui saepe nihil.', '<p>texto</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/2.jpg', 435, NULL, '2022-12-05 21:25:40', '2023-03-02 19:55:18'),
-(107, 'Qual empresa você escolheria?', 'Ut quod dolorum et modi. At quae ratione quos facere. Molestiae expedita ratione vitae ut ratione. Officia et blanditiis tempore ullam dolores autem quis.', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/3.jpg', 2387, NULL, '2022-12-05 21:25:40', '2022-08-25 17:28:53'),
-(108, 'Truques de vendas de revendedores de carros usados expostos', 'Ab itaque eaque quisquam ut dolor quia nobis maxime. Ex reiciendis unde cum voluptatem quisquam ducimus. Sed numquam sit harum qui culpa nihil tempore. Laboriosam occaecati eligendi praesentium.', '<p>texto</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/4.jpg', 899, NULL, '2022-12-05 21:25:40', '2023-03-02 19:55:11'),
-(109, '20 maneiras de construções ecológicas e baratas', '20 maneiras de construções ecológicas e baratas', '<p>There seemed to Alice severely. \'What are tarts made of?\' Alice asked in a bit.\' \'Perhaps it doesn\'t matter much,\' thought Alice, \'they\'re sure to do so. \'Shall we try another figure of the words a little, half expecting to see what was on the stairs. Alice knew it was all finished, the Owl, as a boon, Was kindly permitted to pocket the spoon: While the Owl and the poor child, \'for I can\'t be civil, you\'d better finish the story for yourself.\' \'No, please go on!\' Alice said to a day-school, too,\' said Alice; \'living at the Gryphon said, in a voice outside, and stopped to listen. \'Mary Ann! Mary Ann!\' said the Gryphon. \'Of course,\' the Gryphon added \'Come, let\'s try Geography. London is the use of this was her turn or not. \'Oh, PLEASE mind what you\'re doing!\' cried Alice, with a smile. There was a good opportunity for making her escape; so she tried to look over their slates; \'but it sounds uncommon nonsense.\' Alice said with a round face, and large eyes like a tunnel for some time.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/4.jpg\" alt=\"4.jpg\"></p><p>I only wish people knew that: then they wouldn\'t be so kind,\' Alice replied, rather shyly, \'I--I hardly know, sir, just at first, perhaps,\' said the Pigeon had finished. \'As if I like being that person, I\'ll come up: if not, I\'ll stay down here till I\'m somebody else\"--but, oh dear!\' cried Alice (she was obliged to say when I learn music.\' \'Ah! that accounts for it,\' said the Mock Turtle with a soldier on each side to guard him; and near the centre of the way to hear his history. I must sugar.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/7.jpg\" alt=\"7.jpg\"></p><p>Dormouse again, so violently, that she was to find her in a day did you manage to do that,\' said the Duchess: \'and the moral of that is--\"Be what you were me?\' \'Well, perhaps you were all writing very busily on slates. \'What are they doing?\' Alice whispered to the general conclusion, that wherever you go on? It\'s by far the most curious thing I ever saw in another moment down went Alice after it, never once considering how in the kitchen that did not like to have it explained,\' said the Caterpillar. \'Not QUITE right, I\'m afraid,\' said Alice, who felt ready to agree to everything that Alice had not attended to this mouse? Everything is so out-of-the-way down here, and I\'m sure I have to go through next walking about at the top of the bread-and-butter. Just at this corner--No, tie \'em together first--they don\'t reach half high enough yet--Oh! they\'ll do next! If they had been found and handed them round as prizes. There was a very little use without my shoulders. Oh, how I wish I could.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/13.jpg\" alt=\"13.jpg\"></p><p>When the sands are all dry, he is gay as a last resource, she put one arm out of breath, and said nothing. \'Perhaps it hasn\'t one,\' Alice ventured to ask. \'Suppose we change the subject of conversation. \'Are you--are you fond--of--of dogs?\' The Mouse gave a little bit, and said anxiously to herself, \'after such a new kind of thing never happened, and now here I am very tired of being such a dear quiet thing,\' Alice went on saying to herself, \'Which way? Which way?\', holding her hand on the top of his pocket, and was going to happen next. First, she tried to say it over) \'--yes, that\'s about the whiting!\' \'Oh, as to prevent its undoing itself,) she carried it out to the jury, in a furious passion, and went to the door. \'Call the next witness.\' And he got up and walking off to other parts of the court. All this time with great emphasis, looking hard at Alice the moment she appeared on the Duchess\'s knee, while plates and dishes crashed around it--once more the shriek of the pack, she.</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/5.jpg', 1427, NULL, '2022-12-05 21:25:40', '2022-08-25 18:51:38'),
-(110, 'O melhor dos condomínios e os segredos escondidos', 'O melhor dos condomínios e os segredos escondidos', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/6.jpg', 1566, NULL, '2022-12-05 21:25:40', '2022-08-25 18:53:04'),
-(111, 'A decoração do ambiente deve ser feito por um profissional', 'A decoração do ambiente deve ser feito por um profissional', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/7.jpg', 241, NULL, '2022-12-05 21:25:40', '2022-08-25 18:50:33'),
-(112, 'Cantos bem definidos dão um charme e sobriedade a construção', 'Consequatur asperiores quod similique voluptatem omnis consequuntur est. Quibusdam voluptatum et delectus sed. Aut ut ab id ut quibusdam. Deserunt delectus inventore quasi cumque et.', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/8.jpg', 254, NULL, '2022-12-05 21:25:40', '2022-08-25 18:49:11'),
-(113, 'Como alguns detalhes pode fazer toda a diferença', 'Qui velit tempore odio non laboriosam. Est odio eos vel porro est atque. Et ad quod in nesciunt autem molestiae aut. Doloremque non in dolores rerum soluta at totam aut.', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/9.jpg', 926, NULL, '2022-12-05 21:25:40', '2022-08-25 18:48:10'),
-(114, '10 razões para abusar do Branco na sua casa', 'Facilis voluptas cumque vitae minus. Aut repellendus qui nisi unde voluptatem et quam itaque. Optio aut voluptatem velit non maxime quo quis. Quos id ut quo inventore.', '<p>texto aqui</p><p>&nbsp;</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 0, 'news/10.jpg', 1900, NULL, '2022-12-05 21:25:40', '2022-08-25 17:30:39'),
-(115, 'Como o minimalismo pode ajudar você a economizar e manter o ambiente organizado', 'Como o minimalismo pode ajudar você a economizar e manter o ambiente organizado', '<p>As soon as there was mouth enough for it to speak first, \'why your cat grins like that?\' \'It\'s a pun!\' the King said, turning to Alice, and she went on without attending to her; \'but those serpents! There\'s no pleasing them!\' Alice was a queer-shaped little creature, and held it out into the book her sister on the Duchess\'s knee, while plates and dishes crashed around it--once more the pig-baby was sneezing and howling alternately without a grin,\' thought Alice; \'I must be removed,\' said the March Hare took the regular course.\' \'What was THAT like?\' said Alice. \'Exactly so,\' said the King. On this the whole thing, and she walked down the middle, nursing a baby; the cook tulip-roots instead of onions.\' Seven flung down his face, as long as it happens; and if it please your Majesty!\' the Duchess to play with, and oh! ever so many different sizes in a tone of great dismay, and began by producing from under his arm a great many more than three.\' \'Your hair wants cutting,\' said the Mock.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/4.jpg\" alt=\"4.jpg\"></p><p>I beg your pardon!\' she exclaimed in a hoarse growl, \'the world would go round a deal faster than it does.\' \'Which would NOT be an old crab, HE was.\' \'I never heard it say to itself, half to herself, as well as if a dish or kettle had been found and handed them round as prizes. There was a little pattering of feet in the way the people that walk with their fur clinging close to her, And mentioned me to sell you a song?\' \'Oh, a song, please, if the Mock Turtle Soup is made from,\' said the.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/6.jpg\" alt=\"6.jpg\"></p><p>Mock Turtle. \'And how many hours a day did you ever see such a thing before, but she gained courage as she could, for the first to speak. \'What size do you call it purring, not growling,\' said Alice. \'Who\'s making personal remarks now?\' the Hatter were having tea at it: a Dormouse was sitting on a summer day: The Knave shook his grey locks, \'I kept all my life!\' She had not noticed before, and he checked himself suddenly: the others looked round also, and all the while, and fighting for the immediate adoption of more energetic remedies--\' \'Speak Portugues!\' said the Queen. \'I never could abide figures!\' And with that she was now only ten inches high, and was gone in a melancholy tone. \'Nobody seems to be a person of authority among them, called out, \'Sit down, all of them can explain it,\' said Alice, \'how am I to get through the little glass table. \'Now, I\'ll manage better this time,\' she said to herself, and began an account of the court,\" and I don\'t want to be?\' it asked. \'Oh, I\'m.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/14.jpg\" alt=\"14.jpg\"></p><p>I\'m never sure what I\'m going to leave off this minute!\' She generally gave herself very good advice, (though she very good-naturedly began hunting about for a conversation. \'You don\'t know one,\' said Alice. \'Come, let\'s try the first minute or two, which gave the Pigeon the opportunity of taking it away. She did it so quickly that the Queen of Hearts, and I had to be managed? I suppose Dinah\'ll be sending me on messages next!\' And she squeezed herself up on to the jury, of course--\"I GAVE HER ONE, THEY GAVE HIM TWO--\" why, that must be getting somewhere near the looking-glass. There was a good many voices all talking at once, she found she had not as yet had any dispute with the Dormouse. \'Write that down,\' the King eagerly, and he called the Queen, and in THAT direction,\' waving the other ladder?--Why, I hadn\'t begun my tea--not above a week or so--and what with the birds hurried off at once crowded round her once more, while the rest of the evening, beautiful Soup! \'Beautiful.</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 0, 'news/11.jpg', 504, NULL, '2022-12-05 21:25:40', '2022-08-25 18:54:06'),
-(116, '5 maneiras de redecorar a sua cozinha gastando menos de um salário minimo', '5 maneiras de redecorar a sua cozinha gastando menos de um salário minimo', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 0, 'news/12.jpg', 2417, NULL, '2022-12-05 21:25:40', '2022-08-25 18:54:48');
+(105, 'Renovação de Banheiros Antiquados', 'Renovação de Banheiros Antiquados', '<p>Renovação de Banheiros Antiquados</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/1.jpg', 2484, NULL, '2022-12-05 21:25:40', '2025-02-27 02:01:53'),
+(106, 'Principais estratégias de otimização de mecanismos de busca!', 'Quo veniam distinctio qui provident dolorem. Nulla veniam a nostrum optio odio sit nihil distinctio. Quae est tempora qui aperiam. Animi vitae ea qui saepe nihil.', '<p>texto</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/2.jpg', 439, NULL, '2022-12-05 21:25:40', '2025-02-27 05:43:42'),
+(107, 'Qual empresa você escolheria?', 'Ut quod dolorum et modi. At quae ratione quos facere. Molestiae expedita ratione vitae ut ratione. Officia et blanditiis tempore ullam dolores autem quis.', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/3.jpg', 2389, NULL, '2022-12-05 21:25:40', '2025-02-27 01:50:52'),
+(108, 'Truques de vendas de revendedores de carros usados expostos', 'Ab itaque eaque quisquam ut dolor quia nobis maxime. Ex reiciendis unde cum voluptatem quisquam ducimus. Sed numquam sit harum qui culpa nihil tempore. Laboriosam occaecati eligendi praesentium.', '<p>texto</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/4.jpg', 901, NULL, '2022-12-05 21:25:40', '2025-02-27 01:23:40'),
+(109, '20 maneiras de construções ecológicas e baratas', '20 maneiras de construções ecológicas e baratas', '<p>There seemed to Alice severely. \'What are tarts made of?\' Alice asked in a bit.\' \'Perhaps it doesn\'t matter much,\' thought Alice, \'they\'re sure to do so. \'Shall we try another figure of the words a little, half expecting to see what was on the stairs. Alice knew it was all finished, the Owl, as a boon, Was kindly permitted to pocket the spoon: While the Owl and the poor child, \'for I can\'t be civil, you\'d better finish the story for yourself.\' \'No, please go on!\' Alice said to a day-school, too,\' said Alice; \'living at the Gryphon said, in a voice outside, and stopped to listen. \'Mary Ann! Mary Ann!\' said the Gryphon. \'Of course,\' the Gryphon added \'Come, let\'s try Geography. London is the use of this was her turn or not. \'Oh, PLEASE mind what you\'re doing!\' cried Alice, with a smile. There was a good opportunity for making her escape; so she tried to look over their slates; \'but it sounds uncommon nonsense.\' Alice said with a round face, and large eyes like a tunnel for some time.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/4.jpg\" alt=\"4.jpg\"></p><p>I only wish people knew that: then they wouldn\'t be so kind,\' Alice replied, rather shyly, \'I--I hardly know, sir, just at first, perhaps,\' said the Pigeon had finished. \'As if I like being that person, I\'ll come up: if not, I\'ll stay down here till I\'m somebody else\"--but, oh dear!\' cried Alice (she was obliged to say when I learn music.\' \'Ah! that accounts for it,\' said the Mock Turtle with a soldier on each side to guard him; and near the centre of the way to hear his history. I must sugar.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/7.jpg\" alt=\"7.jpg\"></p><p>Dormouse again, so violently, that she was to find her in a day did you manage to do that,\' said the Duchess: \'and the moral of that is--\"Be what you were me?\' \'Well, perhaps you were all writing very busily on slates. \'What are they doing?\' Alice whispered to the general conclusion, that wherever you go on? It\'s by far the most curious thing I ever saw in another moment down went Alice after it, never once considering how in the kitchen that did not like to have it explained,\' said the Caterpillar. \'Not QUITE right, I\'m afraid,\' said Alice, who felt ready to agree to everything that Alice had not attended to this mouse? Everything is so out-of-the-way down here, and I\'m sure I have to go through next walking about at the top of the bread-and-butter. Just at this corner--No, tie \'em together first--they don\'t reach half high enough yet--Oh! they\'ll do next! If they had been found and handed them round as prizes. There was a very little use without my shoulders. Oh, how I wish I could.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/13.jpg\" alt=\"13.jpg\"></p><p>When the sands are all dry, he is gay as a last resource, she put one arm out of breath, and said nothing. \'Perhaps it hasn\'t one,\' Alice ventured to ask. \'Suppose we change the subject of conversation. \'Are you--are you fond--of--of dogs?\' The Mouse gave a little bit, and said anxiously to herself, \'after such a new kind of thing never happened, and now here I am very tired of being such a dear quiet thing,\' Alice went on saying to herself, \'Which way? Which way?\', holding her hand on the top of his pocket, and was going to happen next. First, she tried to say it over) \'--yes, that\'s about the whiting!\' \'Oh, as to prevent its undoing itself,) she carried it out to the jury, in a furious passion, and went to the door. \'Call the next witness.\' And he got up and walking off to other parts of the court. All this time with great emphasis, looking hard at Alice the moment she appeared on the Duchess\'s knee, while plates and dishes crashed around it--once more the shriek of the pack, she.</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/5.jpg', 1428, NULL, '2022-12-05 21:25:40', '2025-02-26 02:37:05'),
+(110, 'O melhor dos condomínios e os segredos escondidos', 'O melhor dos condomínios e os segredos escondidos', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/6.jpg', 1567, NULL, '2022-12-05 21:25:40', '2025-02-26 02:33:19'),
+(111, 'A decoração do ambiente deve ser feito por um profissional', 'A decoração do ambiente deve ser feito por um profissional', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/7.jpg', 242, NULL, '2022-12-05 21:25:40', '2025-02-26 02:33:41'),
+(112, 'Cantos bem definidos dão um charme e sobriedade a construção', 'Consequatur asperiores quod similique voluptatem omnis consequuntur est. Quibusdam voluptatum et delectus sed. Aut ut ab id ut quibusdam. Deserunt delectus inventore quasi cumque et.', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/8.jpg', 257, NULL, '2022-12-05 21:25:40', '2025-02-27 06:31:55'),
+(113, 'Como alguns detalhes pode fazer toda a diferença', 'Qui velit tempore odio non laboriosam. Est odio eos vel porro est atque. Et ad quod in nesciunt autem molestiae aut. Doloremque non in dolores rerum soluta at totam aut.', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 1, 'news/9.jpg', 927, NULL, '2022-12-05 21:25:40', '2025-02-26 02:39:07'),
+(114, '10 razões para abusar do Branco na sua casa', 'Facilis voluptas cumque vitae minus. Aut repellendus qui nisi unde voluptatem et quam itaque. Optio aut voluptatem velit non maxime quo quis. Quos id ut quo inventore.', '<p>texto aqui</p><p>&nbsp;</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 0, 'news/10.jpg', 1901, NULL, '2022-12-05 21:25:40', '2025-02-26 02:28:40'),
+(115, 'Como o minimalismo pode ajudar você a economizar e manter o ambiente organizado', 'Como o minimalismo pode ajudar você a economizar e manter o ambiente organizado', '<p>As soon as there was mouth enough for it to speak first, \'why your cat grins like that?\' \'It\'s a pun!\' the King said, turning to Alice, and she went on without attending to her; \'but those serpents! There\'s no pleasing them!\' Alice was a queer-shaped little creature, and held it out into the book her sister on the Duchess\'s knee, while plates and dishes crashed around it--once more the pig-baby was sneezing and howling alternately without a grin,\' thought Alice; \'I must be removed,\' said the March Hare took the regular course.\' \'What was THAT like?\' said Alice. \'Exactly so,\' said the King. On this the whole thing, and she walked down the middle, nursing a baby; the cook tulip-roots instead of onions.\' Seven flung down his face, as long as it happens; and if it please your Majesty!\' the Duchess to play with, and oh! ever so many different sizes in a tone of great dismay, and began by producing from under his arm a great many more than three.\' \'Your hair wants cutting,\' said the Mock.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/4.jpg\" alt=\"4.jpg\"></p><p>I beg your pardon!\' she exclaimed in a hoarse growl, \'the world would go round a deal faster than it does.\' \'Which would NOT be an old crab, HE was.\' \'I never heard it say to itself, half to herself, as well as if a dish or kettle had been found and handed them round as prizes. There was a little pattering of feet in the way the people that walk with their fur clinging close to her, And mentioned me to sell you a song?\' \'Oh, a song, please, if the Mock Turtle Soup is made from,\' said the.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/6.jpg\" alt=\"6.jpg\"></p><p>Mock Turtle. \'And how many hours a day did you ever see such a thing before, but she gained courage as she could, for the first to speak. \'What size do you call it purring, not growling,\' said Alice. \'Who\'s making personal remarks now?\' the Hatter were having tea at it: a Dormouse was sitting on a summer day: The Knave shook his grey locks, \'I kept all my life!\' She had not noticed before, and he checked himself suddenly: the others looked round also, and all the while, and fighting for the immediate adoption of more energetic remedies--\' \'Speak Portugues!\' said the Queen. \'I never could abide figures!\' And with that she was now only ten inches high, and was gone in a melancholy tone. \'Nobody seems to be a person of authority among them, called out, \'Sit down, all of them can explain it,\' said Alice, \'how am I to get through the little glass table. \'Now, I\'ll manage better this time,\' she said to herself, and began an account of the court,\" and I don\'t want to be?\' it asked. \'Oh, I\'m.</p><p class=\"text-center\"><img src=\"http://site-rapido.test/storage/news/14.jpg\" alt=\"14.jpg\"></p><p>I\'m never sure what I\'m going to leave off this minute!\' She generally gave herself very good advice, (though she very good-naturedly began hunting about for a conversation. \'You don\'t know one,\' said Alice. \'Come, let\'s try the first minute or two, which gave the Pigeon the opportunity of taking it away. She did it so quickly that the Queen of Hearts, and I had to be managed? I suppose Dinah\'ll be sending me on messages next!\' And she squeezed herself up on to the jury, of course--\"I GAVE HER ONE, THEY GAVE HIM TWO--\" why, that must be getting somewhere near the looking-glass. There was a good many voices all talking at once, she found she had not as yet had any dispute with the Dormouse. \'Write that down,\' the King eagerly, and he called the Queen, and in THAT direction,\' waving the other ladder?--Why, I hadn\'t begun my tea--not above a week or so--and what with the birds hurried off at once crowded round her once more, while the rest of the evening, beautiful Soup! \'Beautiful.</p>', 'published', 1, 'Srapid\\ACL\\Models\\User', 0, 'news/11.jpg', 505, NULL, '2022-12-05 21:25:40', '2025-02-26 02:32:45'),
+(116, '5 maneiras de redecorar a sua cozinha gastando menos de um salário minimo', '5 maneiras de redecorar a sua cozinha gastando menos de um salário minimo', NULL, 'published', 1, 'Srapid\\ACL\\Models\\User', 0, 'news/12.jpg', 2418, NULL, '2022-12-05 21:25:40', '2025-02-26 02:32:56');
 
 -- --------------------------------------------------------
 
@@ -1353,11 +1488,11 @@ INSERT INTO `posts` (`id`, `name`, `description`, `content`, `status`, `author_i
 --
 
 CREATE TABLE `posts_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `posts_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `content` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1824,12 +1959,12 @@ INSERT INTO `post_tags` (`id`, `tag_id`, `post_id`) VALUES
 
 CREATE TABLE `revisions` (
   `id` int(10) UNSIGNED NOT NULL,
-  `revisionable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revisionable_type` varchar(255) NOT NULL,
   `revisionable_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `old_value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `new_value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `key` varchar(255) NOT NULL,
+  `old_value` text DEFAULT NULL,
+  `new_value` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1875,7 +2010,8 @@ INSERT INTO `revisions` (`id`, `revisionable_type`, `revisionable_id`, `user_id`
 (34, 'Srapid\\Blog\\Models\\Post', 116, 1, 'description', 'Ducimus eligendi et laborum magnam quia sequi aspernatur. Repellendus ut sapiente odio laborum. Explicabo voluptas laudantium tenetur unde tenetur soluta.', '5 maneiras de redecorar a sua cozinha gastando menos de um salário minimo', '2022-08-25 18:54:48', '2022-08-25 18:54:48'),
 (35, 'Srapid\\Page\\Models\\Page', 1, 1, 'is_featured', '0', '1', '2022-12-05 10:27:26', '2022-12-05 10:27:26'),
 (36, 'Srapid\\Page\\Models\\Page', 1, 1, 'is_featured', '1', '0', '2022-12-05 10:27:38', '2022-12-05 10:27:38'),
-(37, 'Srapid\\Page\\Models\\Page', 2, 1, 'name', 'Notícias', 'Blog', '2022-12-05 10:28:05', '2022-12-05 10:28:05');
+(37, 'Srapid\\Page\\Models\\Page', 2, 1, 'name', 'Notícias', 'Blog', '2022-12-05 10:28:05', '2022-12-05 10:28:05'),
+(38, 'Srapid\\Page\\Models\\Page', 4, 1, 'image', NULL, 'users/rodrigo-lima-corretor.jpg', '2025-02-24 21:32:16', '2025-02-24 21:32:16');
 
 -- --------------------------------------------------------
 
@@ -1885,24 +2021,24 @@ INSERT INTO `revisions` (`id`, `revisionable_type`, `revisionable_id`, `user_id`
 
 CREATE TABLE `re_accounts` (
   `id` int(10) UNSIGNED NOT NULL,
-  `first_name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(120) NOT NULL,
+  `last_name` varchar(120) NOT NULL,
+  `description` text DEFAULT NULL,
+  `gender` varchar(20) DEFAULT NULL,
+  `email` varchar(191) NOT NULL,
+  `username` varchar(60) DEFAULT NULL,
+  `password` varchar(191) NOT NULL,
   `avatar_id` int(10) UNSIGNED DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `phone` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(25) DEFAULT NULL,
   `confirmed_at` datetime DEFAULT NULL,
-  `email_verify_token` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verify_token` varchar(120) DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `credits` int(10) UNSIGNED DEFAULT NULL,
   `is_featured` tinyint(1) NOT NULL DEFAULT 0,
-  `company` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `company` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1910,9 +2046,8 @@ CREATE TABLE `re_accounts` (
 --
 
 INSERT INTO `re_accounts` (`id`, `first_name`, `last_name`, `description`, `gender`, `email`, `username`, `password`, `avatar_id`, `dob`, `phone`, `confirmed_at`, `email_verify_token`, `remember_token`, `created_at`, `updated_at`, `credits`, `is_featured`, `company`) VALUES
-(1, 'Benjamin', 'Natan', 'Caterpillar took the hookah.', NULL, 'user@scriptphp.ru', 'natan', '$2y$10$8pHVU0.7Kaz9YB/bKPv8D.Bzahog0k2oiJcsnv4ki1p93hy5//TqW', 1739, '2022-11-14', '12997274876', '2021-12-10 04:25:30', NULL, NULL, '2021-12-09 21:25:30', '2022-11-14 13:54:45', 10, 1, 'Imobiária'),
-(12, 'Usuario', 'SiteRapido', NULL, 'male', 'user1@scriptphp.ru', 'user', '$2y$10$CYnfMUurc6yH7Wfdpdd.7en6Lie.WH3ozoRB0ujOFVM4Um5w3ztuy', 1724, NULL, '114000000000', '2022-08-09 20:04:07', NULL, NULL, '2022-08-09 20:04:07', '2022-08-09 20:25:41', 1, 0, NULL),
-(13, 'Joao', 'Jones', NULL, NULL, 'joao@scriptphp.ru', 'joao', '$2y$10$ym0yVTIldFfkT4fqY1dm8uYZCagIL2tx4pSRDeBRIN8JpAUzV3N0e', 1737, '2022-11-14', '12997274876', '2022-11-08 12:04:07', NULL, NULL, '2022-11-08 12:04:06', '2022-11-14 13:53:00', NULL, 0, NULL);
+(14, 'Rodrigo', 'Lima', NULL, NULL, 'contato@rodrigolimacorretor.com.br', 'rodrigolima', '$2y$10$.xGjg.6nJg7VOITAOXEbou14NxrPXetYtyndouTm1UJVvNC36wwQe', 1749, '2025-02-24', '(35) 98815-1468', '2025-02-24 21:55:50', NULL, NULL, '2025-02-24 21:55:50', '2025-02-24 21:55:50', NULL, 1, 'Rodrigo Lima Corretor'),
+(15, 'Leonardo', 'Nascimento', NULL, NULL, 'leocorax@gmail.com', 'leocorax', '$2y$10$FbSU.ast.9PP4AkTy3aP3u3dPETU8ia.mVCOn0fqVQL.gDRRCVLaK', 1796, NULL, '35991944831', '2025-02-26 17:04:06', NULL, NULL, '2025-02-26 17:03:16', '2025-02-26 17:12:51', 10, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1922,15 +2057,27 @@ INSERT INTO `re_accounts` (`id`, `first_name`, `last_name`, `description`, `gend
 
 CREATE TABLE `re_account_activity_logs` (
   `id` int(10) UNSIGNED NOT NULL,
-  `action` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ip_address` varchar(39) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `action` varchar(120) NOT NULL,
+  `user_agent` text DEFAULT NULL,
+  `reference_url` varchar(255) DEFAULT NULL,
+  `reference_name` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(39) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `account_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `re_account_activity_logs`
+--
+
+INSERT INTO `re_account_activity_logs` (`id`, `action`, `user_agent`, `reference_url`, `reference_name`, `ip_address`, `created_at`, `updated_at`, `account_id`) VALUES
+(6, 'changed_avatar', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '', NULL, '177.75.207.79', '2025-02-26 17:04:48', '2025-02-26 17:04:48', 15),
+(7, 'create_property', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '/account/properties/edit/55', 'Casa teste', '177.75.207.79', '2025-02-26 17:10:24', '2025-02-26 17:10:24', 15),
+(8, 'your_property_updated_by_admin', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '/account/properties/edit/55', 'Casa teste', '177.75.207.79', '2025-02-26 17:11:08', '2025-02-26 17:11:08', 15),
+(9, 'your_property_updated_by_admin', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '/account/properties/edit/55', 'Casa teste', '189.48.152.7', '2025-02-27 07:04:02', '2025-02-27 07:04:02', 15),
+(10, 'your_property_updated_by_admin', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '/account/properties/edit/55', 'Casa teste', '189.48.152.7', '2025-02-27 07:05:18', '2025-02-27 07:05:18', 15),
+(11, 'your_property_updated_by_admin', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '/account/properties/edit/55', 'Casa teste', '189.48.152.7', '2025-02-27 07:06:34', '2025-02-27 07:06:34', 15);
 
 -- --------------------------------------------------------
 
@@ -1951,7 +2098,8 @@ CREATE TABLE `re_account_packages` (
 --
 
 INSERT INTO `re_account_packages` (`id`, `package_id`, `created_at`, `updated_at`, `account_id`) VALUES
-(1, 1, NULL, NULL, 12);
+(1, 1, NULL, NULL, 12),
+(2, 1, NULL, NULL, 15);
 
 -- --------------------------------------------------------
 
@@ -1960,8 +2108,8 @@ INSERT INTO `re_account_packages` (`id`, `package_id`, `created_at`, `updated_at
 --
 
 CREATE TABLE `re_account_password_resets` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) NOT NULL,
+  `token` varchar(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1973,9 +2121,9 @@ CREATE TABLE `re_account_password_resets` (
 
 CREATE TABLE `re_categories` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `name` varchar(120) NOT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `order` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -2005,10 +2153,10 @@ INSERT INTO `re_categories` (`id`, `name`, `description`, `status`, `order`, `is
 --
 
 CREATE TABLE `re_categories_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `re_categories_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2019,16 +2167,44 @@ CREATE TABLE `re_categories_translations` (
 
 CREATE TABLE `re_consults` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `phone` varchar(60) NOT NULL,
   `project_id` int(10) UNSIGNED DEFAULT NULL,
   `property_id` int(10) UNSIGNED DEFAULT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unread',
+  `content` text DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'unread',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `re_crm`
+--
+
+CREATE TABLE `re_crm` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `content` text DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `lead_color` varchar(255) DEFAULT NULL,
+  `status` varchar(60) DEFAULT 'unread',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `re_crm`
+--
+
+INSERT INTO `re_crm` (`id`, `name`, `email`, `phone`, `content`, `category`, `lead_color`, `status`, `created_at`, `updated_at`) VALUES
+(15, 'Leonardo Carvalho Do Nascimento', 'leonardo@publicidadeja.com.br', '35991944831', 'Procura casa de 2 andares com garagem no bairro Vale dos pinheiros.', 'temporada', 'gray', 'unread', '2025-02-26 16:07:05', '2025-02-26 17:36:58'),
+(16, 'Juliana Rodrigues', 'juliana@publicidadeja.com.br', '35988430341', 'Casa 1 quarto sem garagem no centro.', 'terreno', 'red', 'unread', '2025-02-26 16:14:27', '2025-02-26 17:36:47'),
+(17, 'Publicidade Já Marketing Digital', 'admin@publicidadeja.com.br', '35991944831', 'Casa de dois quartos no Jardim Santa Maria.', 'apartamento', 'blue', 'unread', '2025-02-26 17:36:35', '2025-02-26 17:36:35');
 
 -- --------------------------------------------------------
 
@@ -2038,8 +2214,8 @@ CREATE TABLE `re_consults` (
 
 CREATE TABLE `re_currencies` (
   `id` int(10) UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `symbol` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `symbol` varchar(10) NOT NULL,
   `is_prefix_symbol` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `decimals` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `order` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -2064,9 +2240,9 @@ INSERT INTO `re_currencies` (`id`, `title`, `symbol`, `is_prefix_symbol`, `decim
 
 CREATE TABLE `re_facilities` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `name` varchar(120) NOT NULL,
+  `icon` varchar(60) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2098,8 +2274,8 @@ CREATE TABLE `re_facilities_distances` (
   `id` int(10) UNSIGNED NOT NULL,
   `facility_id` int(10) UNSIGNED NOT NULL,
   `reference_id` int(10) UNSIGNED NOT NULL,
-  `reference_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `distance` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '0.00'
+  `reference_type` varchar(255) NOT NULL,
+  `distance` varchar(255) DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2513,17 +2689,19 @@ INSERT INTO `re_facilities_distances` (`id`, `facility_id`, `reference_id`, `ref
 (7237, 4, 52, 'Srapid\\RealEstate\\Models\\Property', '0,3'),
 (7238, 8, 52, 'Srapid\\RealEstate\\Models\\Property', '0,1'),
 (7239, 3, 52, 'Srapid\\RealEstate\\Models\\Property', '0,5'),
-(7240, 1, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7241, 2, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7242, 3, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7243, 4, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7244, 5, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7245, 6, 53, 'Srapid\\RealEstate\\Models\\Property', '10'),
-(7246, 7, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7247, 8, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7248, 9, 53, 'Srapid\\RealEstate\\Models\\Property', '80'),
-(7249, 10, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
-(7250, 11, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100');
+(7251, 1, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7252, 2, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7253, 3, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7254, 4, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7255, 5, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7256, 6, 53, 'Srapid\\RealEstate\\Models\\Property', '10'),
+(7257, 7, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7258, 8, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7259, 9, 53, 'Srapid\\RealEstate\\Models\\Property', '80'),
+(7260, 10, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7261, 11, 53, 'Srapid\\RealEstate\\Models\\Property', '0,100'),
+(7272, 11, 55, 'Srapid\\RealEstate\\Models\\Property', '0'),
+(7273, 6, 55, 'Srapid\\RealEstate\\Models\\Property', '1');
 
 -- --------------------------------------------------------
 
@@ -2532,9 +2710,9 @@ INSERT INTO `re_facilities_distances` (`id`, `facility_id`, `reference_id`, `ref
 --
 
 CREATE TABLE `re_facilities_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `re_facilities_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2545,9 +2723,9 @@ CREATE TABLE `re_facilities_translations` (
 
 CREATE TABLE `re_features` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
-  `icon` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(120) NOT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
+  `icon` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2575,9 +2753,9 @@ INSERT INTO `re_features` (`id`, `name`, `status`, `icon`) VALUES
 --
 
 CREATE TABLE `re_features_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `re_features_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2606,47 +2784,11 @@ INSERT INTO `re_features_translations` (`lang_code`, `re_features_id`, `name`) V
 
 CREATE TABLE `re_investors` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `name` varchar(120) NOT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Extraindo dados da tabela `re_investors`
---
-
-INSERT INTO `re_investors` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'National Pension Service', 'published', '2019-11-18 01:16:23', '2019-11-18 01:16:23'),
-(2, 'Generali', 'published', '2019-11-18 01:16:47', '2019-11-18 01:16:47'),
-(3, 'Temasek', 'published', '2019-11-18 01:16:57', '2019-11-18 01:16:57'),
-(4, 'China Investment Corporation', 'published', '2019-11-18 01:17:11', '2019-11-18 01:17:11'),
-(5, 'Government Pension Fund Global', 'published', '2019-11-18 01:17:35', '2019-11-18 01:17:35'),
-(6, 'PSP Investments', 'published', '2019-11-18 01:17:47', '2019-11-18 01:17:47'),
-(7, 'MEAG Munich ERGO', 'published', '2019-11-18 01:17:57', '2019-11-18 01:17:57'),
-(8, 'HOOPP', 'published', '2019-11-18 01:18:08', '2019-11-18 01:18:08'),
-(9, 'BT Group', 'published', '2019-11-18 01:18:21', '2019-11-18 01:18:21'),
-(10, 'Ping An', 'published', '2019-11-18 01:18:32', '2019-11-18 01:18:32'),
-(11, 'New Jersey Division of Investment', 'published', '2019-11-18 01:18:45', '2019-11-18 01:18:45'),
-(12, 'New York City ERS', 'published', '2019-11-18 01:18:57', '2019-11-18 01:18:57'),
-(13, 'State Super', 'published', '2019-11-18 01:19:10', '2019-11-18 01:19:10'),
-(14, 'Shinkong', 'published', '2019-11-18 01:19:20', '2019-11-18 01:19:20'),
-(15, 'Rest Super', 'published', '2019-11-18 01:19:31', '2019-11-18 01:19:31'),
-(16, 'Rest Super', 'published', '2019-11-21 01:50:47', '2019-11-21 01:50:47'),
-(17, 'Shinkong', 'published', '2019-11-21 01:51:03', '2019-11-21 01:51:03'),
-(18, 'State Super', 'published', '2019-11-21 01:51:21', '2019-11-21 01:51:21'),
-(19, 'New York City ERS', 'published', '2019-11-21 01:51:33', '2019-11-21 01:51:33'),
-(20, 'New Jersey Division of Investment', 'published', '2019-11-21 01:51:51', '2019-11-21 01:51:51'),
-(21, 'Ping An', 'published', '2019-11-21 01:52:04', '2019-11-21 01:52:04'),
-(22, 'BT Group', 'published', '2019-11-21 01:52:16', '2019-11-21 01:52:16'),
-(23, 'HOOPP', 'published', '2019-11-21 01:52:28', '2019-11-21 01:52:28'),
-(24, 'MEAG Munich ERGO', 'published', '2019-11-21 01:52:47', '2019-11-21 01:52:47'),
-(25, 'PSP Investments', 'published', '2019-11-21 01:52:57', '2019-11-21 01:52:57'),
-(26, 'Government Pension Fund Global', 'published', '2019-11-21 01:53:18', '2019-11-21 01:53:18'),
-(27, 'China Investment Corporation', 'published', '2019-11-21 01:53:33', '2019-11-21 01:53:33'),
-(29, 'Temasek', 'published', '2019-11-21 01:53:48', '2019-11-21 01:53:48'),
-(30, 'Generali', 'published', '2019-11-21 01:54:01', '2019-11-21 01:54:01'),
-(31, 'National Pension Service', 'published', '2019-11-21 01:54:14', '2019-11-21 01:54:14');
 
 -- --------------------------------------------------------
 
@@ -2656,13 +2798,13 @@ INSERT INTO `re_investors` (`id`, `name`, `status`, `created_at`, `updated_at`) 
 
 CREATE TABLE `re_packages` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
   `price` double(15,2) UNSIGNED NOT NULL,
   `currency_id` int(10) UNSIGNED NOT NULL,
   `number_of_listings` int(10) UNSIGNED NOT NULL,
   `order` tinyint(4) NOT NULL DEFAULT 0,
   `is_default` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `percent_save` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -2686,29 +2828,29 @@ INSERT INTO `re_packages` (`id`, `name`, `price`, `currency_id`, `number_of_list
 
 CREATE TABLE `re_projects` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `images` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(300) NOT NULL,
+  `content` text DEFAULT NULL,
+  `images` text DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
   `number_block` smallint(5) UNSIGNED DEFAULT NULL,
   `number_floor` smallint(6) DEFAULT NULL,
   `number_flat` smallint(6) DEFAULT NULL,
   `is_featured` tinyint(1) NOT NULL DEFAULT 0,
   `date_finish` date DEFAULT NULL,
   `date_sell` date DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'selling',
+  `status` varchar(60) NOT NULL DEFAULT 'selling',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `investor_id` int(10) UNSIGNED NOT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL,
   `price_from` decimal(15,0) DEFAULT NULL,
   `price_to` decimal(15,0) DEFAULT NULL,
   `currency_id` int(10) UNSIGNED DEFAULT NULL,
   `city_id` int(10) UNSIGNED DEFAULT NULL,
   `author_id` int(11) DEFAULT NULL,
-  `author_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
-  `latitude` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `longitude` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `author_type` varchar(255) NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
+  `latitude` varchar(25) DEFAULT NULL,
+  `longitude` varchar(25) DEFAULT NULL,
   `views` int(10) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -2717,11 +2859,11 @@ CREATE TABLE `re_projects` (
 --
 
 INSERT INTO `re_projects` (`id`, `name`, `content`, `images`, `location`, `number_block`, `number_floor`, `number_flat`, `is_featured`, `date_finish`, `date_sell`, `status`, `created_at`, `updated_at`, `investor_id`, `description`, `price_from`, `price_to`, `currency_id`, `city_id`, `author_id`, `author_type`, `latitude`, `longitude`, `views`) VALUES
-(13, 'Loteamento New Orleans di Bragança Victorino', '<p>Condomínio completo.</p>', '{\"1\":\"empreendimentos\\/orleans\\/perspectiva-viva-mais-2-vista-geral-novo-horizonte-2.webp\",\"2\":\"empreendimentos\\/orleans\\/original-bf324fbaf45de6fceab53783a1c47659.jpeg\",\"3\":\"empreendimentos\\/orleans\\/original-47f9d302a48f226e4a05f127f9160360.jpeg\",\"4\":\"empreendimentos\\/orleans\\/is157999a714m0id-510860abea1dc27d9.jpg\"}', 'Rua Estados Unidos, 77, São Paulo, SP', 10, NULL, 10000, 1, '2022-08-10', '2022-08-10', 'selling', '2022-08-10 16:45:22', '2023-03-07 15:54:21', 0, 'O melhor loteamento da cidade!', '1000000', '5000000', 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 2),
-(14, 'Novo conceito de apartamentos por andar Av Paulista', '<p>Novo conceito de apartamentos por andar Av Paulista</p>', '{\"1\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\",\"2\":\"empreendimentos\\/outros\\/21.jpg\",\"3\":\"empreendimentos\\/outros\\/3201-001-living.jpg\",\"4\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\"}', 'Avenida Paulista, 400, São Paulo, SP', 10, 100, 100, 1, '2022-08-13', '2022-08-13', 'pre_sale', '2022-08-13 15:03:29', '2023-03-29 18:01:35', 0, 'Novo conceito de apartamentos por andar Av Paulista', '20000000', '50000000', 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 3),
-(15, 'Imóveis disponíveis na planta, um ótimo investimento retorno garantido!', '<p>Imóveis disponíveis na planta, um ótimo investimento retorno garantido!</p>', '{\"1\":\"empreendimentos\\/outros\\/21.jpg\",\"2\":\"empreendimentos\\/outros\\/3201-001-living.jpg\",\"3\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\"}', 'Avenida Engenheiro Luís Carlos Berrini, 700', NULL, NULL, NULL, 1, '2022-08-13', '2022-08-13', 'selling', '2022-08-13 15:05:54', '2023-03-29 18:01:35', 0, 'Imóveis disponíveis na planta, um ótimo investimento retorno garantido!', NULL, NULL, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 4),
-(16, 'Novo studio flat no coração financeiro de São Paulo', '<p>Novo studio flat no coração financeiro de São Paulo</p>', '{\"1\":\"empreendimentos\\/outros\\/3201-001-living.jpg\",\"2\":\"empreendimentos\\/outros\\/21.jpg\",\"3\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\"}', 'Av. São João, 800 - República, São Paulo - SP, 01036-100', NULL, NULL, NULL, 1, '2022-08-13', '2022-08-13', 'selling', '2022-08-13 15:08:21', '2023-03-30 18:07:20', 0, 'Novo studio flat no coração financeiro de São Paulo', NULL, NULL, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 8),
-(17, 'Nova Casa Pronta Para Venda', '<p>Nova Casa Pronta Para Venda</p>', '{\"1\":\"imoveis\\/modern-energy-efficient-house-fabricated-in-pennsylvania-and-transported-in-east-hampton-1.jpg\"}', 'Avenida Engenheiro Luís Carlos Berrini, 400', NULL, NULL, NULL, 1, '2022-08-15', '2022-08-15', 'selling', '2022-08-15 19:37:50', '2023-03-29 18:01:35', 0, 'Nova Casa Pronta Para Venda', '50000000', NULL, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 5);
+(13, 'Loteamento New Orleans di Bragança Victorino', '<p>Condomínio completo.</p>', '{\"1\":\"empreendimentos\\/orleans\\/perspectiva-viva-mais-2-vista-geral-novo-horizonte-2.webp\",\"2\":\"empreendimentos\\/orleans\\/original-bf324fbaf45de6fceab53783a1c47659.jpeg\",\"3\":\"empreendimentos\\/orleans\\/original-47f9d302a48f226e4a05f127f9160360.jpeg\",\"4\":\"empreendimentos\\/orleans\\/is157999a714m0id-510860abea1dc27d9.jpg\"}', 'Rua Estados Unidos, 77, São Paulo, SP', 10, NULL, 10000, 1, '2022-08-10', '2022-08-10', 'selling', '2022-08-10 16:45:22', '2025-02-26 02:42:05', 0, 'O melhor loteamento da cidade!', 1000000, 5000000, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 3),
+(14, 'Novo conceito de apartamentos por andar Av Paulista', '<p>Novo conceito de apartamentos por andar Av Paulista</p>', '{\"1\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\",\"2\":\"empreendimentos\\/outros\\/21.jpg\",\"3\":\"empreendimentos\\/outros\\/3201-001-living.jpg\",\"4\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\"}', 'Avenida Paulista, 400, São Paulo, SP', 10, 100, 100, 1, '2022-08-13', '2022-08-13', 'pre_sale', '2022-08-13 15:03:29', '2025-02-26 02:21:03', 0, 'Novo conceito de apartamentos por andar Av Paulista', 20000000, 50000000, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 5),
+(15, 'Imóveis disponíveis na planta, um ótimo investimento retorno garantido!', '<p>Imóveis disponíveis na planta, um ótimo investimento retorno garantido!</p>', '{\"1\":\"empreendimentos\\/outros\\/21.jpg\",\"2\":\"empreendimentos\\/outros\\/3201-001-living.jpg\",\"3\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\"}', 'Avenida Engenheiro Luís Carlos Berrini, 700', NULL, NULL, NULL, 1, '2022-08-13', '2022-08-13', 'selling', '2022-08-13 15:05:54', '2025-02-26 02:20:19', 0, 'Imóveis disponíveis na planta, um ótimo investimento retorno garantido!', NULL, NULL, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 6),
+(16, 'Novo studio flat no coração financeiro de São Paulo', '<p>Novo studio flat no coração financeiro de São Paulo</p>', '{\"1\":\"empreendimentos\\/outros\\/3201-001-living.jpg\",\"2\":\"empreendimentos\\/outros\\/21.jpg\",\"3\":\"empreendimentos\\/outros\\/6dc8e04bc263f983f0aaa98b2d227111.jpg\"}', 'Av. São João, 800 - República, São Paulo - SP, 01036-100', NULL, NULL, NULL, 1, '2022-08-13', '2022-08-13', 'selling', '2022-08-13 15:08:21', '2025-02-26 02:20:33', 0, 'Novo studio flat no coração financeiro de São Paulo', NULL, NULL, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 11),
+(17, 'Nova Casa Pronta Para Venda', '<p>Nova Casa Pronta Para Venda</p>', '{\"1\":\"imoveis\\/modern-energy-efficient-house-fabricated-in-pennsylvania-and-transported-in-east-hampton-1.jpg\"}', 'Avenida Engenheiro Luís Carlos Berrini, 400', NULL, NULL, NULL, 1, '2022-08-15', '2022-08-15', 'selling', '2022-08-15 19:37:50', '2025-02-26 02:45:32', 0, 'Nova Casa Pronta Para Venda', 50000000, NULL, 1, 1, NULL, 'Srapid\\ACL\\Models\\User', NULL, NULL, 8);
 
 -- --------------------------------------------------------
 
@@ -2730,12 +2872,12 @@ INSERT INTO `re_projects` (`id`, `name`, `content`, `images`, `location`, `numbe
 --
 
 CREATE TABLE `re_projects_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `re_projects_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2883,34 +3025,34 @@ INSERT INTO `re_project_features` (`project_id`, `feature_id`) VALUES
 
 CREATE TABLE `re_properties` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `images` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(300) NOT NULL,
+  `content` longtext DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `images` text DEFAULT NULL,
   `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `number_bedroom` smallint(5) UNSIGNED DEFAULT NULL,
   `number_bathroom` smallint(5) UNSIGNED DEFAULT NULL,
   `number_floor` smallint(5) UNSIGNED DEFAULT NULL,
   `square` int(11) DEFAULT NULL,
   `price` decimal(15,2) DEFAULT NULL,
-  `price_unit` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price_unit` varchar(120) DEFAULT NULL,
   `is_featured` tinyint(1) NOT NULL DEFAULT 0,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'selling',
+  `status` varchar(60) NOT NULL DEFAULT 'selling',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'sale',
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(20) NOT NULL DEFAULT 'sale',
+  `description` varchar(400) DEFAULT NULL,
   `currency_id` int(10) UNSIGNED DEFAULT NULL,
   `city_id` int(10) UNSIGNED DEFAULT NULL,
-  `period` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'month',
+  `period` varchar(30) NOT NULL DEFAULT 'month',
   `author_id` int(11) DEFAULT NULL,
-  `author_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
-  `moderation_status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `author_type` varchar(255) NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
+  `moderation_status` varchar(60) NOT NULL DEFAULT 'pending',
   `expire_date` date DEFAULT NULL,
   `auto_renew` tinyint(1) NOT NULL DEFAULT 0,
   `never_expired` tinyint(1) NOT NULL DEFAULT 0,
-  `latitude` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `longitude` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(25) DEFAULT NULL,
+  `longitude` varchar(25) DEFAULT NULL,
   `views` int(10) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -2919,24 +3061,26 @@ CREATE TABLE `re_properties` (
 --
 
 INSERT INTO `re_properties` (`id`, `name`, `content`, `location`, `images`, `project_id`, `number_bedroom`, `number_bathroom`, `number_floor`, `square`, `price`, `price_unit`, `is_featured`, `status`, `created_at`, `updated_at`, `type`, `description`, `currency_id`, `city_id`, `period`, `author_id`, `author_type`, `moderation_status`, `expire_date`, `auto_renew`, `never_expired`, `latitude`, `longitude`, `views`) VALUES
-(36, 'Apartamento Bem Localizado no Centro de São Paulo', '<p>Apartamento bem localizado no centro de são paulo, com 2 quartos, 1 suíte, 3 banheiros, 2 vagas de estacionamento, cozinha, sala, varanda, lavanderia, quarto de empregada.</p>', 'Av. São João, 700 - República, São Paulo - SP, 01036-100', '{\"1\":\"imoveis\\/tom-and-giseles-apartment-625669.jpg\",\"2\":\"imoveis\\/spectacular-penthouse-apartment1.jpg\",\"3\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\",\"4\":\"imoveis\\/a-vibrant-apartment-in-tribeca-09.jpg\"}', 0, 4, 3, 1, 1, '1800000.00', NULL, 1, 'selling', '2022-08-08 18:58:26', '2022-11-14 21:55:52', 'sale', 'Apartamento bem localizado no centro de são paulo, com 2 quartos, 1 suíte, 3 banheiros, 2 vagas de estacionamento, cozinha, sala, varanda, lavanderia, quarto de empregada.', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-22', 0, 1, NULL, NULL, 4),
-(37, 'Apartamento para alugar no coração da Berrini', '<p>Apartamento para alugar no coração da Berrini</p>', 'Avenida Engenheiro Luís Carlos Berrini, 500', '{\"1\":\"imoveis\\/image-2.jpg\",\"2\":\"imoveis\\/apt-man.jpg\",\"3\":\"imoveis\\/a-rede-de-hoteis-hyatt-esta-construindo-um-predio-residencial-de-alto-padrao-na-barra-da-tijuca-cada-apartamento-vai-custar-r-61124-milhoes-1383848342816-800x573.jpg\"}', 0, NULL, NULL, NULL, NULL, '9999990.00', NULL, 1, 'renting', '2022-08-10 18:10:40', '2022-08-10 18:11:40', 'rent', 'Apartamento para alugar no coração da Berrini', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-24', 0, 1, NULL, NULL, 0),
-(38, 'Casa à venda em bairro nobre da cidade', '<p>Casa à venda em bairro nobre da cidade</p>', 'Av. São João, 700 - República, São Paulo - SP, 01036-100', '{\"1\":\"imoveis\\/mansao.jpg\",\"2\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"3\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\",\"4\":\"imoveis\\/fotos-de-mansoes-1.jpg\"}', 0, 5, 5, 5, 5, '1200000.00', NULL, 1, 'selling', '2022-08-11 18:21:36', '2022-08-11 18:43:55', 'sale', 'Casa à venda em bairro nobre da cidade', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 1),
-(39, 'Linda casa com pscina nos jardins', '<p>Linda casa com pscina nos jardins</p>', 'Alameda Lorena, 1501 - Jardim Paulista', '{\"1\":\"imoveis\\/villa-2.jpg\",\"2\":\"imoveis\\/this-modern-forest-house-harmonizes-cutting-edge-lifestyle-with-the-nature-architecture-beast-08-featured-min.jpg\",\"3\":\"imoveis\\/si-modern-home.png\",\"4\":\"imoveis\\/modern-france-house-by-saota.jpg\",\"5\":\"imoveis\\/modern-house-tour-5519-lynbrook-4.jpg\"}', 0, NULL, NULL, NULL, NULL, '4000000.00', NULL, 1, 'selling', '2022-08-11 19:24:59', '2022-08-18 16:15:34', 'sale', 'Linda casa com pscina nos jardins', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 1),
-(40, 'Apartamento de luxo na Paulista', '<p>Apartamento de luxo na Paulista</p>', NULL, '{\"1\":\"imoveis\\/5319d11e672aa8357b71780fac1b4d24.jpg\",\"2\":\"imoveis\\/image-2.jpg\",\"3\":\"imoveis\\/asdsaasdimages.jpg\",\"4\":\"imoveis\\/apt-man.jpg\",\"5\":\"imoveis\\/apartamento-de-alto-padrao-9.jpg\"}', 0, NULL, NULL, NULL, NULL, '30000.00', NULL, 1, 'renting', '2022-08-11 19:27:14', '2022-08-11 19:27:35', 'rent', 'Apartamento de luxo na Paulista', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 0),
-(41, 'Casa vitoriana na Alamenda Santos', '<p>Casa vitoriana na Alamenda Santos</p>', 'Alameda Santos, 302, São Paulo, SP', '{\"1\":\"imoveis\\/mansao-fleur-de-lys-p.jpg\",\"2\":\"imoveis\\/mansao.jpg\",\"3\":\"imoveis\\/mansao-tambore.jpg\",\"4\":\"imoveis\\/manhattan-luxury-apartment.jpg\",\"5\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"6\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\"}', 0, NULL, NULL, NULL, NULL, '30000000.00', NULL, 1, 'selling', '2022-08-11 19:52:26', '2022-11-15 01:08:49', 'sale', 'Casa vitoriana na Alamenda Santos', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 2),
-(42, 'Apartamento na Pamplona', '<p>Apartamento na Pamplona</p>', 'R. Pamplona, 391 - São Paulo, SP', '{\"1\":\"imoveis\\/145-hudson-street-tribeca-manhattan-apartments-ny.jpg\",\"2\":\"imoveis\\/hero-image.jpg\",\"3\":\"imoveis\\/920x920.jpg\",\"4\":\"imoveis\\/edbf9a60bf1723677ca84be0a6cfca7e.jpg\",\"5\":\"imoveis\\/434e3304981f7dba55081aae0b6996ab-andy2.jpg\"}', 0, 4, 4, 100, 12, '40000000.00', NULL, 1, 'selling', '2022-08-13 15:10:41', '2022-08-13 15:11:01', 'sale', 'Apartamento na Pamplona', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-27', 0, 1, NULL, NULL, 0),
-(43, 'Casa nos mais tradicionais bairros da elite paulistana', '<p>Casa nos mais tradicionais bairros da elite paulistana</p>', 'Rua Estados Unidos, 78, São Paulo, SP', '{\"1\":\"imoveis\\/image.jpg\",\"2\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\",\"3\":\"imoveis\\/fotos-de-mansoes-1.jpg\",\"4\":\"imoveis\\/this-modern-forest-house-harmonizes-cutting-edge-lifestyle-with-the-nature-architecture-beast-08-featured-min.jpg\",\"5\":\"imoveis\\/modern-house-tour-5519-lynbrook-4.jpg\"}', 0, 10, 16, 4, NULL, '70000000.00', NULL, 1, 'selling', '2022-08-13 15:24:08', '2022-08-13 15:24:44', 'sale', 'Casa nos mais tradicionais bairros da elite paulistana', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-27', 0, 1, NULL, NULL, 0),
-(44, 'Linda Casa à Venda Em São Paulo', '<p>Linda Casa à Venda Em São Paulo</p>', 'Rua Estados Unidos, 100, São Paulo, SP', '{\"1\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"2\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\",\"3\":\"imoveis\\/image.jpg\",\"4\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\"}', 0, 10, 10, 4, NULL, '30000000.00', NULL, 1, 'selling', '2022-08-18 16:10:06', '2023-03-30 15:43:12', 'sale', 'Linda Casa à Venda Em São Paulo', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 3),
-(45, 'Casa Maravilhosa Chique e Linda, Oportunidade', '<p>Casa Maravilhosa Chique e Linda, Oportunidade</p>', 'Alameda Lorena, 1400 - Jardim Paulista, São Paulo, SP', '{\"1\":\"imoveis\\/mansao-morada-de-l-9df62.jpg\",\"2\":\"imoveis\\/mansao-tambore.jpg\",\"3\":\"imoveis\\/manhattan-luxury-apartment.jpg\",\"4\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"5\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\"}', 0, 11, 8, 3, NULL, '40000000.00', NULL, 1, 'selling', '2022-08-18 16:11:46', '2023-03-07 15:57:18', 'sale', 'Casa Maravilhosa Chique e Linda, Oportunidade', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 1),
-(46, 'Apartamento Studio no Centro Financeiro', '<p>Apartamento Studio no Centro Financeiro</p>', 'Av. Brg. Faria Lima, 350, São Paulo, SP', '{\"1\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\",\"2\":\"imoveis\\/5319d11e672aa8357b71780fac1b4d24.jpg\",\"3\":\"imoveis\\/image-2.jpg\",\"4\":\"imoveis\\/a-vibrant-apartment-in-tribeca-09.jpg\",\"5\":\"imoveis\\/a-rede-de-hoteis-hyatt-esta-construindo-um-predio-residencial-de-alto-padrao-na-barra-da-tijuca-cada-apartamento-vai-custar-r-61124-milhoes-1383848342816-800x573.jpg\",\"6\":\"imoveis\\/145-hudson-street-tribeca-manhattan-apartments-ny.jpg\"}', 0, NULL, NULL, NULL, NULL, '11000000.00', NULL, 1, 'selling', '2022-08-18 16:14:20', '2022-12-01 20:33:59', 'sale', 'Apartamento Studio no Centro Financeiro', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 2),
-(47, 'Casa para alugar no bairro mais badalado da cidade', '<p>Casa para alugar no bairro mais badalado da cidade</p>', 'Rua Aspicuelta, 567, Sâo Paulo, SP', '{\"1\":\"imoveis\\/asdimages.jpg\",\"2\":\"imoveis\\/a-rede-de-hoteis-hyatt-esta-construindo-um-predio-residencial-de-alto-padrao-na-barra-da-tijuca-cada-apartamento-vai-custar-r-61124-milhoes-1383848342816-800x573.jpg\",\"3\":\"imoveis\\/apartment-renovation-in-manhattan-by-suzanne-lovell-4.jpg\",\"4\":\"imoveis\\/apartamento-de-alto-padrao-9.jpg\",\"5\":\"imoveis\\/aire2.jpg\"}', 0, 10, 5, 2, NULL, '25000.00', NULL, 1, 'renting', '2022-08-18 16:19:33', '2022-08-18 16:38:23', 'rent', 'Casa para alugar no bairro mais badalado da cidade', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 0),
-(48, 'Apartamento Super Moderno Para Alugar Na Vila Madalena', '<p>Apartamento Super Moderno Para Alugar Na Vila Madalena</p>', 'Rua Fradique Coutinho, 34, Sâo Paulo, SP', '{\"1\":\"imoveis\\/tom-and-giseles-apartment-625669.jpg\",\"2\":\"imoveis\\/mansao-de-luxo-com-piscina-1.jpg\",\"3\":\"imoveis\\/mansao.jpg\",\"4\":\"imoveis\\/mansao-tambore.jpg\",\"5\":\"imoveis\\/manhattan-luxury-apartment.jpg\",\"6\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"7\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\"}', 0, 4, 3, 1, NULL, NULL, NULL, 1, 'renting', '2022-08-18 16:43:31', '2022-08-18 16:43:31', 'rent', 'Apartamento Super Moderno Para Alugar Na Vila Madalena', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 0),
-(49, 'Apartamento Para Alugar em Pinheiros, São Paulo, SP', '<p>Apartamento Para Alugar em Pinheiros, São Paulo, SP</p>', 'Rua Fradique Coutinho, 100, Sâo Paulo, SP', '{\"1\":\"imoveis\\/manhattan-luxury-apartment.jpg\"}', 0, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'selling', '2022-08-18 17:47:17', '2022-08-18 17:47:17', 'rent', 'Apartamento Para Alugar em Pinheiros, São Paulo, SP', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 0),
-(50, 'Apartamento Para Alugar em Sumaré, São Paulo, SP', '<p>Apartamento Para Alugar em Sumaré, São Paulo, SP</p>', 'R. Heitor Penteado, 477 - Sumarezinho', '{\"1\":\"imoveis\\/apartment-renovation-in-manhattan-by-suzanne-lovell-4.jpg\",\"2\":\"imoveis\\/apartamento-de-alto-padrao-9.jpg\",\"3\":\"imoveis\\/13120.jpg\",\"4\":\"imoveis\\/aire2.jpg\",\"5\":\"imoveis\\/5319d11e672aa8357b71780fac1b4d24.jpg\"}', 0, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'renting', '2022-08-18 18:05:16', '2022-12-03 21:08:33', 'rent', 'Apartamento Para Alugar em Sumaré, São Paulo, SP', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 1),
-(51, 'Apartamento Para Alugar em Cerqueira César, São Paulo, SP', '<p>Apartamento Para Alugar em Cerqueira César, São Paulo, SP</p>', 'Alameda Franca, 123 Cerqueira César, São Paulo, SP', '{\"1\":\"imoveis\\/145-hudson-street-tribeca-manhattan-apartments-ny.jpg\",\"2\":\"imoveis\\/1sas.jpg\",\"3\":\"imoveis\\/west-elevation.jpg\",\"4\":\"imoveis\\/villa-2.jpg\"}', 0, NULL, NULL, NULL, NULL, '15000.00', NULL, 1, 'renting', '2022-08-18 18:07:06', '2022-11-14 20:31:39', 'rent', 'Apartamento Para Alugar em Cerqueira César, São Paulo, SP', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 1),
-(52, 'Apartamento Para Alugar em Sumarezinho, São Paulo, SP', '<p>Apartamento Para Alugar em Sumarezinho, São Paulo, SP</p>', 'Rua Heitor Penteado, 1800, Sumarezinho, São Paulo, SP', '{\"1\":\"imoveis\\/spectacular-penthouse-apartment1.jpg\",\"2\":\"imoveis\\/mansao-de-luxo-com-piscina-1.jpg\",\"3\":\"imoveis\\/mansao.jpg\",\"4\":\"imoveis\\/mansao-tambore.jpg\",\"5\":\"imoveis\\/manhattan-luxury-apartment.jpg\"}', 0, 4, 2, 1, NULL, '10000.00', NULL, 1, 'renting', '2022-08-18 18:10:16', '2023-03-30 18:08:14', 'rent', 'Apartamento Para Alugar em Sumarezinho, São Paulo, SP.', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 1),
-(53, 'Casa nova e moderna, estilo americana', '<p>Casa nova e moderna, estilo americana</p>', 'Rua Estados Unidos, 777, São Paulo, SP', '{\"1\":\"imoveis\\/images.jpg\"}', 0, 5, 7, 2, 400, '5780000.00', NULL, 1, 'selling', '2023-03-30 18:14:03', '2023-03-30 18:14:25', 'sale', 'Casa nova e moderna, estilo americana', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2023-05-14', 0, 1, NULL, NULL, 1);
+(36, 'Apartamento Bem Localizado no Centro de São Paulo', '<p>Apartamento bem localizado no centro de são paulo, com 2 quartos, 1 suíte, 3 banheiros, 2 vagas de estacionamento, cozinha, sala, varanda, lavanderia, quarto de empregada.</p>', 'Av. São João, 700 - República, São Paulo - SP, 01036-100', '{\"1\":\"imoveis\\/tom-and-giseles-apartment-625669.jpg\",\"2\":\"imoveis\\/spectacular-penthouse-apartment1.jpg\",\"3\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\",\"4\":\"imoveis\\/a-vibrant-apartment-in-tribeca-09.jpg\"}', 0, 4, 3, 1, 1, 1800000.00, NULL, 1, 'selling', '2022-08-08 18:58:26', '2025-02-26 03:05:59', 'sale', 'Apartamento bem localizado no centro de são paulo, com 2 quartos, 1 suíte, 3 banheiros, 2 vagas de estacionamento, cozinha, sala, varanda, lavanderia, quarto de empregada.', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-22', 0, 1, NULL, NULL, 5),
+(37, 'Apartamento para alugar no coração da Berrini', '<p>Apartamento para alugar no coração da Berrini</p>', 'Avenida Engenheiro Luís Carlos Berrini, 500', '{\"1\":\"imoveis\\/image-2.jpg\",\"2\":\"imoveis\\/apt-man.jpg\",\"3\":\"imoveis\\/a-rede-de-hoteis-hyatt-esta-construindo-um-predio-residencial-de-alto-padrao-na-barra-da-tijuca-cada-apartamento-vai-custar-r-61124-milhoes-1383848342816-800x573.jpg\"}', 0, NULL, NULL, NULL, NULL, 9999990.00, NULL, 1, 'renting', '2022-08-10 18:10:40', '2025-02-27 04:12:24', 'rent', 'Apartamento para alugar no coração da Berrini', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-24', 0, 1, NULL, NULL, 2),
+(38, 'Casa à venda em bairro nobre da cidade', '<p>Casa à venda em bairro nobre da cidade</p>', 'Av. São João, 700 - República, São Paulo - SP, 01036-100', '{\"1\":\"imoveis\\/mansao.jpg\",\"2\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"3\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\",\"4\":\"imoveis\\/fotos-de-mansoes-1.jpg\"}', 0, 5, 5, 5, 5, 1200000.00, NULL, 1, 'selling', '2022-08-11 18:21:36', '2025-02-26 03:06:42', 'sale', 'Casa à venda em bairro nobre da cidade', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 2),
+(39, 'Linda casa com pscina nos jardins', '<p>Linda casa com pscina nos jardins</p>', 'Alameda Lorena, 1501 - Jardim Paulista', '{\"1\":\"imoveis\\/villa-2.jpg\",\"2\":\"imoveis\\/this-modern-forest-house-harmonizes-cutting-edge-lifestyle-with-the-nature-architecture-beast-08-featured-min.jpg\",\"3\":\"imoveis\\/si-modern-home.png\",\"4\":\"imoveis\\/modern-france-house-by-saota.jpg\",\"5\":\"imoveis\\/modern-house-tour-5519-lynbrook-4.jpg\"}', 0, NULL, NULL, NULL, NULL, 4000000.00, NULL, 1, 'selling', '2022-08-11 19:24:59', '2025-02-26 03:06:35', 'sale', 'Linda casa com pscina nos jardins', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 2),
+(40, 'Apartamento de luxo na Paulista', '<p>Apartamento de luxo na Paulista</p>', NULL, '{\"1\":\"imoveis\\/5319d11e672aa8357b71780fac1b4d24.jpg\",\"2\":\"imoveis\\/image-2.jpg\",\"3\":\"imoveis\\/asdsaasdimages.jpg\",\"4\":\"imoveis\\/apt-man.jpg\",\"5\":\"imoveis\\/apartamento-de-alto-padrao-9.jpg\"}', 0, NULL, NULL, NULL, NULL, 30000.00, NULL, 1, 'renting', '2022-08-11 19:27:14', '2025-02-26 03:06:50', 'rent', 'Apartamento de luxo na Paulista', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 1),
+(41, 'Casa vitoriana na Alamenda Santos', '<p>Casa vitoriana na Alamenda Santos</p>', 'Alameda Santos, 302, São Paulo, SP', '{\"1\":\"imoveis\\/mansao-fleur-de-lys-p.jpg\",\"2\":\"imoveis\\/mansao.jpg\",\"3\":\"imoveis\\/mansao-tambore.jpg\",\"4\":\"imoveis\\/manhattan-luxury-apartment.jpg\",\"5\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"6\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\"}', 0, NULL, NULL, NULL, NULL, 30000000.00, NULL, 1, 'selling', '2022-08-11 19:52:26', '2025-02-26 03:07:05', 'sale', 'Casa vitoriana na Alamenda Santos', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-25', 0, 1, NULL, NULL, 3),
+(42, 'Apartamento na Pamplona', '<p>Apartamento na Pamplona</p>', 'R. Pamplona, 391 - São Paulo, SP', '{\"1\":\"imoveis\\/145-hudson-street-tribeca-manhattan-apartments-ny.jpg\",\"2\":\"imoveis\\/hero-image.jpg\",\"3\":\"imoveis\\/920x920.jpg\",\"4\":\"imoveis\\/edbf9a60bf1723677ca84be0a6cfca7e.jpg\",\"5\":\"imoveis\\/434e3304981f7dba55081aae0b6996ab-andy2.jpg\"}', 0, 4, 4, 100, 12, 40000000.00, NULL, 1, 'selling', '2022-08-13 15:10:41', '2025-02-27 03:15:56', 'sale', 'Apartamento na Pamplona', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-27', 0, 1, NULL, NULL, 2),
+(43, 'Casa nos mais tradicionais bairros da elite paulistana', '<p>Casa nos mais tradicionais bairros da elite paulistana</p>', 'Rua Estados Unidos, 78, São Paulo, SP', '{\"1\":\"imoveis\\/image.jpg\",\"2\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\",\"3\":\"imoveis\\/fotos-de-mansoes-1.jpg\",\"4\":\"imoveis\\/this-modern-forest-house-harmonizes-cutting-edge-lifestyle-with-the-nature-architecture-beast-08-featured-min.jpg\",\"5\":\"imoveis\\/modern-house-tour-5519-lynbrook-4.jpg\"}', 0, 10, 16, 4, NULL, 70000000.00, NULL, 1, 'selling', '2022-08-13 15:24:08', '2025-02-27 02:29:49', 'sale', 'Casa nos mais tradicionais bairros da elite paulistana', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-09-27', 0, 1, NULL, NULL, 2),
+(44, 'Linda Casa à Venda Em São Paulo', '<p>Linda Casa à Venda Em São Paulo</p>', 'Rua Estados Unidos, 100, São Paulo, SP', '{\"1\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"2\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\",\"3\":\"imoveis\\/image.jpg\",\"4\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\"}', 0, 10, 10, 4, NULL, 30000000.00, NULL, 1, 'selling', '2022-08-18 16:10:06', '2025-02-26 02:40:05', 'sale', 'Linda Casa à Venda Em São Paulo', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 4),
+(45, 'Casa Maravilhosa Chique e Linda, Oportunidade', '<p>Casa Maravilhosa Chique e Linda, Oportunidade</p>', 'Alameda Lorena, 1400 - Jardim Paulista, São Paulo, SP', '{\"1\":\"imoveis\\/mansao-morada-de-l-9df62.jpg\",\"2\":\"imoveis\\/mansao-tambore.jpg\",\"3\":\"imoveis\\/manhattan-luxury-apartment.jpg\",\"4\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"5\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\"}', 0, 11, 8, 3, NULL, 40000000.00, NULL, 1, 'selling', '2022-08-18 16:11:46', '2025-02-26 02:39:41', 'sale', 'Casa Maravilhosa Chique e Linda, Oportunidade', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 2),
+(46, 'Apartamento Studio no Centro Financeiro', '<p>Apartamento Studio no Centro Financeiro</p>', 'Av. Brg. Faria Lima, 350, São Paulo, SP', '{\"1\":\"imoveis\\/dining-room-amazing-city-river-views-hudson-river-apartment-manhattan.jpg\",\"2\":\"imoveis\\/5319d11e672aa8357b71780fac1b4d24.jpg\",\"3\":\"imoveis\\/image-2.jpg\",\"4\":\"imoveis\\/a-vibrant-apartment-in-tribeca-09.jpg\",\"5\":\"imoveis\\/a-rede-de-hoteis-hyatt-esta-construindo-um-predio-residencial-de-alto-padrao-na-barra-da-tijuca-cada-apartamento-vai-custar-r-61124-milhoes-1383848342816-800x573.jpg\",\"6\":\"imoveis\\/145-hudson-street-tribeca-manhattan-apartments-ny.jpg\"}', 0, NULL, NULL, NULL, NULL, 11000000.00, NULL, 1, 'selling', '2022-08-18 16:14:20', '2025-02-26 02:45:14', 'sale', 'Apartamento Studio no Centro Financeiro', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 5),
+(47, 'Casa para alugar no bairro mais badalado da cidade', '<p>Casa para alugar no bairro mais badalado da cidade</p>', 'Rua Aspicuelta, 567, Sâo Paulo, SP', '{\"1\":\"imoveis\\/asdimages.jpg\",\"2\":\"imoveis\\/a-rede-de-hoteis-hyatt-esta-construindo-um-predio-residencial-de-alto-padrao-na-barra-da-tijuca-cada-apartamento-vai-custar-r-61124-milhoes-1383848342816-800x573.jpg\",\"3\":\"imoveis\\/apartment-renovation-in-manhattan-by-suzanne-lovell-4.jpg\",\"4\":\"imoveis\\/apartamento-de-alto-padrao-9.jpg\",\"5\":\"imoveis\\/aire2.jpg\"}', 0, 10, 5, 2, NULL, 25000.00, NULL, 1, 'renting', '2022-08-18 16:19:33', '2025-02-27 02:49:50', 'rent', 'Casa para alugar no bairro mais badalado da cidade', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 2),
+(48, 'Apartamento Super Moderno Para Alugar Na Vila Madalena', '<p>Apartamento Super Moderno Para Alugar Na Vila Madalena</p>', 'Rua Fradique Coutinho, 34, Sâo Paulo, SP', '{\"1\":\"imoveis\\/tom-and-giseles-apartment-625669.jpg\",\"2\":\"imoveis\\/mansao-de-luxo-com-piscina-1.jpg\",\"3\":\"imoveis\\/mansao.jpg\",\"4\":\"imoveis\\/mansao-tambore.jpg\",\"5\":\"imoveis\\/manhattan-luxury-apartment.jpg\",\"6\":\"imoveis\\/lombardia-villa-lusso-00.JPG\",\"7\":\"imoveis\\/luxo-imoveis-alphaville-4.jpg\"}', 0, 4, 3, 1, NULL, NULL, NULL, 1, 'renting', '2022-08-18 16:43:31', '2025-02-26 02:36:46', 'rent', 'Apartamento Super Moderno Para Alugar Na Vila Madalena', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 1),
+(49, 'Apartamento Para Alugar em Pinheiros, São Paulo, SP', '<p>Apartamento Para Alugar em Pinheiros, São Paulo, SP</p>', 'Rua Fradique Coutinho, 100, Sâo Paulo, SP', '{\"1\":\"imoveis\\/manhattan-luxury-apartment.jpg\"}', 0, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'selling', '2022-08-18 17:47:17', '2025-02-26 02:36:56', 'rent', 'Apartamento Para Alugar em Pinheiros, São Paulo, SP', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 1),
+(50, 'Apartamento Para Alugar em Sumaré, São Paulo, SP', '<p>Apartamento Para Alugar em Sumaré, São Paulo, SP</p>', 'R. Heitor Penteado, 477 - Sumarezinho', '{\"1\":\"imoveis\\/apartment-renovation-in-manhattan-by-suzanne-lovell-4.jpg\",\"2\":\"imoveis\\/apartamento-de-alto-padrao-9.jpg\",\"3\":\"imoveis\\/13120.jpg\",\"4\":\"imoveis\\/aire2.jpg\",\"5\":\"imoveis\\/5319d11e672aa8357b71780fac1b4d24.jpg\"}', 0, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'renting', '2022-08-18 18:05:16', '2025-02-26 02:39:24', 'rent', 'Apartamento Para Alugar em Sumaré, São Paulo, SP', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 2),
+(51, 'Apartamento Para Alugar em Cerqueira César, São Paulo, SP', '<p>Apartamento Para Alugar em Cerqueira César, São Paulo, SP</p>', 'Alameda Franca, 123 Cerqueira César, São Paulo, SP', '{\"1\":\"imoveis\\/145-hudson-street-tribeca-manhattan-apartments-ny.jpg\",\"2\":\"imoveis\\/1sas.jpg\",\"3\":\"imoveis\\/west-elevation.jpg\",\"4\":\"imoveis\\/villa-2.jpg\"}', 0, NULL, NULL, NULL, NULL, 15000.00, NULL, 1, 'renting', '2022-08-18 18:07:06', '2025-02-26 02:36:27', 'rent', 'Apartamento Para Alugar em Cerqueira César, São Paulo, SP', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 2),
+(52, 'Apartamento Para Alugar em Sumarezinho, São Paulo, SP', '<p>Apartamento Para Alugar em Sumarezinho, São Paulo, SP</p>', 'Rua Heitor Penteado, 1800, Sumarezinho, São Paulo, SP', '{\"1\":\"imoveis\\/spectacular-penthouse-apartment1.jpg\",\"2\":\"imoveis\\/mansao-de-luxo-com-piscina-1.jpg\",\"3\":\"imoveis\\/mansao.jpg\",\"4\":\"imoveis\\/mansao-tambore.jpg\",\"5\":\"imoveis\\/manhattan-luxury-apartment.jpg\"}', 0, 4, 2, 1, NULL, 10000.00, NULL, 1, 'renting', '2022-08-18 18:10:16', '2025-02-26 02:35:58', 'rent', 'Apartamento Para Alugar em Sumarezinho, São Paulo, SP.', 1, 1, 'day', NULL, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2022-10-02', 0, 1, NULL, NULL, 5),
+(53, 'Casa nova e moderna, estilo americana', '<p>Casa nova e moderna, estilo americana</p>', 'Rua Estados Unidos, 777, São Paulo, SP', '{\"1\":\"imoveis\\/images.jpg\"}', 0, 5, 7, 2, 400, 5780000.00, NULL, 1, 'selling', '2023-03-30 18:14:03', '2025-02-26 02:56:12', 'sale', 'Casa nova e moderna, estilo americana', 1, 1, 'day', 14, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2023-05-14', 0, 1, NULL, NULL, 3),
+(54, 'Linda chácara para venda', NULL, '37472-000, Carmo de Minas, Região Geográfica Imediata de São Lourenço, Região Geográfica Intermediária de Pouso Alegre, Minas Gerais, Região Sudeste, Brasil', '{\"1\":\"imoveis\\/img-20240301-wa0033-1200x680-1.jpg\",\"2\":\"imoveis\\/img-20240301-wa0031-901x680-1.jpg\",\"3\":\"imoveis\\/img-20240301-wa0030-1200x680-1.jpg\",\"4\":\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"5\":\"imoveis\\/img-20240301-wa0032-901x680-1.jpg\",\"6\":\"imoveis\\/img-20240301-wa0034-901x680-1.jpg\",\"7\":\"imoveis\\/img-20240301-wa0035-1200x680-1.jpg\",\"8\":\"imoveis\\/img-20240301-wa0036-1200x680-1.jpg\",\"9\":\"imoveis\\/img-20240905-wa0026-1200x680-1.jpg\",\"10\":\"imoveis\\/img-20240905-wa0027-1200x680-1.jpg\",\"11\":\"imoveis\\/img-20240905-wa0028-1200x680-1.jpg\",\"12\":\"imoveis\\/img-20240905-wa0029-1200x680-1.jpg\",\"13\":\"imoveis\\/img-20240905-wa0030-1200x680-1.jpg\",\"14\":\"imoveis\\/img-20240905-wa0031-1200x680-1.jpg\",\"15\":\"imoveis\\/img-20240905-wa0032-1200x680-1.jpg\",\"16\":\"imoveis\\/img-20240301-wa0027-720x680-2.jpg\",\"17\":\"imoveis\\/img-20240301-wa0026-720x680-1.jpg\",\"18\":\"imoveis\\/img-20240905-wa0031-1200x680.jpg\"}', 0, 2, 1, NULL, 3000, 400000000.00, NULL, 1, 'selling', '2025-02-24 22:15:11', '2025-02-27 02:09:49', 'sale', 'Linda chácara à venda no bairro dos Campos, há 15 minutos de São Lourenço.\r\n140 m² de área construída\r\nSala\r\nCozinha\r\n2 Quartos\r\nVaranda\r\nVaga de estacionamento\r\nTerreno com 3000m²,\r\nValor R$ 400.000,00.\r\nAceitamos propostas.', 1, 6, 'day', 14, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2025-04-10', 0, 1, NULL, NULL, 9),
+(55, 'Casa teste', '<p>Conteúdo do imóvel</p>', 'Rua av dom pedro II, 292', '{\"1\":\"accounts\\/img-20250103-wa0021-1200x680.jpg\",\"2\":\"accounts\\/img-20250103-wa0027-1200x680.jpg\",\"3\":\"accounts\\/img-20250104-wa0020-1200x680.jpg\"}', 0, 2, 2, 2, 2000, 200000000.00, NULL, 0, 'selling', '2025-02-26 17:10:24', '2025-02-27 07:06:34', 'sale', 'Aqui ficará a descrição do Imóvel', 1, 6, 'day', 15, 'Srapid\\RealEstate\\Models\\Account', 'approved', '2025-04-12', 0, 0, NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -2945,12 +3089,12 @@ INSERT INTO `re_properties` (`id`, `name`, `content`, `location`, `images`, `pro
 --
 
 CREATE TABLE `re_properties_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `re_properties_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2987,7 +3131,9 @@ INSERT INTO `re_property_categories` (`id`, `property_id`, `category_id`) VALUES
 (225, 50, 1),
 (226, 51, 1),
 (227, 52, 1),
-(228, 53, 4);
+(228, 53, 4),
+(229, 54, 8),
+(230, 55, 4);
 
 -- --------------------------------------------------------
 
@@ -3326,7 +3472,25 @@ INSERT INTO `re_property_features` (`property_id`, `feature_id`) VALUES
 (53, 9),
 (53, 10),
 (53, 11),
-(53, 12);
+(53, 12),
+(54, 1),
+(54, 2),
+(54, 3),
+(54, 5),
+(54, 10),
+(54, 11),
+(55, 1),
+(55, 2),
+(55, 3),
+(55, 4),
+(55, 5),
+(55, 6),
+(55, 7),
+(55, 8),
+(55, 9),
+(55, 10),
+(55, 11),
+(55, 12);
 
 -- --------------------------------------------------------
 
@@ -3336,9 +3500,9 @@ INSERT INTO `re_property_features` (`property_id`, `feature_id`) VALUES
 
 CREATE TABLE `re_tags` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `name` varchar(300) NOT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3352,7 +3516,7 @@ CREATE TABLE `re_tags` (
 CREATE TABLE `re_tags_items` (
   `tag_id` int(10) UNSIGNED NOT NULL,
   `item_id` int(10) UNSIGNED NOT NULL,
-  `type` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL
+  `type` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3363,10 +3527,10 @@ CREATE TABLE `re_tags_items` (
 
 CREATE TABLE `roles` (
   `id` int(10) UNSIGNED NOT NULL,
-  `slug` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `permissions` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(120) NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `permissions` text DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `is_default` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `created_by` int(10) UNSIGNED NOT NULL,
   `updated_by` int(10) UNSIGNED NOT NULL,
@@ -3411,8 +3575,8 @@ INSERT INTO `role_users` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`
 
 CREATE TABLE `settings` (
   `id` int(10) UNSIGNED NOT NULL,
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `key` varchar(255) NOT NULL,
+  `value` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3422,29 +3586,29 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
-(11, 'admin_email', '[\"admin@scriptphp.ru\"]', NULL, NULL),
+(11, 'admin_email', '[\"contato@rodrigolimacorretor.com.br\"]', NULL, NULL),
 (12, 'time_zone', 'America/Sao_Paulo', NULL, NULL),
 (13, 'enable_send_error_reporting_via_email', '0', NULL, NULL),
-(16, 'admin_title', 'SiteRapido Imóveis', NULL, NULL),
+(16, 'admin_title', 'Rodrigo Lima Imóveis', NULL, NULL),
 (17, 'rich_editor', 'ckeditor', NULL, NULL),
 (18, 'default_admin_theme', 'default', NULL, NULL),
-(19, 'enable_change_admin_theme', '1', NULL, NULL),
+(19, 'enable_change_admin_theme', '0', NULL, NULL),
 (20, 'enable_multi_language_in_admin', '1', NULL, NULL),
-(21, 'enable_cache', '0', NULL, NULL),
+(21, 'enable_cache', '1', NULL, NULL),
 (22, 'cache_time', '10', NULL, NULL),
 (23, 'cache_admin_menu_enable', '0', NULL, NULL),
 (24, 'optimize_page_speed_enable', '0', NULL, NULL),
 (27, 'cache_time_site_map', '3600', NULL, NULL),
 (28, 'show_admin_bar', '1', NULL, NULL),
-(29, 'theme-site-rapido-site_title', 'SiteRápido Imóveis', NULL, NULL),
+(29, 'theme-site-rapido-site_title', 'Rodrigo Lima Imóveis', NULL, NULL),
 (30, 'theme-site-rapido-show_site_name', '1', NULL, NULL),
-(33, 'theme-site-rapido-copyright', '© SiteRapido Imóveis - www.siterapido.com.br', NULL, NULL),
-(37, 'theme-site-rapido-logo', 'logo/logo-siterapidocombr-vermelhofw-1.png', NULL, NULL),
+(33, 'theme-site-rapido-copyright', '© Rodrigo Lima Imóveis - www.rodrigolimanegimob.com.br - 2025', NULL, NULL),
+(37, 'theme-site-rapido-logo', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
 (40, 'theme-site-rapido-facebook', 'https://www.facebook.com', NULL, NULL),
 (41, 'theme-site-rapido-youtube', 'https://youtube.com', NULL, NULL),
-(44, 'theme-site-rapido-hotline', '12997274876', NULL, NULL),
-(45, 'theme-site-rapido-address', 'Av. Paulista, 300, Bela Vista, São Paulo, SP', NULL, NULL),
-(46, 'theme-site-rapido-email', 'info@siterapido.com.br', NULL, NULL),
+(44, 'theme-site-rapido-hotline', '35988151468', NULL, NULL),
+(45, 'theme-site-rapido-address', 'Rua XV de Novembro, 289, Centro, São Lourenço MG, 37470-000, Brasil', NULL, NULL),
+(46, 'theme-site-rapido-email', 'contato@rodrigolimacorretor.com.br', NULL, NULL),
 (49, 'theme-site-rapido-logo_white', 'logo/logo-white.png', NULL, NULL),
 (50, 'membership_authorization_at', '2023-03-02 19:46:11', NULL, NULL),
 (56, 'enable_captcha', '0', NULL, NULL),
@@ -3454,7 +3618,7 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (66, 'store_width_height_unit', 'cm', NULL, NULL),
 (67, 'currencies_is_default', '0', NULL, NULL),
 (72, 'language_show_default_item_if_current_version_not_existed', '1', NULL, NULL),
-(73, 'theme-site-rapido-seo_title', 'SiteRapido Imóveis', NULL, NULL),
+(73, 'theme-site-rapido-seo_title', 'Rodrigo Lima Imóveis', NULL, NULL),
 (85, 'theme-site-rapido-vi-site_title', 'Flex Home - Trang thông tin mua bán Bất Động Sản', NULL, NULL),
 (86, 'theme-site-rapido-vi-show_site_name', '0', NULL, NULL),
 (87, 'theme-site-rapido-vi-seo_title', 'Flex Home - Trang thông tin mua bán Bất Động Sản', NULL, NULL),
@@ -3466,10 +3630,10 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (96, 'theme-site-rapido-vi-logo_white', 'logo/logo-white.png', NULL, NULL),
 (104, 'theme-site-rapido-vi-facebook', 'https://www.facebook.com', NULL, NULL),
 (105, 'theme-site-rapido-vi-youtube', 'https://youtube.com', NULL, NULL),
-(133, 'theme-site-rapido-favicon', 'logo/ico-mangistrade-2.png', NULL, NULL),
+(133, 'theme-site-rapido-favicon', 'logo/ico-site-rodrigo-lima.png', NULL, NULL),
 (143, 'theme-site-rapido-vi-favicon', 'logo/favicon.png', NULL, NULL),
 (148, 'theme-site-rapido-seo_description', 'Encontre o seu imóvel aqui', NULL, NULL),
-(149, 'theme-site-rapido-about-us', 'Nosso principal objetivo é a satisfação do cliente, atendendo com perfeição às suas necessidades.Possuímos uma equipe treinada e atualizada, proporcionando o mais alto nível de eficiência técnica.\n\nSiteRápido - www.siterapido.com.br', NULL, NULL),
+(149, 'theme-site-rapido-about-us', 'Com mais de uma década de experiência no mercado imobiliário, a Rodrigo Lima Corretor de Imóveis (CRECI 46623 MG) se destaca como referência em São Lourenço e região. Nossa missão é realizar o sonho da casa própria e proporcionar os melhores investimentos para nossos clientes.', NULL, NULL),
 (150, 'theme-site-rapido-home_project_description', '', NULL, NULL),
 (151, 'theme-site-rapido-home_description_for_properties_by_locations', '', NULL, NULL),
 (152, 'theme-site-rapido-home_description_for_news', '', NULL, NULL),
@@ -3520,9 +3684,9 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (225, 'theme-site-rapido-vi-number_of_posts_in_a_tag', '12', NULL, NULL),
 (227, 'theme-site-rapido-vi-cookie_consent_enable', 'yes', NULL, NULL),
 (229, 'theme-site-rapido-vi-cookie_consent_button_text', 'Allow cookies', NULL, NULL),
-(230, 'theme-site-rapido-seo_og_image', 'logo/logo-siterapidocombr-vermelhofw-1.png', NULL, NULL),
-(231, 'theme-site-rapido-primary_color', '#6A6378', NULL, NULL),
-(232, 'theme-site-rapido-primary_color_hover', '#F53B7A', NULL, NULL),
+(230, 'theme-site-rapido-seo_og_image', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(231, 'theme-site-rapido-primary_color', '#B59822', NULL, NULL),
+(232, 'theme-site-rapido-primary_color_hover', '#D8B529', NULL, NULL),
 (234, 'theme-site-rapido-number_of_posts_in_a_category', '12', NULL, NULL),
 (235, 'theme-site-rapido-number_of_posts_in_a_tag', '12', NULL, NULL),
 (237, 'theme-site-rapido-cookie_consent_enable', 'yes', NULL, NULL),
@@ -3531,31 +3695,31 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (283, 'permalink-srapid-blog-models-post', 'blog', NULL, NULL),
 (284, 'permalink-srapid-blog-models-category', 'blog', NULL, NULL),
 (285, 'theme', 'site-rapido', NULL, NULL),
-(286, 'admin_logo', 'logo/logo-siterapidocombr-amarelofw-1.png', NULL, NULL),
-(287, 'admin_favicon', 'logo/ico-mangistrade-2.png', NULL, NULL),
+(286, 'admin_logo', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(287, 'admin_favicon', 'logo/ico-site-rodrigo-lima.png', NULL, NULL),
 (296, 'theme-site-rapido-vi-homepage_id', '1', NULL, NULL),
 (297, 'theme-site-rapido-vi-blog_page_id', '2', NULL, NULL),
-(298, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.twitter.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
+(298, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/rodrigslima\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.instagram.com\\/rodrigolima_negimob\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
 (304, 'permalink-srapid-blog-models-post', 'blog', NULL, NULL),
 (305, 'permalink-srapid-blog-models-category', 'blog', NULL, NULL),
-(306, 'admin_logo', 'logo/logo-siterapidocombr-amarelofw-1.png', NULL, NULL),
-(307, 'admin_favicon', 'logo/ico-mangistrade-2.png', NULL, NULL),
-(320, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.twitter.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
+(306, 'admin_logo', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(307, 'admin_favicon', 'logo/ico-site-rodrigo-lima.png', NULL, NULL),
+(320, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/rodrigslima\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.instagram.com\\/rodrigolima_negimob\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
 (326, 'permalink-srapid-blog-models-post', 'blog', NULL, NULL),
 (327, 'permalink-srapid-blog-models-category', 'blog', NULL, NULL),
-(328, 'admin_logo', 'logo/logo-siterapidocombr-amarelofw-1.png', NULL, NULL),
-(329, 'admin_favicon', 'logo/ico-mangistrade-2.png', NULL, NULL),
-(342, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.twitter.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
+(328, 'admin_logo', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(329, 'admin_favicon', 'logo/ico-site-rodrigo-lima.png', NULL, NULL),
+(342, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/rodrigslima\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.instagram.com\\/rodrigolima_negimob\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
 (348, 'permalink-srapid-blog-models-post', 'blog', NULL, NULL),
 (349, 'permalink-srapid-blog-models-category', 'blog', NULL, NULL),
-(350, 'admin_logo', 'logo/logo-siterapidocombr-amarelofw-1.png', NULL, NULL),
-(351, 'admin_favicon', 'logo/ico-mangistrade-2.png', NULL, NULL),
-(364, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.twitter.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
+(350, 'admin_logo', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(351, 'admin_favicon', 'logo/ico-site-rodrigo-lima.png', NULL, NULL),
+(364, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/rodrigslima\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.instagram.com\\/rodrigolima_negimob\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
 (374, 'permalink-srapid-blog-models-post', 'blog', NULL, NULL),
 (375, 'permalink-srapid-blog-models-category', 'blog', NULL, NULL),
-(376, 'admin_logo', 'logo/logo-siterapidocombr-amarelofw-1.png', NULL, NULL),
-(377, 'admin_favicon', 'logo/ico-mangistrade-2.png', NULL, NULL),
-(390, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.twitter.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
+(376, 'admin_logo', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(377, 'admin_favicon', 'logo/ico-site-rodrigo-lima.png', NULL, NULL),
+(390, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/rodrigslima\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.instagram.com\\/rodrigolima_negimob\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
 (391, 'language_hide_default', '1', NULL, NULL),
 (392, 'language_switcher_display', 'dropdown', NULL, NULL),
 (393, 'language_display', 'all', NULL, NULL),
@@ -3563,26 +3727,26 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (395, 'media_random_hash', 'a07c138f200e77fcfc67b25d74745ae7', NULL, NULL),
 (396, 'permalink-srapid-blog-models-post', 'blog', NULL, NULL),
 (397, 'permalink-srapid-blog-models-category', 'blog', NULL, NULL),
-(398, 'admin_logo', 'logo/logo-siterapidocombr-amarelofw-1.png', NULL, NULL),
-(399, 'admin_favicon', 'logo/ico-mangistrade-2.png', NULL, NULL),
+(398, 'admin_logo', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(399, 'admin_favicon', 'logo/ico-site-rodrigo-lima.png', NULL, NULL),
 (400, 'theme-site-rapido-cookie_consent_message', 'Sua experiência neste site será melhorada permitindo cookies', NULL, NULL),
 (401, 'theme-site-rapido-cookie_consent_learn_more_url', 'https://imoblar.scriptphp.ru/terms-conditions', NULL, NULL),
 (402, 'theme-site-rapido-cookie_consent_learn_more_text', 'Política de cookies', NULL, NULL),
 (403, 'theme-site-rapido-homepage_id', '1', NULL, NULL),
 (404, 'theme-site-rapido-blog_page_id', '2', NULL, NULL),
-(405, 'theme-site-rapido-home_banner', 'banner/paulista-box-search-2.jpg', NULL, NULL),
-(406, 'theme-site-rapido-breadcrumb_background', 'banner/masp.png', NULL, NULL),
+(405, 'theme-site-rapido-home_banner', 'banner/siterodrigo.gif', NULL, NULL),
+(406, 'theme-site-rapido-breadcrumb_background', '', NULL, NULL),
 (407, 'theme-site-rapido-vi-cookie_consent_message', 'Trải nghiệm của bạn trên trang web này sẽ được cải thiện bằng cách cho phép cookie ', NULL, NULL),
 (408, 'theme-site-rapido-vi-cookie_consent_learn_more_url', 'http://site-rapido.test/cookie-policy', NULL, NULL),
 (409, 'theme-site-rapido-vi-cookie_consent_learn_more_text', 'Cookie Policy', NULL, NULL),
 (410, 'theme-site-rapido-vi-home_banner', 'general/home-banner.jpg', NULL, NULL),
 (411, 'theme-site-rapido-vi-breadcrumb_background', 'general/breadcrumb-background.jpg', NULL, NULL),
-(412, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.twitter.com\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
+(412, 'theme-site-rapido-social_links', '[[{\"key\":\"social-name\",\"value\":\"Facebook\"},{\"key\":\"social-icon\",\"value\":\"fab fa-facebook-f\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.facebook.com\\/rodrigslima\"}],[{\"key\":\"social-name\",\"value\":\"Instagram\"},{\"key\":\"social-icon\",\"value\":\"fab fa-instagram\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.instagram.com\\/rodrigolima_negimob\\/\"}],[{\"key\":\"social-name\",\"value\":\"Youtube\"},{\"key\":\"social-icon\",\"value\":\"fab fa-youtube\"},{\"key\":\"social-url\",\"value\":\"https:\\/\\/www.youtube.com\\/\"}]]', NULL, NULL),
 (413, 'default_payment_method', 'bank_transfer', NULL, NULL),
 (414, 'payment_cod_description', 'Pagamento em dinheiro direto na imobiliária', NULL, NULL),
 (415, 'payment_bank_transfer_description', 'PIX Email: info@siterapido.com.br<br>\r\n<br>\r\nSe enviar um pix com outra titularidade do seu cadastro, envie um comprovante para o email: info@siterapido.com.br', NULL, NULL),
-(416, 'theme-site-rapido-enable_sticky_header', 'no', NULL, NULL),
-(417, 'theme-site-rapido-show_map_on_properties_page', 'no', NULL, NULL),
+(416, 'theme-site-rapido-enable_sticky_header', 'yes', NULL, NULL),
+(417, 'theme-site-rapido-show_map_on_properties_page', 'yes', NULL, NULL),
 (418, 'theme-site-rapido-facebook_chat_enabled', 'yes', NULL, NULL),
 (419, 'theme-site-rapido-facebook_page_id', '', NULL, NULL),
 (420, 'theme-site-rapido-facebook_comment_enabled_in_post', 'no', NULL, NULL),
@@ -3609,9 +3773,9 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (441, 'plugins_real-estate_payment-received_status', '1', NULL, NULL),
 (442, 'email_driver', 'smtp', NULL, NULL),
 (443, 'email_port', '465', NULL, NULL),
-(444, 'email_host', 'mail.scriptphp.ru', NULL, NULL),
-(445, 'email_username', 'admin@scriptphp.ru', NULL, NULL),
-(446, 'email_password', '@mouse2323', NULL, NULL),
+(444, 'email_host', 'mail.rodrigolimacorretor.com.br', NULL, NULL),
+(445, 'email_username', 'suporte@rodrigolimacorretor.com.br', NULL, NULL),
+(446, 'email_password', '@Speaker120123', NULL, NULL),
 (447, 'email_encryption', 'ssl', NULL, NULL),
 (448, 'email_mail_gun_domain', '', NULL, NULL),
 (449, 'email_mail_gun_secret', '', NULL, NULL),
@@ -3622,8 +3786,8 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (454, 'email_postmark_token', '', NULL, NULL),
 (455, 'email_sendmail_path', '/usr/sbin/sendmail -bs', NULL, NULL),
 (456, 'email_log_channel', '', NULL, NULL),
-(457, 'email_from_name', 'SiteRápido', NULL, NULL),
-(458, 'email_from_address', 'admin@scriptphp.ru', NULL, NULL),
+(457, 'email_from_name', 'Rodrigo Lima', NULL, NULL),
+(458, 'email_from_address', 'suporte@rodrigolimacorretor.com.br', NULL, NULL),
 (459, 'using_queue_to_send_mail', '0', NULL, NULL),
 (460, 'plugins_real-estate_notice_status', '1', NULL, NULL),
 (461, 'plugins_real-estate_account-registered_status', '1', NULL, NULL),
@@ -3642,9 +3806,9 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (474, 'real_estate_thousands_separator', '.', NULL, NULL),
 (475, 'real_estate_decimal_separator', ',', NULL, NULL),
 (476, 'real_estate_enabled_register', '1', NULL, NULL),
-(477, 'verify_account_email', '0', NULL, NULL),
+(477, 'verify_account_email', '1', NULL, NULL),
 (478, 'real_estate_enable_credits_system', '0', NULL, NULL),
-(479, 'enable_post_approval', '0', NULL, NULL),
+(479, 'enable_post_approval', '1', NULL, NULL),
 (480, 'property_expired_after_days', '45', NULL, NULL),
 (481, 'real_estate_enable_recaptcha_in_register_page', '0', NULL, NULL),
 (482, 'social_login_enable', '0', NULL, NULL),
@@ -3672,7 +3836,45 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (504, 'plugins_real-estate_payment-receipt_subject', 'Recibo de pagamento para o pacote {{ package_name }} no {{ site_title }}', NULL, NULL),
 (505, 'plugins_real-estate_free-credit-claimed_subject', '{{ account_name }} reivindicou crédito gratuito em {{ site_title }}', NULL, NULL),
 (506, 'plugins_real-estate_payment-received_subject', 'Pagamento recebido de {{ account_name }} em{{ site_title }}', NULL, NULL),
-(507, 'plugins_contact_notice_subject', 'Mensagem enviada através do seu formulário de contato de {{ site_title }}', NULL, NULL);
+(507, 'plugins_contact_notice_subject', 'Mensagem enviada através do seu formulário de contato de {{ site_title }}', NULL, NULL),
+(508, 'media_driver', 'public', NULL, NULL),
+(509, 'media_aws_access_key_id', '', NULL, NULL),
+(510, 'media_aws_secret_key', '', NULL, NULL),
+(511, 'media_aws_default_region', 'us-east-1', NULL, NULL),
+(512, 'media_aws_bucket', '', NULL, NULL),
+(513, 'media_aws_url', '', NULL, NULL),
+(514, 'media_aws_endpoint', '', NULL, NULL),
+(515, 'media_do_spaces_access_key_id', '', NULL, NULL),
+(516, 'media_do_spaces_secret_key', '', NULL, NULL),
+(517, 'media_do_spaces_default_region', '', NULL, NULL),
+(518, 'media_do_spaces_bucket', '', NULL, NULL),
+(519, 'media_do_spaces_endpoint', '', NULL, NULL),
+(520, 'media_do_spaces_cdn_enabled', '0', NULL, NULL),
+(521, 'media_do_spaces_cdn_custom_domain', '', NULL, NULL),
+(522, 'media_wasabi_access_key_id', '', NULL, NULL),
+(523, 'media_wasabi_secret_key', '', NULL, NULL),
+(524, 'media_wasabi_default_region', '', NULL, NULL),
+(525, 'media_wasabi_bucket', '', NULL, NULL),
+(526, 'media_wasabi_root', '/', NULL, NULL),
+(527, 'media_bunnycdn_hostname', '', NULL, NULL),
+(528, 'media_bunnycdn_zone', '', NULL, NULL),
+(529, 'media_bunnycdn_key', '', NULL, NULL),
+(530, 'media_bunnycdn_region', '', NULL, NULL),
+(531, 'media_turn_off_automatic_url_translation_into_latin', '0', NULL, NULL),
+(532, 'media_default_placeholder_image', '', NULL, NULL),
+(533, 'media_chunk_enabled', '0', NULL, NULL),
+(534, 'media_chunk_size', '1048576', NULL, NULL),
+(535, 'media_max_file_size', '1048576', NULL, NULL),
+(536, 'media_watermark_enabled', '1', NULL, NULL),
+(537, 'media_watermark_source', 'logo/logo-para-site-rodrigo-lima.png', NULL, NULL),
+(538, 'media_watermark_size', '30', NULL, NULL),
+(539, 'watermark_opacity', '40', NULL, NULL),
+(540, 'media_watermark_position', 'center', NULL, NULL),
+(541, 'watermark_position_x', '10', NULL, NULL),
+(542, 'watermark_position_y', '10', NULL, NULL),
+(543, 'theme-site-rapido-home_banner_type', 'image', NULL, NULL),
+(544, 'theme-site-rapido-home_banner_video', 'banner/design-sem-nome-1.mp4', NULL, NULL),
+(545, 'theme-site-rapido-home_banner_gif', '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3682,10 +3884,10 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `slugs` (
   `id` int(10) UNSIGNED NOT NULL,
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) NOT NULL,
   `reference_id` int(10) UNSIGNED NOT NULL,
-  `reference_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prefix` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  `reference_type` varchar(255) NOT NULL,
+  `prefix` varchar(120) DEFAULT '',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3785,7 +3987,9 @@ INSERT INTO `slugs` (`id`, `key`, `reference_id`, `reference_type`, `prefix`, `c
 (399, 'apartamento-para-alugar-em-sumare-sao-paulo-sp', 50, 'Srapid\\RealEstate\\Models\\Property', 'imoveis', '2022-08-18 18:05:16', '2022-08-18 18:05:16'),
 (400, 'apartamento-para-alugar-em-cerqueira-cesar-sao-paulo-sp', 51, 'Srapid\\RealEstate\\Models\\Property', 'imoveis', '2022-08-18 18:07:06', '2022-08-18 18:07:06'),
 (401, 'apartamento-para-alugar-em-cerqueira-cesar-sao-paulo-sp-1', 52, 'Srapid\\RealEstate\\Models\\Property', 'imoveis', '2022-08-18 18:10:16', '2022-08-18 18:10:16'),
-(402, 'casa-moderna', 53, 'Srapid\\RealEstate\\Models\\Property', 'imoveis', '2023-03-30 18:14:03', '2023-03-30 18:14:03');
+(402, 'casa-moderna', 53, 'Srapid\\RealEstate\\Models\\Property', 'imoveis', '2023-03-30 18:14:03', '2023-03-30 18:14:03'),
+(403, 'linda-chacara-para-venda', 54, 'Srapid\\RealEstate\\Models\\Property', 'imoveis', '2025-02-24 22:15:11', '2025-02-24 22:15:11'),
+(404, 'casa-teste', 55, 'Srapid\\RealEstate\\Models\\Property', 'imoveis', '2025-02-26 17:10:24', '2025-02-26 17:10:24');
 
 -- --------------------------------------------------------
 
@@ -3795,14 +3999,14 @@ INSERT INTO `slugs` (`id`, `key`, `reference_id`, `reference_type`, `prefix`, `c
 
 CREATE TABLE `states` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
   `country_id` int(10) UNSIGNED NOT NULL,
   `order` tinyint(4) NOT NULL DEFAULT 0,
   `is_default` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `abbreviation` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `abbreviation` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -3810,7 +4014,8 @@ CREATE TABLE `states` (
 --
 
 INSERT INTO `states` (`id`, `name`, `country_id`, `order`, `is_default`, `status`, `created_at`, `updated_at`, `abbreviation`) VALUES
-(1, 'São Paulo', 1, 0, 1, 'published', '2019-11-18 08:17:57', '2022-07-04 20:18:23', 'SP');
+(1, 'São Paulo', 1, 0, 1, 'published', '2019-11-18 08:17:57', '2022-07-04 20:18:23', 'SP'),
+(2, 'Minas Gerais', 1, 1, 1, 'published', '2025-02-24 21:27:21', '2025-02-24 21:27:21', 'MG');
 
 -- --------------------------------------------------------
 
@@ -3819,10 +4024,10 @@ INSERT INTO `states` (`id`, `name`, `country_id`, `order`, `is_default`, `status
 --
 
 CREATE TABLE `states_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `states_id` int(11) NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `abbreviation` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(120) DEFAULT NULL,
+  `abbreviation` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3833,11 +4038,11 @@ CREATE TABLE `states_translations` (
 
 CREATE TABLE `tags` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) NOT NULL,
   `author_id` int(11) NOT NULL,
-  `author_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `status` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'published',
+  `author_type` varchar(255) NOT NULL DEFAULT 'Srapid\\ACL\\Models\\User',
+  `description` varchar(400) DEFAULT '',
+  `status` varchar(60) NOT NULL DEFAULT 'published',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3858,10 +4063,10 @@ INSERT INTO `tags` (`id`, `name`, `author_id`, `author_type`, `description`, `st
 --
 
 CREATE TABLE `tags_translations` (
-  `lang_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_code` varchar(191) NOT NULL,
   `tags_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3873,10 +4078,10 @@ CREATE TABLE `tags_translations` (
 CREATE TABLE `transactions` (
   `id` int(10) UNSIGNED NOT NULL,
   `credits` int(10) UNSIGNED NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `account_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'add',
+  `type` varchar(191) NOT NULL DEFAULT 'add',
   `payment_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -3887,7 +4092,9 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `credits`, `description`, `user_id`, `account_id`, `type`, `payment_id`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 0, 12, 'add', NULL, '2022-08-09 20:19:24', '2022-08-09 20:19:24');
+(1, 1, NULL, 0, 12, 'add', NULL, '2022-08-09 20:19:24', '2022-08-09 20:19:24'),
+(2, 1, NULL, 0, 15, 'add', NULL, '2025-02-26 17:08:45', '2025-02-26 17:08:45'),
+(3, 10, NULL, 1, 15, 'add', NULL, '2025-02-26 17:12:51', '2025-02-26 17:12:51');
 
 -- --------------------------------------------------------
 
@@ -3898,10 +4105,10 @@ INSERT INTO `transactions` (`id`, `credits`, `description`, `user_id`, `account_
 CREATE TABLE `translations` (
   `id` int(10) UNSIGNED NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
-  `locale` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `group` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `locale` varchar(191) NOT NULL,
+  `group` varchar(191) NOT NULL,
+  `key` varchar(191) NOT NULL,
+  `value` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -5838,17 +6045,17 @@ INSERT INTO `translations` (`id`, `status`, `locale`, `group`, `key`, `value`, `
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `permissions` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permissions` text DEFAULT NULL,
   `last_login` timestamp NULL DEFAULT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `username` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `username` varchar(60) DEFAULT NULL,
   `avatar_id` int(10) UNSIGNED DEFAULT NULL,
   `super_user` tinyint(1) NOT NULL DEFAULT 0,
   `manage_supers` tinyint(1) NOT NULL DEFAULT 0
@@ -5859,7 +6066,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `permissions`, `last_login`, `first_name`, `last_name`, `username`, `avatar_id`, `super_user`, `manage_supers`) VALUES
-(1, 'info@siterapido.com.br', NULL, '$2y$10$ENxgLqwONm22pGNaxQ.3Dul9w/.gsjQD7XFX2iodOxwURP77/NzAi', '0NAAcYjWJk7vvm2i8can56RQwvD6gyrFrWhzTh3UMdjmU1t1FRAZnstEZ0qO', '2021-12-09 21:25:34', '2023-03-30 16:36:34', NULL, '2023-03-30 16:36:34', 'Site', 'Rapido', 'admin', 1742, 1, 1);
+(1, 'contato@rodrigolimacorretor.com.br', NULL, '$2y$10$YWRHFR845T0uwSYOgOh5G.uxYgOwxBulqVRDQ7fdrBa3i5iqEuzkK', 'kcewwMWXAR7PvPWLfFaKItClxjG3c7NB1HjIsDEUNfBqo2HlHxWZXdIqOglo', '2021-12-09 21:25:34', '2025-02-26 10:28:07', NULL, '2025-02-26 10:28:07', 'Rodrigo', 'Lima', 'rodrigolima', 1749, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -5869,8 +6076,8 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `remember_t
 
 CREATE TABLE `user_meta` (
   `id` int(10) UNSIGNED NOT NULL,
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -5882,7 +6089,7 @@ CREATE TABLE `user_meta` (
 
 INSERT INTO `user_meta` (`id`, `key`, `value`, `user_id`, `created_at`, `updated_at`) VALUES
 (1, 'admin-locale', 'pt', 1, '2019-11-17 20:19:14', '2019-11-30 19:25:04'),
-(2, 'admin-theme', 'grey', 1, '2022-07-04 20:46:09', '2023-03-30 19:19:37');
+(2, 'admin-theme', 'default', 1, '2022-07-04 20:46:09', '2025-02-26 17:50:39');
 
 -- --------------------------------------------------------
 
@@ -5892,11 +6099,11 @@ INSERT INTO `user_meta` (`id`, `key`, `value`, `user_id`, `created_at`, `updated
 
 CREATE TABLE `widgets` (
   `id` int(10) UNSIGNED NOT NULL,
-  `widget_id` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sidebar_id` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `theme` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `widget_id` varchar(120) NOT NULL,
+  `sidebar_id` varchar(120) NOT NULL,
+  `theme` varchar(120) NOT NULL,
   `position` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `data` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -6242,6 +6449,12 @@ ALTER TABLE `re_consults`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `re_crm`
+--
+ALTER TABLE `re_crm`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `re_currencies`
 --
 ALTER TABLE `re_currencies`
@@ -6429,7 +6642,7 @@ ALTER TABLE `activations`
 -- AUTO_INCREMENT de tabela `audit_histories`
 --
 ALTER TABLE `audit_histories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de tabela `careers`
@@ -6447,7 +6660,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT de tabela `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `contacts`
@@ -6507,7 +6720,7 @@ ALTER TABLE `language_meta`
 -- AUTO_INCREMENT de tabela `media_files`
 --
 ALTER TABLE `media_files`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1744;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1800;
 
 --
 -- AUTO_INCREMENT de tabela `media_folders`
@@ -6543,7 +6756,7 @@ ALTER TABLE `menu_nodes`
 -- AUTO_INCREMENT de tabela `meta_boxes`
 --
 ALTER TABLE `meta_boxes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT de tabela `migrations`
@@ -6609,25 +6822,25 @@ ALTER TABLE `post_tags`
 -- AUTO_INCREMENT de tabela `revisions`
 --
 ALTER TABLE `revisions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `re_accounts`
 --
 ALTER TABLE `re_accounts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `re_account_activity_logs`
 --
 ALTER TABLE `re_account_activity_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `re_account_packages`
 --
 ALTER TABLE `re_account_packages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `re_categories`
@@ -6639,7 +6852,13 @@ ALTER TABLE `re_categories`
 -- AUTO_INCREMENT de tabela `re_consults`
 --
 ALTER TABLE `re_consults`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `re_crm`
+--
+ALTER TABLE `re_crm`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `re_currencies`
@@ -6657,7 +6876,7 @@ ALTER TABLE `re_facilities`
 -- AUTO_INCREMENT de tabela `re_facilities_distances`
 --
 ALTER TABLE `re_facilities_distances`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7251;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7274;
 
 --
 -- AUTO_INCREMENT de tabela `re_features`
@@ -6693,13 +6912,13 @@ ALTER TABLE `re_project_categories`
 -- AUTO_INCREMENT de tabela `re_properties`
 --
 ALTER TABLE `re_properties`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de tabela `re_property_categories`
 --
 ALTER TABLE `re_property_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT de tabela `re_tags`
@@ -6723,19 +6942,19 @@ ALTER TABLE `role_users`
 -- AUTO_INCREMENT de tabela `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=508;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=546;
 
 --
 -- AUTO_INCREMENT de tabela `slugs`
 --
 ALTER TABLE `slugs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=403;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=405;
 
 --
 -- AUTO_INCREMENT de tabela `states`
 --
 ALTER TABLE `states`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tags`
@@ -6747,7 +6966,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT de tabela `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `translations`

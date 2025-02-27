@@ -22,12 +22,14 @@ class CrmRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        return [
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            // Adicione outras regras de validação conforme necessário
-        ];
-    }
+{
+    return [
+        'name'       => 'required|string|max:120',
+        'email'      => 'nullable|email|max:60',
+        'phone'      => 'nullable|string|max:15',
+        'content'    => 'nullable|string|max:400',
+        'category'   => 'nullable|string',
+        'lead_color' => 'nullable|string',
+    ];
+}
 }

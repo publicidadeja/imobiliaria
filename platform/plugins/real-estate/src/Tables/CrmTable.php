@@ -45,74 +45,105 @@ class CrmTable extends TableAbstract
         }
     }
 
-/**
- * Display ajax response.
- *
- * @return JsonResponse
- * @since 2.1
- */
-public function ajax()
-{
-    try {
-        $data = $this->table
-            ->eloquent($this->query())
-            ->editColumn('name', function ($item) {
-                if (!Auth::user()->hasPermission('crm.edit')) {
-                    return $item->name;
-                }
-                return Html::link(route('crm.edit', $item->id), $item->name);
-            })
-            ->editColumn('checkbox', function ($item) {
-                return $this->getCheckbox($item->id);
-            })
-            ->editColumn('content', function ($item) {
-                return \Str::limit($item->content, 70);
-            })
-            ->editColumn('created_at', function ($item) {
-                return BaseHelper::formatDate($item->created_at);
-            })
-            ->editColumn('status', function ($item) {
-                return $item->status->toHtml();
-            })
-            ->addColumn('operations', function ($item) {
-                return $this->getOperations('crm.edit', 'crm.destroy', $item);
-            });
+    /**
+     * Display ajax response.
+     *
+     * @return JsonResponse
+     * @since 2.1
+     */
+    public function ajax()
+    {
+        try {
+            $data = $this->table
+                ->eloquent($this->query())
+                ->editColumn('name', function ($item) {
+                    if (!Auth::user()->hasPermission('crm.edit')) {
+                        return $item->name;
+                    }
+                    return Html::link(route('crm.edit', $item->id), $item->name);
+                })
+                ->editColumn('checkbox', function ($item) {
+                    return $this->getCheckbox($item->id);
+                })
+                ->editColumn('content', function ($item) {
+                    return \Str::limit($item->content, 70);
+                })
+                ->editColumn('category', function ($item) {
+                    // Formatar a categoria para exibição
+                    $categories = [
+                        'casa' => 'Casa',
+                        'apartamento' => 'Apartamento',
+                        'chacara' => 'Chácara',
+                        'aluguel' => 'Aluguel',
+                        'terreno' => 'Terreno',
+                        'lote' => 'Lote',
+                        'temporada' => 'Temporada',
+                        'outros' => 'Outros'
+                    ];
+                    
+                    return $categories[$item->category] ?? $item->category;
+                })
+                ->editColumn('lead_color', function ($item) {
+                    // Formatar a cor do lead com um badge colorido
+                    $colors = [
+                        'red' => ['text' => 'Lead Quente', 'color' => '#ff0000'],
+                        'blue' => ['text' => 'Lead Frio', 'color' => '#0000ff'],
+                        'gray' => ['text' => 'Venda Perdida', 'color' => '#808080']
+                    ];
+                    
+                    if (isset($colors[$item->lead_color])) {
+                        $info = $colors[$item->lead_color];
+                        return '<span class="badge" style="background-color: ' . $info['color'] . '">' . $info['text'] . '</span>';
+                    }
+                    
+                    return $item->lead_color;
+                })
+                ->editColumn('created_at', function ($item) {
+                    return BaseHelper::formatDate($item->created_at);
+                })
+                ->addColumn('operations', function ($item) {
+                    return $this->getOperations('crm.edit', 'crm.destroy', $item);
+                })
+                ->rawColumns(['lead_color', 'operations']); // Adicione lead_color aos rawColumns para permitir HTML
 
-        return $this->toJson($data);
-    } catch (Exception $exception) {
-        \Log::error('CrmTable ajax error: ' . $exception->getMessage() . ' - ' . $exception->getTraceAsString());
-        return response()->json([
-            'error' => true,
-            'message' => $exception->getMessage()
-        ], 500);
+            return $this->toJson($data);
+        } catch (Exception $exception) {
+            \Log::error('CrmTable ajax error: ' . $exception->getMessage() . ' - ' . $exception->getTraceAsString());
+            return response()->json([
+                'error' => true,
+                'message' => $exception->getMessage()
+            ], 500);
+        }
     }
-}
 
     /**
- * Get the query object to be processed by table.
- *
- * @return \Illuminate\Database\Query\Builder|Builder
- * @since 2.1
- */
-public function query()
-{
-    try {
-        $query = $this->repository->getModel()->select([
-            're_crm.id',
-            're_crm.name',
-            're_crm.phone',
-            're_crm.email',
-            're_crm.content',
-            're_crm.status',
-            're_crm.created_at',
-        ]);
+     * Get the query object to be processed by table.
+     *
+     * @return \Illuminate\Database\Query\Builder|Builder
+     * @since 2.1
+     */
+    public function query()
+    {
+        try {
+            $query = $this->repository->getModel()->select([
+                're_crm.id',
+                're_crm.name',
+                're_crm.phone',
+                're_crm.email',
+                're_crm.content',
+                're_crm.category',     // Adicionando o campo categoria
+                're_crm.lead_color',   // Adicionando o campo cor do lead
+                're_crm.status',
+                're_crm.created_at',
+            ]);
 
-        return $this->applyScopes($query);
-    } catch (Exception $exception) {
-        \Log::error('CrmTable query error: ' . $exception->getMessage() . ' - ' . $exception->getTraceAsString());
-        throw $exception;
+            return $this->applyScopes($query);
+        } catch (Exception $exception) {
+            \Log::error('CrmTable query error: ' . $exception->getMessage() . ' - ' . $exception->getTraceAsString());
+            throw $exception;
+        }
     }
-}
+
     /**
      * @return array
      * @since 2.1
@@ -136,12 +167,20 @@ public function query()
                 'title' => trans('plugins/real-estate::crm.email'),
                 'class' => 'text-start',
             ],
+            'category' => [
+                'title' => 'Categoria do Lead',
+                'class' => 'text-start',
+            ],
+            'lead_color' => [
+                'title' => 'Status do Lead',
+                'class' => 'text-start',
+            ],
+            'content' => [
+                'title' => trans('plugins/real-estate::crm.content'),
+                'class' => 'text-start',
+            ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),
-                'width' => '100px',
-            ],
-            'status' => [
-                'title' => trans('core/base::tables.status'),
                 'width' => '100px',
             ],
         ];
@@ -163,6 +202,38 @@ public function query()
     {
         return $this->addDeleteAction(route('crm.deletes'), 'crm.destroy', parent::bulkActions());
     }
+  
+  /**
+ * @return array
+ */
+public function getFilters(): array
+{
+    return [
+        'category' => [
+            'title'    => 'Categoria do Lead',
+            'type'     => 'select',
+            'choices'  => [
+                'casa'       => 'Casa',
+                'apartamento' => 'Apartamento',
+                'chacara'    => 'Chácara',
+                'aluguel'    => 'Aluguel',
+                'terreno'    => 'Terreno',
+                'lote'       => 'Lote',
+                'temporada'  => 'Temporada',
+                'outros'     => 'Outros'
+            ],
+        ],
+        'lead_color' => [
+            'title'    => 'Status do Lead',
+            'type'     => 'select',
+            'choices'  => [
+                'red'    => 'Lead Quente',
+                'blue'   => 'Lead Frio',
+                'gray'   => 'Venda Perdida'
+            ],
+        ],
+    ];
+}
 
     /**
      * @return array
@@ -175,11 +246,33 @@ public function query()
                 'type'     => 'text',
                 'validate' => 'required|max:120',
             ],
-            'status' => [
-                'title'    => trans('core/base::tables.status'),
+            'content' => [
+                'title'    => trans('plugins/real-estate::crm.content'),
+                'type'     => 'text',
+                'validate' => 'max:255',
+            ],
+            'category' => [
+                'title'    => 'Categoria do Lead',
                 'type'     => 'select',
-                'choices'  => BaseStatusEnum::labels(),
-                'validate' => 'required|in:' . implode(',', BaseStatusEnum::values()),
+                'choices'  => [
+                    'casa'       => 'Casa',
+                    'apartamento' => 'Apartamento',
+                    'chacara'    => 'Chácara',
+                    'aluguel'    => 'Aluguel',
+                    'terreno'    => 'Terreno',
+                    'lote'       => 'Lote',
+                    'temporada'  => 'Temporada',
+                    'outros'     => 'Outros'
+                ],
+            ],
+            'lead_color' => [
+                'title'    => 'Status do Lead',
+                'type'     => 'select',
+                'choices'  => [
+                    'red'    => 'Lead Quente (Vermelho)',
+                    'blue'   => 'Lead Frio (Azul)',
+                    'gray'   => 'Venda Perdida (Cinza)'
+                ],
             ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),

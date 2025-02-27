@@ -21,12 +21,14 @@ class Crm extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name',
-        'phone',
-        'email',
-        'content',
-        'status',
-    ];
+    'name',
+    'phone',
+    'email',
+    'content',
+    'status',
+    'category',  // Novo campo
+    'lead_color' // Novo campo
+];
 
     /**
      * @var array

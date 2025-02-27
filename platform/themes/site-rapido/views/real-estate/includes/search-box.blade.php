@@ -15,7 +15,6 @@
             <div class="background-media video-container">
                 <video autoplay muted loop id="background-video">
                     <source src="{{ $bannerVideo }}" type="video/mp4">
-                    <!-- Fallback para navegadores que não suportam vídeo -->
                 </video>
                 <!-- Fallback image if video fails to load -->
                 <div class="video-fallback" style="background-image: url('{{ $bannerImage }}')"></div>
@@ -181,31 +180,8 @@
     padding: 20px;
     border-radius: 5px;
 }
-
-/* Adicione isso para depuração */
-.debug-info {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: rgba(0,0,0,0.7);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 3px;
-    font-size: 12px;
-    z-index: 9999;
-}
 </style>
 
-<!-- Adicione isso para depuração temporária -->
-@if(config('app.debug'))
-<div class="debug-info">
-    Banner Type: {{ $bannerType }}<br>
-    Video URL: {{ $bannerVideo ? 'Set' : 'Not set' }}<br>
-    GIF URL: {{ $bannerGif ? 'Set' : 'Not set' }}
-</div>
-@endif
-
-<!-- Script para garantir que o vídeo seja carregado corretamente -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var video = document.getElementById('background-video');
