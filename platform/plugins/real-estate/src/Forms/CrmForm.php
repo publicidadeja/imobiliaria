@@ -98,7 +98,21 @@ class CrmForm extends FormAbstract
                 'class' => 'form-group',
             ],
             'order'      => 6,
-        ]);
+        ])
+      ->add('property_value', 'number', [
+    'label'      => trans('plugins/real-estate::crm.form.property_value'),
+    'label_attr' => ['class' => 'control-label'],
+    'attr'       => [
+        'placeholder'  => trans('plugins/real-estate::crm.form.property_value_placeholder'),
+        'class'        => 'form-control',
+        'min'          => 0,
+        'step'         => 'any',
+    ],
+    'wrapper'    => [
+        'class' => 'form-group',
+    ],
+    'order'      => 7,
+]);
     
     // Remova o setBreakFieldPoint para evitar problemas de layout
     // ->setBreakFieldPoint('content');

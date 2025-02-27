@@ -14,11 +14,13 @@ return [
         'subject'                  => 'Assunto',
         'content'                  => 'Conteúdo',
         'property'                 => 'Imóvel relacionado',
-        'select_property'          => 'Selecione um imóvel',
+        'select_property'          => 'Selecione um imvel',
         'phone_placeholder'        => 'Digite o telefone',
         'email_placeholder'        => 'Digite o email',
         'content_placeholder'      => 'Digite o conteúdo',
         'status'                   => 'Status',
+      'property_value'           => 'Valor do Imóvel',
+'property_value_placeholder' => 'Digite o valor do imóvel',
     ],
     
     // Traduções específicas para a tabela CRM
@@ -33,7 +35,7 @@ return [
             'email_required'       => 'Email é obrigatório',
             'email_valid'          => 'Email inválido',
             'phone_required'       => 'Telefone é obrigatório',
-            'content_required'     => 'Conteúdo é obrigatório',
+            'content_required'     => 'Conteúdo  obrigatório',
         ],
         'create_success'       => 'Lead criado com sucesso',
         'update_success'       => 'Lead atualizado com sucesso',

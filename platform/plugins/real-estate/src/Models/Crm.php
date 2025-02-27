@@ -25,9 +25,10 @@ class Crm extends BaseModel
     'phone',
     'email',
     'content',
+    'property_value',
     'status',
-    'category',  // Novo campo
-    'lead_color' // Novo campo
+    'category',
+    'lead_color'
 ];
 
     /**

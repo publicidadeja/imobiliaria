@@ -232,6 +232,12 @@ public function getFilters(): array
                 'gray'   => 'Venda Perdida'
             ],
         ],
+      'property_value' => [
+            'title'    => trans('plugins/real-estate::crm.form.property_value'),
+            'type'     => 'number',
+            'validate' => 'required|numeric',
+        ],
+
     ];
 }
 
