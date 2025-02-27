@@ -247,8 +247,13 @@ class CrmTable extends TableAbstract
             ],
             'property_value' => [
                 'title'    => trans('plugins/real-estate::crm.form.property_value'),
-                'type'     => 'number',
+                'type'     => 'text', // Alterado de 'number' para 'text' para permitir a máscara
                 'validate' => 'nullable|numeric',
+                'attributes' => [
+                    'class'       => 'form-control property-value-mask',
+                    'placeholder' => 'R$ 0,00',
+                    'data-mask'   => 'currency'
+                ],
             ],
         ];
     }
@@ -271,8 +276,13 @@ class CrmTable extends TableAbstract
             ],
             'property_value' => [
                 'title'    => trans('plugins/real-estate::crm.form.property_value'),
-                'type'     => 'number',
+                'type'     => 'text', // Alterado para 'text' para permitir a máscara
                 'validate' => 'nullable|numeric',
+                'attributes' => [
+                    'class'       => 'form-control property-value-mask',
+                    'placeholder' => 'R$ 0,00',
+                    'data-mask'   => 'currency'
+                ],
             ],
             'category' => [
                 'title'    => 'Categoria do Lead',
