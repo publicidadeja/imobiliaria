@@ -83,11 +83,18 @@ class CrmTable extends TableAbstract
                     
                     return $categories[$item->category] ?? $item->category;
                 })
+                ->editColumn('property_value', function ($item) {
+                    if (!$item->property_value) {
+                        return 'N/A';
+                    }
+                    return 'R$ ' . number_format($item->property_value, 2, ',', '.');
+                })
                 ->editColumn('lead_color', function ($item) {
                     // Formatar a cor do lead com um badge colorido
                     $colors = [
                         'red' => ['text' => 'Lead Quente', 'color' => '#ff0000'],
                         'blue' => ['text' => 'Lead Frio', 'color' => '#0000ff'],
+                        'yellow' => ['text' => 'Em negociação', 'color' => '#ffcc00'], // Novo status adicionado
                         'gray' => ['text' => 'Venda Perdida', 'color' => '#808080']
                     ];
                     
@@ -131,8 +138,9 @@ class CrmTable extends TableAbstract
                 're_crm.phone',
                 're_crm.email',
                 're_crm.content',
-                're_crm.category',     // Adicionando o campo categoria
-                're_crm.lead_color',   // Adicionando o campo cor do lead
+                're_crm.property_value', // Adicionando o campo valor do imóvel
+                're_crm.category',     
+                're_crm.lead_color',   
                 're_crm.status',
                 're_crm.created_at',
             ]);
@@ -175,6 +183,10 @@ class CrmTable extends TableAbstract
                 'title' => 'Status do Lead',
                 'class' => 'text-start',
             ],
+            'property_value' => [
+                'title' => trans('plugins/real-estate::crm.form.property_value'),
+                'class' => 'text-start',
+            ],
             'content' => [
                 'title' => trans('plugins/real-estate::crm.content'),
                 'class' => 'text-start',
@@ -203,43 +215,43 @@ class CrmTable extends TableAbstract
         return $this->addDeleteAction(route('crm.deletes'), 'crm.destroy', parent::bulkActions());
     }
   
-  /**
- * @return array
- */
-public function getFilters(): array
-{
-    return [
-        'category' => [
-            'title'    => 'Categoria do Lead',
-            'type'     => 'select',
-            'choices'  => [
-                'casa'       => 'Casa',
-                'apartamento' => 'Apartamento',
-                'chacara'    => 'Chácara',
-                'aluguel'    => 'Aluguel',
-                'terreno'    => 'Terreno',
-                'lote'       => 'Lote',
-                'temporada'  => 'Temporada',
-                'outros'     => 'Outros'
+    /**
+     * @return array
+     */
+    public function getFilters(): array
+    {
+        return [
+            'category' => [
+                'title'    => 'Categoria do Lead',
+                'type'     => 'select',
+                'choices'  => [
+                    'casa'       => 'Casa',
+                    'apartamento' => 'Apartamento',
+                    'chacara'    => 'Chácara',
+                    'aluguel'    => 'Aluguel',
+                    'terreno'    => 'Terreno',
+                    'lote'       => 'Lote',
+                    'temporada'  => 'Temporada',
+                    'outros'     => 'Outros'
+                ],
             ],
-        ],
-        'lead_color' => [
-            'title'    => 'Status do Lead',
-            'type'     => 'select',
-            'choices'  => [
-                'red'    => 'Lead Quente',
-                'blue'   => 'Lead Frio',
-                'gray'   => 'Venda Perdida'
+            'lead_color' => [
+                'title'    => 'Status do Lead',
+                'type'     => 'select',
+                'choices'  => [
+                    'red'    => 'Lead Quente',
+                    'blue'   => 'Lead Frio',
+                    'yellow' => 'Em negociação', // Novo status adicionado
+                    'gray'   => 'Venda Perdida'
+                ],
             ],
-        ],
-      'property_value' => [
-            'title'    => trans('plugins/real-estate::crm.form.property_value'),
-            'type'     => 'number',
-            'validate' => 'required|numeric',
-        ],
-
-    ];
-}
+            'property_value' => [
+                'title'    => trans('plugins/real-estate::crm.form.property_value'),
+                'type'     => 'number',
+                'validate' => 'nullable|numeric',
+            ],
+        ];
+    }
 
     /**
      * @return array
@@ -256,6 +268,11 @@ public function getFilters(): array
                 'title'    => trans('plugins/real-estate::crm.content'),
                 'type'     => 'text',
                 'validate' => 'max:255',
+            ],
+            'property_value' => [
+                'title'    => trans('plugins/real-estate::crm.form.property_value'),
+                'type'     => 'number',
+                'validate' => 'nullable|numeric',
             ],
             'category' => [
                 'title'    => 'Categoria do Lead',
@@ -277,6 +294,7 @@ public function getFilters(): array
                 'choices'  => [
                     'red'    => 'Lead Quente (Vermelho)',
                     'blue'   => 'Lead Frio (Azul)',
+                    'yellow' => 'Em negociação (Amarelo)', // Novo status adicionado
                     'gray'   => 'Venda Perdida (Cinza)'
                 ],
             ],
